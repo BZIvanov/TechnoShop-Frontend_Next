@@ -42,9 +42,7 @@ const Login = ({ history }) => {
             },
           });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => console.log(err));
 
       history.push('/');
     } catch (error) {
@@ -73,9 +71,7 @@ const Login = ({ history }) => {
               },
             });
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => console.log(err));
 
         history.push('/');
       })
