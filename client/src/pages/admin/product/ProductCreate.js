@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
+import { getCategories } from '../../../functions/category';
 
 const initialState = {
   title: '',
@@ -25,6 +26,18 @@ const ProductCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [values, setValues] = useState(initialState);
+
+  const loadCategories = useCallback(
+    () =>
+      getCategories().then((c) =>
+        setValues((values) => ({ ...values, categories: c.data }))
+      ),
+    []
+  );
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
