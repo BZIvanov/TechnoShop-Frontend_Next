@@ -29,6 +29,7 @@ const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [showSub, setShowSub] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const loadCategories = useCallback(
     () =>
@@ -85,7 +86,11 @@ const ProductCreate = () => {
           <hr />
 
           <div className='p-3'>
-            <FileUpload />
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
           </div>
 
           <ProductCreateForm
