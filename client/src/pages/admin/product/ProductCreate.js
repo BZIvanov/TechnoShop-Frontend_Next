@@ -83,6 +83,10 @@ const ProductCreate = () => {
           <h4>Product create</h4>
           <hr />
 
+          <div className='p-3'>
+            <FileUpload />
+          </div>
+
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
