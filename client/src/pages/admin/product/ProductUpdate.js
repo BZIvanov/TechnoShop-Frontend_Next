@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
-import { getProduct } from '../../../functions/product';
+import { getProduct, updateProduct } from '../../../functions/product';
 import { getCategories, getCategorySubs } from '../../../functions/category';
 import FileUpload from '../../../components/forms/FileUpload';
 import { LoadingOutlined } from '@ant-design/icons';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const initialState = {
   title: '',
@@ -21,7 +23,9 @@ const initialState = {
   brand: '',
 };
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
+  const { user } = useSelector((state) => ({ ...state }));
+
   const [values, setValues] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [subOptions, setSubOptions] = useState([]);
@@ -56,6 +60,22 @@ const ProductUpdate = ({ match }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    values.subs = arrayOfSubs;
+    values.category = selectedCategory ? selectedCategory : values.category;
+
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        toast.success(`"${res.data.title}" is updated`);
+        history.push('/admin/products');
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        toast.error(err.response.data.err);
+      });
   };
 
   const handleChange = (e) => {
