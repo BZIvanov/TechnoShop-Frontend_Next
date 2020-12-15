@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { getProductsByCount } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
 import Jumbotron from '../components/cards/Jumbotron';
+import LoadingCard from '../components/cards/LoadingCard';
+
+const PAGE_PRODUCTS_COUNT = 3;
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -13,10 +16,14 @@ const Home = () => {
 
   const loadAllProducts = () => {
     setLoading(true);
-    getProductsByCount(3).then((res) => {
-      setLoading(false);
-      setProducts(res.data);
-    });
+    getProductsByCount(PAGE_PRODUCTS_COUNT)
+      .then((res) => {
+        setLoading(false);
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -26,13 +33,17 @@ const Home = () => {
       </div>
 
       <div className='container'>
-        <div className='row'>
-          {products.map((product) => (
-            <div key={product._id} className='col-md-4'>
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <LoadingCard count={PAGE_PRODUCTS_COUNT} />
+        ) : (
+          <div className='row'>
+            {products.map((product) => (
+              <div key={product._id} className='col-md-4'>
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
