@@ -35,6 +35,26 @@ exports.read = async (req, res) => {
   res.json(product);
 };
 
+exports.update = async (req, res) => {
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      { new: true }
+    ).exec();
+
+    res.json(updated);
+  } catch (err) {
+    console.log('PRODUCT UPDATE ERROR ----> ', err);
+    res.status(400).json({
+      err: err.message,
+    });
+  }
+};
+
 exports.remove = async (req, res) => {
   try {
     const deleted = await Product.findOneAndRemove({
@@ -44,6 +64,6 @@ exports.remove = async (req, res) => {
     res.json(deleted);
   } catch (err) {
     console.log(err);
-    return res.status(400).send('Product delete failed');
+    res.status(400).send('Product delete failed');
   }
 };
