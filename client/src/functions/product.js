@@ -20,3 +20,10 @@ export const removeProduct = async (slug, authtoken) =>
   await axios.delete(`${process.env.REACT_APP_API}/product/${slug}`, {
     headers: { authtoken },
   });
+
+export const getProducts = async (sort, order, limit) =>
+  await axios.post(`${process.env.REACT_APP_API}/products`, {
+    sort,
+    order,
+    limit,
+  });
