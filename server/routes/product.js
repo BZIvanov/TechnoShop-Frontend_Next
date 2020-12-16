@@ -7,6 +7,7 @@ const {
   update,
   remove,
   list,
+  productsCount,
 } = require('../controllers/product');
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.get('/product/:slug', read);
 router.put('/product/:slug', authCheck, adminCheck, update);
 router.delete('/product/:slug', authCheck, adminCheck, remove);
 router.post('/products', list);
+router.get('/products/total', productsCount);
 
 module.exports = router;
