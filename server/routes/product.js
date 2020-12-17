@@ -9,6 +9,7 @@ const {
   list,
   productsCount,
   productStar,
+  listRelated,
 } = require('../controllers/product');
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.put('/product/:slug', authCheck, adminCheck, update);
 router.delete('/product/:slug', authCheck, adminCheck, remove);
 router.post('/products', list);
 router.put('/product/star/:productId', authCheck, productStar);
+router.get('/product/related/:productId', listRelated);
 
 module.exports = router;
