@@ -6,8 +6,14 @@ import {
 } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
 import { Menu, Slider, Checkbox } from 'antd';
-import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import {
+  DollarOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
 import { getCategories } from '../functions/category';
+import { getSubs } from '../functions/sub';
+import Star from '../components/forms/Star';
 
 const { SubMenu } = Menu;
 
@@ -18,6 +24,7 @@ const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
+  const [subs, setSubs] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -29,6 +36,7 @@ const Shop = () => {
     loadAllProducts();
 
     getCategories().then((res) => setCategories(res.data));
+    getSubs().then((res) => setSubs(res.data));
   }, []);
 
   const loadAllProducts = () => {
@@ -62,6 +70,7 @@ const Shop = () => {
     });
     setCategoryIds([]);
     setPrice(value);
+
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -104,6 +113,52 @@ const Shop = () => {
     fetchProducts({ category: inTheState });
   };
 
+  const handleStarClick = (num) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+
+    fetchProducts({ stars: num });
+  };
+
+  const showStars = () => (
+    <div className='pr-4 pl-4 pb-2'>
+      {new Array(5)
+        .fill(undefined)
+        .map((_, idx) => idx + 1)
+        .reverse()
+        .map((el) => (
+          <Star key={el} starClick={handleStarClick} numberOfStars={el} />
+        ))}
+    </div>
+  );
+
+  const showSubs = () =>
+    subs.map((s) => (
+      <div
+        key={s._id}
+        onClick={() => handleSub(s)}
+        className='p-1 m-1 badge badge-secondary'
+        style={{ cursor: 'pointer' }}
+      >
+        {s.name}
+      </div>
+    ));
+
+  const handleSub = (sub) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+
+    fetchProducts({ sub });
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -111,7 +166,7 @@ const Shop = () => {
           <h4>Search/Filter</h4>
           <hr />
 
-          <Menu defaultOpenKeys={['1', '2']} mode='inline'>
+          <Menu defaultOpenKeys={['1', '2', '3', '4']} mode='inline'>
             <SubMenu
               key='1'
               title={
@@ -141,6 +196,30 @@ const Shop = () => {
               }
             >
               <div style={{ maringTop: '-10px' }}>{showCategories()}</div>
+            </SubMenu>
+
+            <SubMenu
+              key='3'
+              title={
+                <span className='h6'>
+                  <StarOutlined /> Rating
+                </span>
+              }
+            >
+              <div style={{ maringTop: '-10px' }}>{showStars()}</div>
+            </SubMenu>
+
+            <SubMenu
+              key='4'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined /> Sub Categories
+                </span>
+              }
+            >
+              <div style={{ maringTop: '-10px' }} className='pl-4 pr-4'>
+                {showSubs()}
+              </div>
             </SubMenu>
           </Menu>
         </div>
