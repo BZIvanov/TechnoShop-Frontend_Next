@@ -1,4 +1,5 @@
-import { Card, Tabs } from 'antd';
+import { useState } from 'react';
+import { Card, Tabs, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
@@ -8,11 +9,42 @@ import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
 import RatingModal from '../modal/RatingModal';
 import { showAverage } from '../../functions/rating';
+import { useSelector, useDispatch } from 'react-redux';
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, star, onStarClick }) => {
   const { title, images, description, _id } = product;
+
+  const [tooltip, setTooltip] = useState('Click to add');
+
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    let cart = [];
+    if (typeof window !== 'undefined') {
+      const localStorageCart = localStorage.getItem('cart');
+      if (localStorageCart) {
+        cart = JSON.parse(localStorageCart);
+      }
+
+      if (!cart.some((item) => item._id === product._id)) {
+        cart.push({
+          ...product,
+          count: 1,
+        });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      setTooltip('Added');
+
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      });
+    }
+  };
 
   return (
     <>
@@ -56,10 +88,12 @@ const SingleProduct = ({ product, star, onStarClick }) => {
 
         <Card
           actions={[
-            <>
-              <ShoppingCartOutlined className='text-success' /> <br />
-              Add to Cart
-            </>,
+            <Tooltip title={tooltip}>
+              <div onClick={handleAddToCart}>
+                <ShoppingCartOutlined className='text-danger' /> <br /> Add to
+                Cart
+              </div>
+            </Tooltip>,
             <Link to='/'>
               <HeartOutlined className='text-info' /> <br /> Add to Wishlist
             </Link>,

@@ -4,12 +4,16 @@ import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import { Link } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
+import { useSelector, useDispatch } from 'react-redux';
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const { images, title, description, slug, price } = product;
   const [tooltip, setTooltip] = useState('Click to add');
+
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
 
   const formattedDescription =
     description && description.length > 40
@@ -33,6 +37,11 @@ const ProductCard = ({ product }) => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       setTooltip('Added');
+
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      });
     }
   };
 
