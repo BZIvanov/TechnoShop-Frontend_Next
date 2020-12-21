@@ -5,7 +5,7 @@ import {
   fetchProductsByFilter,
 } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
-import { Menu, Slider, Checkbox } from 'antd';
+import { Menu, Slider, Checkbox, Radio } from 'antd';
 import {
   DollarOutlined,
   DownSquareOutlined,
@@ -17,6 +17,9 @@ import Star from '../components/forms/Star';
 
 const { SubMenu } = Menu;
 
+const brands = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
+const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,6 +28,9 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
   const [subs, setSubs] = useState([]);
+  const [brand, setBrand] = useState('');
+  const [color, setColor] = useState('');
+  const [shipping, setShipping] = useState('');
 
   const dispatch = useDispatch();
 
@@ -70,6 +76,9 @@ const Shop = () => {
     });
     setCategoryIds([]);
     setPrice(value);
+    setBrand('');
+    setColor('');
+    setShipping('');
 
     setTimeout(() => {
       setOk(!ok);
@@ -98,6 +107,9 @@ const Shop = () => {
       payload: { text: '' },
     });
     setPrice([0, 0]);
+    setBrand('');
+    setColor('');
+    setShipping('');
 
     const inTheState = [...categoryIds];
     const justChecked = e.target.value;
@@ -120,6 +132,9 @@ const Shop = () => {
     });
     setPrice([0, 0]);
     setCategoryIds([]);
+    setBrand('');
+    setColor('');
+    setShipping('');
 
     fetchProducts({ stars: num });
   };
@@ -155,8 +170,99 @@ const Shop = () => {
     });
     setPrice([0, 0]);
     setCategoryIds([]);
+    setBrand('');
+    setColor('');
+    setShipping('');
 
     fetchProducts({ sub });
+  };
+
+  const showBrands = () =>
+    brands.map((b) => (
+      <Radio
+        key={b}
+        value={b}
+        name={b}
+        checked={b === brand}
+        onChange={handleBrand}
+        className='pb-1 pl-4 pr-4'
+      >
+        {b}
+      </Radio>
+    ));
+
+  const handleBrand = (e) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setBrand(e.target.value);
+    setColor('');
+    setShipping('');
+    fetchProducts({ brand: e.target.value });
+  };
+
+  const showColors = () =>
+    colors.map((c) => (
+      <Radio
+        value={c}
+        name={c}
+        checked={c === color}
+        onChange={handleColor}
+        className='pb-1 pl-4 pr-4'
+      >
+        {c}
+      </Radio>
+    ));
+
+  const handleColor = (e) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setBrand('');
+    setColor(e.target.value);
+    setShipping('');
+    fetchProducts({ color: e.target.value });
+  };
+
+  const showShipping = () => (
+    <>
+      <Checkbox
+        className='pb-2 pl-4 pr-4'
+        onChange={handleShippingchange}
+        value='Yes'
+        checked={shipping === 'Yes'}
+      >
+        Yes
+      </Checkbox>
+
+      <Checkbox
+        className='pb-2 pl-4 pr-4'
+        onChange={handleShippingchange}
+        value='No'
+        checked={shipping === 'No'}
+      >
+        No
+      </Checkbox>
+    </>
+  );
+
+  const handleShippingchange = (e) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setBrand('');
+    setColor('');
+    setShipping(e.target.value);
+    fetchProducts({ shipping: e.target.value });
   };
 
   return (
@@ -219,6 +325,45 @@ const Shop = () => {
             >
               <div style={{ maringTop: '-10px' }} className='pl-4 pr-4'>
                 {showSubs()}
+              </div>
+            </SubMenu>
+
+            <SubMenu
+              key='5'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined /> Brands
+                </span>
+              }
+            >
+              <div style={{ maringTop: '-10px' }} className='pr-5'>
+                {showBrands()}
+              </div>
+            </SubMenu>
+
+            <SubMenu
+              key='6'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined /> Colors
+                </span>
+              }
+            >
+              <div style={{ maringTop: '-10px' }} className='pr-5'>
+                {showColors()}
+              </div>
+            </SubMenu>
+
+            <SubMenu
+              key='7'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined /> Shipping
+                </span>
+              }
+            >
+              <div style={{ maringTop: '-10px' }} className='pr-5'>
+                {showShipping()}
               </div>
             </SubMenu>
           </Menu>
