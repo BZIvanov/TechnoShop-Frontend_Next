@@ -207,6 +207,7 @@ const Shop = () => {
   const showColors = () =>
     colors.map((c) => (
       <Radio
+        key={c}
         value={c}
         name={c}
         checked={c === color}

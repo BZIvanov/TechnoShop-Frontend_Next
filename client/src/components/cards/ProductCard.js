@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card } from 'antd';
+import { useState } from 'react';
+import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import { Link } from 'react-router-dom';
@@ -9,11 +9,32 @@ const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const { images, title, description, slug, price } = product;
+  const [tooltip, setTooltip] = useState('Click to add');
 
   const formattedDescription =
     description && description.length > 40
       ? description.substring(0, 40) + '...'
       : description;
+
+  const handleAddToCart = () => {
+    let cart = [];
+    if (typeof window !== 'undefined') {
+      const localStorageCart = localStorage.getItem('cart');
+      if (localStorageCart) {
+        cart = JSON.parse(localStorageCart);
+      }
+
+      if (!cart.some((item) => item._id === product._id)) {
+        cart.push({
+          ...product,
+          count: 1,
+        });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      setTooltip('Added');
+    }
+  };
 
   return (
     <>
@@ -36,9 +57,12 @@ const ProductCard = ({ product }) => {
           <Link to={`/product/${slug}`}>
             <EyeOutlined className='text-warning' /> <br /> View Product
           </Link>,
-          <>
-            <ShoppingCartOutlined className='text-danger' /> <br /> Add to Cart
-          </>,
+          <Tooltip title={tooltip}>
+            <div onClick={handleAddToCart}>
+              <ShoppingCartOutlined className='text-danger' /> <br /> Add to
+              Cart
+            </div>
+          </Tooltip>,
         ]}
       >
         <Meta
