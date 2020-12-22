@@ -26,9 +26,10 @@ exports.userCart = async (req, res) => {
 
   const products = await Promise.all(
     cart.map(async (cartProduct) => {
-      const { price } = await Product.findById(cartProduct._id)
+      const currentProduct = await Product.findById(cartProduct._id)
         .select('price')
         .exec();
+      const price = currentProduct.price;
 
       return {
         product: cartProduct._id,
@@ -53,4 +54,13 @@ exports.emptyCart = async (req, res) => {
   const cart = await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
 
   res.json(cart);
+};
+
+exports.saveAddress = async (req, res) => {
+  await User.findOneAndUpdate(
+    { email: req.user.email },
+    { address: req.body.address }
+  ).exec();
+
+  res.json({ ok: true });
 };
