@@ -9,7 +9,7 @@ import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
 import RatingModal from '../modal/RatingModal';
 import { showAverage } from '../../functions/rating';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const { TabPane } = Tabs;
 
