@@ -18,7 +18,6 @@ const SingleProduct = ({ product, star, onStarClick }) => {
 
   const [tooltip, setTooltip] = useState('Click to add');
 
-  const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
