@@ -42,6 +42,10 @@ const SingleProduct = ({ product, star, onStarClick }) => {
         type: 'ADD_TO_CART',
         payload: cart,
       });
+      dispatch({
+        type: 'SET_VISIBLE',
+        payload: true,
+      });
     }
   };
 
