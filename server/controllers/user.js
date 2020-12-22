@@ -2,11 +2,23 @@ const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 
+exports.getUserCart = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const cart = await Cart.findOne({ orderedBy: user._id })
+    .populate('products.product', '_id title price totalAfterDiscount')
+    .exec();
+
+  const { products, cartTotal, totalAfterDiscount } = cart;
+  res.json({ products, cartTotal, totalAfterDiscount });
+};
+
 exports.userCart = async (req, res) => {
   const { cart } = req.body;
 
   const user = await User.findOne({ email: req.user.email }).exec();
-  const cartExistByThisUser = await Cart.findOne({ orderdBy: user._id }).exec();
+  const cartExistByThisUser = await Cart.findOne({
+    orderedBy: user._id,
+  }).exec();
 
   if (cartExistByThisUser) {
     cartExistByThisUser.remove();
@@ -34,4 +46,11 @@ exports.userCart = async (req, res) => {
   await new Cart({ products, cartTotal, orderedBy: user._id }).save();
 
   res.json({ ok: true });
+};
+
+exports.emptyCart = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const cart = await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
+
+  res.json(cart);
 };

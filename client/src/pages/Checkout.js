@@ -1,4 +1,39 @@
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getUserCart, emptyUserCart } from '../functions/user';
+
 const Checkout = () => {
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    getUserCart(user.token).then((res) => {
+      setProducts(res.data.products);
+      setTotal(res.data.cartTotal);
+    });
+  }, [user.token]);
+
+  const emptyCart = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cart');
+    }
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: [],
+    });
+
+    emptyUserCart(user.token).then(() => {
+      setProducts([]);
+      setTotal(0);
+      toast.success('Cart is emapty. Continue shopping.');
+    });
+  };
+
   const saveAddressToDb = () => {};
 
   return (
@@ -20,11 +55,18 @@ const Checkout = () => {
       <div className='col-md-6'>
         <h4>Order Summary</h4>
         <hr />
-        <p>Products x</p>
+        <p>Products {products.length}</p>
         <hr />
-        <p>List of products</p>
+        {products.map((p, i) => (
+          <div key={i}>
+            <p>
+              {p.product.title} ({p.color}) x {p.count} ={' '}
+              {p.product.price * p.count}
+            </p>
+          </div>
+        ))}
         <hr />
-        <p>Cart Total: $x</p>
+        <p>Cart Total: {total}</p>
 
         <div className='row'>
           <div className='col-md-6'>
@@ -32,7 +74,13 @@ const Checkout = () => {
           </div>
 
           <div className='col-md-6'>
-            <button className='btn btn-primary'>Empty Cart</button>
+            <button
+              disabled={!products.length}
+              onClick={emptyCart}
+              className='btn btn-primary'
+            >
+              Empty Cart
+            </button>
           </div>
         </div>
       </div>
