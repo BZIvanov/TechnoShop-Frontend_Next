@@ -26,6 +26,7 @@ import Header from './components/nav/Header';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import CreateCouponPage from './pages/admin/coupon/CreateCouponPage';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import { auth } from './firebase';
@@ -95,6 +96,7 @@ const App = () => {
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
         <UserRoute exact path='/checkout' component={Checkout} />
+        <AdminRoute exact path='/admin/coupon' component={CreateCouponPage} />
       </Switch>
     </>
   );
