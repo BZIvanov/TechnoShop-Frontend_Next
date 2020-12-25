@@ -10,7 +10,7 @@ import {
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState('');
@@ -61,10 +61,18 @@ const Checkout = () => {
     applyCoupon(user.token, coupon).then((res) => {
       if (res.data) {
         setTotalAfterDiscount(res.data);
+        dispatch({
+          type: 'COUPON_APPLIED',
+          payload: true,
+        });
       }
 
       if (res.data.err) {
         setDiscountError(res.data.err);
+        dispatch({
+          type: 'COUPON_APPLIED',
+          payload: true,
+        });
       }
     });
   };
@@ -139,6 +147,7 @@ const Checkout = () => {
             <button
               className='btn btn-primary'
               disabled={!addressSaved || !products.length}
+              onClick={() => history.push('/payment')}
             >
               Place Order
             </button>
