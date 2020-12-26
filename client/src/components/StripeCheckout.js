@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
-import { CardElement } from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useSelector } from 'react-redux';
 import { createPaymentIntent } from '../functions/stripe';
+import { Link } from 'react-router-dom';
 
 const StripeCheckout = () => {
   const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
   const [processing, setProcessing] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
 
   const { user } = useSelector((state) => ({ ...state }));
+
+  const stripe = useStripe();
+  const elements = useElements();
 
   useEffect(() => {
     createPaymentIntent(user.token).then((res) => {
@@ -18,11 +23,31 @@ const StripeCheckout = () => {
   }, [user.token]);
 
   const handleSubmit = async (e) => {
-    //
+    e.preventDefault();
+    setProcessing(true);
+
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: e.target.name.value,
+        },
+      },
+    });
+
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
+    }
   };
 
   const handleChange = async (e) => {
-    //
+    setDisabled(e.empty);
+    setError(e.error ? e.error.message : '');
   };
 
   const cartStyle = {
@@ -45,6 +70,11 @@ const StripeCheckout = () => {
 
   return (
     <>
+      <p className={succeeded ? 'result-message' : 'result-message hidden'}>
+        Payment Successful.{' '}
+        <Link to='/user/history'>See it in your purchase history.</Link>
+      </p>
+
       <form id='payment-form' className='stripe-form' onSubmit={handleSubmit}>
         <CardElement
           id='card-element'
@@ -59,6 +89,12 @@ const StripeCheckout = () => {
             {processing ? <div className='spinner' id='spinner'></div> : 'Pay'}
           </span>
         </button>
+        <br />
+        {error && (
+          <div className='card-error' role='alert'>
+            {error}
+          </div>
+        )}
       </form>
     </>
   );
