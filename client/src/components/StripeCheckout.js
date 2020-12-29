@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
 import Laptop from '../images/laptop.png';
+import { createOrder, emptyUserCart } from '../functions/user';
 
 const StripeCheckout = () => {
   const [succeeded, setSucceeded] = useState(false);
@@ -18,6 +19,7 @@ const StripeCheckout = () => {
   const [payable, setPayable] = useState(0);
 
   const { user, coupon } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -48,6 +50,21 @@ const StripeCheckout = () => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          if (typeof window !== 'undefined') localStorage.removeItem('cart');
+          dispatch({
+            type: 'ADD_TO_CART',
+            payload: [],
+          });
+          dispatch({
+            type: 'COUPON_APPLIED',
+            payload: false,
+          });
+          emptyUserCart(user.token);
+        }
+      });
+
       setError(null);
       setProcessing(false);
       setSucceeded(true);
