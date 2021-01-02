@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const userSchema = new mongoose.Schema(
     role: { type: String, default: 'subscriber' },
     cart: { type: Array, default: [] },
     address: String,
+    wishlist: [{ type: ObjectId, ref: 'Product' }],
   },
   { timestamps: true }
 );

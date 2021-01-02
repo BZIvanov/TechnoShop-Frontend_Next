@@ -8,6 +8,9 @@ const {
   applyCouponToUserCart,
   createOrder,
   orders,
+  addToWishlist,
+  wishlist,
+  removeFromWishlist,
 } = require('../controllers/user');
 
 const router = express.Router();
@@ -19,5 +22,8 @@ router.post('/user/address', authCheck, saveAddress);
 router.post('/user/cart/coupon', authCheck, applyCouponToUserCart);
 router.post('/user/order', authCheck, createOrder);
 router.get('/user/orders', authCheck, orders);
+router.post('/user/wishlist', authCheck, addToWishlist);
+router.get('/user/wishlist', authCheck, wishlist);
+router.put('/user/wishlist/:productId', authCheck, removeFromWishlist);
 
 module.exports = router;
