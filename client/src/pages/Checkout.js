@@ -21,7 +21,9 @@ const Checkout = ({ history }) => {
   const [discountError, setDiscountError] = useState('');
 
   const dispatch = useDispatch();
-  const { user, COD } = useSelector((state) => ({ ...state }));
+  const { user, COD, coupon: isCouponApplied } = useSelector((state) => ({
+    ...state,
+  }));
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -115,8 +117,29 @@ const Checkout = ({ history }) => {
   );
 
   const createCashOrder = () => {
-    createCashOrderForUser(user.token, COD).then((res) => {
-      // empty cart form redux, local Storage, reset coupon, reset COD, redirect
+    createCashOrderForUser(user.token, COD, isCouponApplied).then((res) => {
+      if (res.data.ok) {
+        if (typeof window !== 'undefined') localStorage.removeItem('cart');
+
+        dispatch({
+          type: 'ADD_TO_CART',
+          payload: [],
+        });
+        dispatch({
+          type: 'COUPON_APPLIED',
+          payload: false,
+        });
+        dispatch({
+          type: 'COD',
+          payload: false,
+        });
+
+        emptyUserCart(user.token)
+          .then(() => {
+            history.push('/user/history');
+          })
+          .catch((err) => console.log(err));
+      }
     });
   };
 
