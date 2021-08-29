@@ -1,7 +1,6 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { LoadingOutlined } from '@ant-design/icons';
 import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
@@ -86,7 +85,7 @@ const App = () => {
         <Route exact path='/' component={Home} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
-        <Route exact path='/register/complete' component={RegisterComplete} />
+        <Route exact path='/register-complete' component={RegisterComplete} />
         <Route exact path='/forgot/password' component={ForgotPassword} />
         <UserRoute exact path='/user/history' component={History} />
         <UserRoute exact path='/user/password' component={Password} />
