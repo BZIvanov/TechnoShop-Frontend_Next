@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import { createOrUpdateUser } from '../../functions/auth';
 
 const RegisterComplete = ({ history }) => {
@@ -16,8 +16,9 @@ const RegisterComplete = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
-      toast.error('Email and password is required');
+      toast.error('Email and password are required');
       return;
     }
 
