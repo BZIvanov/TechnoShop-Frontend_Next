@@ -14,13 +14,16 @@ import firebase from 'firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Search from '../forms/Search';
+import { logoutUser } from '../../store/action-creators';
 
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
   const [current, setCurrent] = useState('home');
 
-  const { user, cart } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
+  const cart = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -30,10 +33,7 @@ const Header = () => {
 
   const logout = () => {
     firebase.auth().signOut();
-    dispatch({
-      type: 'LOGOUT',
-      payload: null,
-    });
+    dispatch(logoutUser());
     history.push('/login');
   };
 
