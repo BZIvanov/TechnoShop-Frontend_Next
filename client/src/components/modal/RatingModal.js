@@ -6,7 +6,7 @@ import { StarOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom';
 
 const RatingModal = ({ children }) => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
   const [modalVisible, setModalVisible] = useState(false);
 
   const history = useHistory();

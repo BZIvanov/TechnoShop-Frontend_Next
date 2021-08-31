@@ -10,7 +10,7 @@ const Product = ({ match }) => {
   const [related, setRelated] = useState([]);
   const [star, setStar] = useState(0);
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const { slug } = match.params;
 

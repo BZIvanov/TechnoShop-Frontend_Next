@@ -5,7 +5,7 @@ import LoadingToRedirect from './LoadingToRedirect';
 import { currentAdmin } from '../../functions/auth';
 
 const AdminRoute = (props) => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
   const [ok, setOk] = useState(false);
 
   useEffect(() => {

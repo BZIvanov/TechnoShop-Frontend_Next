@@ -25,7 +25,7 @@ const initialState = {
 };
 
 const ProductCreate = () => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);

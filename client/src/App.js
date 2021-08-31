@@ -50,6 +50,7 @@ const App = () => {
       if (user) {
         const { token } = await user.getIdTokenResult();
 
+        // this call is here like this, because using dispatching something like createOrUpdateUser makes this useEffect to run first
         try {
           const response = await axios.post(
             `${process.env.REACT_APP_API}/current-user`,

@@ -8,7 +8,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const loadWishlist = useCallback(
     () =>

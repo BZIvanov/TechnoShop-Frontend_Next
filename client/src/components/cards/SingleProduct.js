@@ -20,7 +20,7 @@ const SingleProduct = ({ product, star, onStarClick }) => {
 
   const [tooltip, setTooltip] = useState('Click to add');
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const history = useHistory();

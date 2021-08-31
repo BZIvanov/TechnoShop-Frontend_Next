@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const loadOrders = useCallback(
     () =>
