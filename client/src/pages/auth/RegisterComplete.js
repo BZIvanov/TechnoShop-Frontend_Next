@@ -9,7 +9,7 @@ const RegisterComplete = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const redirectTo = useSelector((state) => state.apiCall.redirectTo);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,17 +32,18 @@ const RegisterComplete = () => {
     try {
       const result = await auth.signInWithEmailLink(
         email,
-        window.location.href
+        window.location.href // the url which was provided by firebase
       );
 
       if (result.user.emailVerified) {
         window.localStorage.removeItem('emailForRegistration');
 
         const user = auth.currentUser;
+        // after the passwordless register, now we also set a password for the firebase user
         await user.updatePassword(password);
-        const idTokenResult = await user.getIdTokenResult();
+        const { token } = await user.getIdTokenResult();
 
-        dispatch(createOrUpdateUser(idTokenResult.token));
+        dispatch(createOrUpdateUser(token));
       }
     } catch (error) {
       console.log(error);
@@ -69,8 +70,8 @@ const RegisterComplete = () => {
     </form>
   );
 
-  if (redirectTo) {
-    return <Redirect to={redirectTo} />;
+  if (user) {
+    return <Redirect to='/' />;
   }
 
   return (

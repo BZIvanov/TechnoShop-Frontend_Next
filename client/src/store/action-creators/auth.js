@@ -2,7 +2,7 @@ import axios from 'axios';
 import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
 
-const loginUser = (response, authtoken) => ({
+export const loginUser = (response, authtoken) => ({
   type: actionType.LOGIN,
   payload: {
     name: response.data.name,
@@ -11,6 +11,11 @@ const loginUser = (response, authtoken) => ({
     role: response.data.role,
     _id: response.data._id,
   },
+});
+
+export const logoutUser = () => ({
+  type: actionType.LOGOUT,
+  payload: null,
 });
 
 export const createOrUpdateUser = (authtoken) => {
@@ -24,8 +29,7 @@ export const createOrUpdateUser = (authtoken) => {
         { headers: { authtoken } }
       );
 
-      const redirectPath = '/';
-      dispatch(apiCallSuccess(redirectPath));
+      dispatch(apiCallSuccess());
       dispatch(loginUser(response, authtoken));
     } catch (error) {
       console.log('Auth reducer error: ', error);
