@@ -24,7 +24,7 @@ const initialState = {
 };
 
 const ProductUpdate = ({ match, history }) => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const [values, setValues] = useState(initialState);
   const [categories, setCategories] = useState([]);

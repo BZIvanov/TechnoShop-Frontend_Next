@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import { Menu, Badge } from 'antd';
 import {
   AppstoreOutlined,
@@ -9,10 +11,7 @@ import {
   LogoutOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import firebase from 'firebase';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import Search from '../forms/Search';
 import { logoutUser } from '../../store/action-creators';
 
@@ -55,35 +54,36 @@ const Header = () => {
         </Link>
       </Item>
 
-      {!user && (
-        <Item key='register' icon={<UserAddOutlined />} className='float-right'>
-          <Link to='/register'>Register</Link>
-        </Item>
-      )}
-
-      {!user && (
-        <Item key='login' icon={<UserOutlined />} className='float-right'>
-          <Link to='/login'>Login</Link>
-        </Item>
-      )}
-
-      {user && (
+      {!user ? (
+        <>
+          <Item
+            key='register'
+            icon={<UserAddOutlined />}
+            className='float-right'
+          >
+            <Link to='/register'>Register</Link>
+          </Item>
+          <Item key='login' icon={<UserOutlined />} className='float-right'>
+            <Link to='/login'>Login</Link>
+          </Item>
+        </>
+      ) : (
         <SubMenu
           icon={<SettingOutlined />}
-          title={user.email && user.email.split('@')[0]}
+          title={user.email.split('@')[0]}
           className='float-right'
         >
-          {user && user.role === 'subscriber' && (
-            <Item>
+          {user.role === 'subscriber' && (
+            <Item key='user'>
               <Link to='/user/history'>Dashboard</Link>
             </Item>
           )}
-          {user && user.role === 'admin' && (
-            <Item>
+          {user.role === 'admin' && (
+            <Item key='admin'>
               <Link to='/admin/dashboard'>Dashboard</Link>
             </Item>
           )}
-          <Item icon={<LogoutOutlined />} onClick={logout}>
+          <Item key='logout' icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
         </SubMenu>

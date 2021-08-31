@@ -9,7 +9,7 @@ import Invoice from '../../components/order/Invoice';
 
 const History = () => {
   const [orders, setOrders] = useState([]);
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const loadUserOrders = useCallback(
     () =>

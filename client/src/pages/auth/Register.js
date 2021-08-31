@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const Register = ({ history }) => {
   const [email, setEmail] = useState('');
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     // TODO useHistory hook

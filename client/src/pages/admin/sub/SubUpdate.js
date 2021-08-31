@@ -7,7 +7,7 @@ import { updateSub, getSub } from '../../../functions/sub';
 import CategoryForm from '../../../components/forms/CategoryForm';
 
 const SubUpdate = ({ match, history }) => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);

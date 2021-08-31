@@ -6,7 +6,7 @@ import { getCategory, updateCategory } from '../../../functions/category';
 import CategoryForm from '../../../components/forms/CategoryForm';
 
 const CategoryUpdate = ({ history, match }) => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => state.user);
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);

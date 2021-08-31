@@ -31,11 +31,11 @@ const Login = ({ history }) => {
     setLoading(true);
 
     try {
-      const result = await auth.signInWithEmailAndPassword(email, password);
-      const { user } = result;
+      const { user } = await auth.signInWithEmailAndPassword(email, password);
       const { token } = await user.getIdTokenResult();
 
       dispatch(createOrUpdateUser(token));
+      setLoading(false);
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -44,18 +44,15 @@ const Login = ({ history }) => {
   };
 
   const googleLogin = async () => {
-    auth
-      .signInWithPopup(googleAuthProvider)
-      .then(async (result) => {
-        const { user } = result;
-        const { token } = await user.getIdTokenResult();
+    try {
+      const { user } = await auth.signInWithPopup(googleAuthProvider);
+      const { token } = await user.getIdTokenResult();
 
-        dispatch(createOrUpdateUser(token));
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.message);
-      });
+      dispatch(createOrUpdateUser(token));
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   const loginForm = () => (
