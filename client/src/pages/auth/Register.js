@@ -11,7 +11,6 @@ const Register = () => {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    // TODO useHistory hook
     if (user && user.token) history.push('/');
   }, [user, history]);
 
