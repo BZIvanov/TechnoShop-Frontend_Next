@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 
-const Register = ({ history }) => {
+const Register = () => {
   const [email, setEmail] = useState('');
 
+  const history = useHistory();
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {

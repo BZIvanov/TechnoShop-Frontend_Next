@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button } from 'antd';
 import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { auth, googleAuthProvider } from '../../firebase';
 import { createOrUpdateUser } from '../../store/action-creators';
 
-const Login = ({ history }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const history = useHistory();
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -20,7 +21,9 @@ const Login = ({ history }) => {
     if (intended) {
       return;
     } else {
-      if (user && user.token) history.push('/');
+      if (user && user.token) {
+        return <Redirect to='/' />;
+      }
     }
   }, [user, history]);
 
@@ -98,13 +101,12 @@ const Login = ({ history }) => {
     const intended = history.location.state;
 
     if (intended) {
-      history.push(intended.from);
+      return <Redirect to={intended.from} />;
     } else {
       if (user.role === 'admin') {
-        history.push('/admin/dashboard');
-      } else {
-        history.push('/user/history');
+        return <Redirect to='/admin/dashboard' />;
       }
+      return <Redirect to='/user/history' />;
     }
   }
 
@@ -132,8 +134,8 @@ const Login = ({ history }) => {
             Login with Google
           </Button>
 
-          <Link to='/forgot/password' className='float-right text-danger'>
-            Forgot Password
+          <Link to='/forgot-password' className='float-right text-danger'>
+            Forgot Password?
           </Link>
         </div>
       </div>

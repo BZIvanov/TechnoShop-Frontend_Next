@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { auth } from '../../firebase';
-import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { auth } from '../../firebase';
 
-const ForgotPassword = ({ history }) => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const history = useHistory();
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const ForgotPassword = ({ history }) => {
           autoFocus
         />
         <br />
-        <button className='btn btn-raised' disabled={!email}>
+        <button className='btn btn-raised' disabled={!email || loading}>
           Submit
         </button>
       </form>
