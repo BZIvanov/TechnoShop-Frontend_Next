@@ -23,6 +23,7 @@
     "uniqueid": "^1.0.0"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
   }

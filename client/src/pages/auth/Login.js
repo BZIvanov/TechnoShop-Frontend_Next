@@ -22,7 +22,7 @@ const Login = () => {
       return;
     } else {
       if (user && user.token) {
-        return <Redirect to='/' />;
+        history.push('/');
       }
     }
   }, [user, history]);
