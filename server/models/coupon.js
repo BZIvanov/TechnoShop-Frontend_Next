@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
+const { MODELS } = require('../constants');
 
-const couponSchema = new mongoose.Schema(
+const couponSchema = new Schema(
   {
     name: {
       type: String,
@@ -23,4 +24,4 @@ const couponSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Coupon', couponSchema);
+module.exports = model(MODELS.COUPON, couponSchema);

@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
+const { MODELS } = require('../constants');
 
-const subSchema = new mongoose.Schema(
+const subCategorySchema = new Schema(
   {
     name: {
       type: String,
@@ -16,9 +17,9 @@ const subSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parent: { type: ObjectId, ref: 'Category', required: true },
+    parent: { type: ObjectId, ref: MODELS.CATEGORY, required: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Sub', subSchema);
+module.exports = model(MODELS.SUB_CATEGORY, subCategorySchema);

@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
+const { MODELS } = require('../constants');
 
-const cartSchema = new mongoose.Schema(
+const cartSchema = new Schema(
   {
     products: [
       {
         product: {
           type: ObjectId,
-          ref: 'Product',
+          ref: MODELS.PRODUCT,
         },
         count: Number,
         color: String,
@@ -16,9 +17,9 @@ const cartSchema = new mongoose.Schema(
     ],
     cartTotal: Number,
     totalAfterDiscount: Number,
-    orderedBy: { type: ObjectId, ref: 'User' },
+    orderedBy: { type: ObjectId, ref: MODELS.USER },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Cart', cartSchema);
+module.exports = model(MODELS.CART, cartSchema);

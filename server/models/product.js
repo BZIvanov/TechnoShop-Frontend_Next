@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
+const { MODELS, YES_NO, COLORS, BRANDS } = require('../constants');
 
-const productSchema = new mongoose.Schema(
+const productSchema = new Schema(
   {
     title: {
       type: String,
@@ -30,12 +31,12 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: ObjectId,
-      ref: 'Category',
+      ref: MODELS.CATEGORY,
     },
-    subs: [
+    subcategories: [
       {
         type: ObjectId,
-        ref: 'Sub',
+        ref: MODELS.SUB_CATEGORY,
       },
     ],
     quantity: Number,
@@ -46,24 +47,25 @@ const productSchema = new mongoose.Schema(
     images: { type: Array },
     shipping: {
       type: String,
-      enum: ['Yes', 'No'],
+      default: YES_NO.NO,
+      enum: Object.values(YES_NO),
     },
     color: {
       type: String,
-      enum: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
+      enum: COLORS,
     },
     brand: {
       type: String,
-      enum: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
+      enum: BRANDS,
     },
     ratings: [
       {
         star: Number,
-        postedBy: { type: ObjectId, ref: 'User' },
+        postedBy: { type: ObjectId, ref: MODELS.USER },
       },
     ],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = model(MODELS.PRODUCT, productSchema);
