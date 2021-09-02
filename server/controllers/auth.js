@@ -10,17 +10,16 @@ exports.createOrUpdateUser = async (req, res) => {
   );
 
   if (user) {
-    console.log('USER UPDATED', user);
-    res.json(user);
-  } else {
-    const newUser = await new User({
-      email,
-      name: email.split('@')[0],
-      picture,
-    }).save();
-    console.log('USER CREATED', newUser);
-    res.json(newUser);
+    return res.json(user);
   }
+
+  const newUser = await new User({
+    email,
+    name: email.split('@')[0],
+    picture,
+  }).save();
+
+  res.json(newUser);
 };
 
 exports.currentUser = async (req, res) => {
