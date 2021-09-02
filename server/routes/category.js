@@ -6,7 +6,7 @@ const {
   update,
   remove,
   list,
-  getSubs,
+  getSubCategories,
 } = require('../controllers/category');
 
 const router = express.Router();
@@ -16,6 +16,6 @@ router.get('/categories', list);
 router.get('/category/:slug', read);
 router.put('/category/:slug', authCheck, adminCheck, update);
 router.delete('/category/:slug', authCheck, adminCheck, remove);
-router.get('/category/subs/:_id', getSubs);
+router.get('/category/subcategories/:_id', getSubCategories);
 
 module.exports = router;

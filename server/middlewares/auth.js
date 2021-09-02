@@ -1,5 +1,8 @@
+const status = require('http-status');
 const admin = require('../firebase');
 const User = require('../models/user');
+const { USER_ROLES } = require('../constants');
+const messages = require('../constants/messages');
 
 exports.authCheck = async (req, res, next) => {
   try {
@@ -7,10 +10,12 @@ exports.authCheck = async (req, res, next) => {
       .auth()
       .verifyIdToken(req.headers.authtoken);
     req.user = firebaseUser;
+
     next();
-  } catch (err) {
-    res.status(401).json({
-      err: 'Invalid or expired token',
+  } catch (error) {
+    res.status(status.UNAUTHORIZED).json({
+      message: messages.invalidToken,
+      error,
     });
   }
 };
@@ -20,11 +25,11 @@ exports.adminCheck = async (req, res, next) => {
 
   const adminUser = await User.findOne({ email }).exec();
 
-  if (adminUser.role !== 'admin') {
-    res.status(403).json({
-      err: 'Admin resource. Access denied.',
+  if (adminUser.role !== USER_ROLES.ADMIN) {
+    return res.status(status.FORBIDDEN).json({
+      message: messages.accessDenied,
     });
-  } else {
-    next();
   }
+
+  next();
 };

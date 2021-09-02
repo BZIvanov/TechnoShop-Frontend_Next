@@ -1,6 +1,6 @@
 const Category = require('../models/category');
 const Product = require('../models/product');
-const Sub = require('../models/sub');
+const SubCategory = require('../models/sub-category');
 const slugify = require('slugify');
 
 exports.create = async (req, res) => {
@@ -49,10 +49,10 @@ exports.remove = async (req, res) => {
   }
 };
 
-exports.getSubs = (req, res) => {
-  Sub.find({ parent: req.params._id }).exec((err, subs) => {
+exports.getSubCategories = (req, res) => {
+  SubCategory.find({ parent: req.params._id }).exec((err, subcategories) => {
     if (err) console.log(err);
 
-    res.json(subs);
+    res.json(subcategories);
   });
 };

@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
+const { MODELS, ORDER_STATUSES } = require('../constants');
 
-const orderSchema = new mongoose.Schema(
+const orderSchema = new Schema(
   {
     products: [
       {
         product: {
           type: ObjectId,
-          ref: 'Product',
+          ref: MODELS.PRODUCT,
         },
         count: Number,
         color: String,
@@ -16,19 +17,12 @@ const orderSchema = new mongoose.Schema(
     paymentIntent: {},
     orderStatus: {
       type: String,
-      default: 'Not Processed',
-      enum: [
-        'Not Processed',
-        'Cash On Delivery',
-        'Processing',
-        'Dispatched',
-        'Cancelled',
-        'Completed',
-      ],
+      default: ORDER_STATUSES.NOT_PROCESSED,
+      enum: Object.values(ORDER_STATUSES),
     },
-    orderedBy: { type: ObjectId, ref: 'User' },
+    orderedBy: { type: ObjectId, ref: MODELS.USER },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = model(MODELS.ORDER, orderSchema);
