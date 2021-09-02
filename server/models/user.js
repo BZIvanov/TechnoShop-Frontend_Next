@@ -1,16 +1,21 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { Schema, model } = require('mongoose');
+const { ObjectId } = Schema;
+const { MODELS, USER_ROLES } = require('../constants');
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
-    name: String,
+    name: { type: String, required: true },
     email: { type: String, required: true, index: true },
-    role: { type: String, default: 'subscriber' },
+    role: {
+      type: String,
+      enum: Object.values(USER_ROLES),
+      default: USER_ROLES.USER,
+    },
     cart: { type: Array, default: [] },
     address: String,
-    wishlist: [{ type: ObjectId, ref: 'Product' }],
+    wishlist: [{ type: ObjectId, ref: MODELS.PRODUCT }],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = model(MODELS.USER, userSchema);

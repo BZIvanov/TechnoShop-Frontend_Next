@@ -73,7 +73,7 @@ const Header = () => {
           title={user.email.split('@')[0]}
           className='float-right'
         >
-          {user.role === 'subscriber' && (
+          {user.role === 'user' && (
             <Item key='user'>
               <Link to='/user/history'>Dashboard</Link>
             </Item>
