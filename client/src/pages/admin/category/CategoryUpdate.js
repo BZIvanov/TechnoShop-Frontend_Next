@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getCategory, updateCategory } from '../../../functions/category';
 import CategoryForm from '../../../components/forms/CategoryForm';
+import { NAV_LINKS } from '../../../constants';
 
 const CategoryUpdate = ({ history, match }) => {
   const { user } = useSelector((state) => state.user);
@@ -29,7 +30,7 @@ const CategoryUpdate = ({ history, match }) => {
         setLoading(false);
         setName('');
         toast.success(`"${res.data.name}" is updated`);
-        history.push('/admin/category');
+        history.push(NAV_LINKS.ADMIN_CATEGORY.ROUTE);
       })
       .catch((err) => {
         console.log(err);

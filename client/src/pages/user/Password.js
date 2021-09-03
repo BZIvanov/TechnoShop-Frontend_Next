@@ -11,17 +11,16 @@ const Password = () => {
     e.preventDefault();
     setLoading(true);
 
-    await auth.currentUser
-      .updatePassword(password)
-      .then(() => {
-        setLoading(false);
-        setPassword('');
-        toast.success('Password updated');
-      })
-      .catch((err) => {
-        setLoading(false);
-        toast.error(err.message);
-      });
+    try {
+      await auth.currentUser.updatePassword(password);
+
+      setLoading(false);
+      setPassword('');
+      toast.success('Password updated');
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message);
+    }
   };
 
   const passwordUpdateForm = () => (
@@ -30,11 +29,11 @@ const Password = () => {
         <label>Your Password</label>
         <input
           type='password'
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           className='form-control'
           placeholder='Enter new password'
           disabled={loading}
-          value={password}
         />
         <button
           className='btn btn-primary'

@@ -7,6 +7,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { NAV_LINKS } from '../../../constants';
 
 const initialState = {
   title: '',
@@ -69,7 +70,7 @@ const ProductUpdate = ({ match, history }) => {
       .then((res) => {
         setLoading(false);
         toast.success(`"${res.data.title}" is updated`);
-        history.push('/admin/products');
+        history.push(NAV_LINKS.ADMIN_PRODUCTS.ROUTE);
       })
       .catch((err) => {
         console.log(err);

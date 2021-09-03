@@ -10,6 +10,7 @@ import {
 } from '../functions/user';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { NAV_LINKS } from '../constants';
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
@@ -21,7 +22,11 @@ const Checkout = ({ history }) => {
   const [discountError, setDiscountError] = useState('');
 
   const dispatch = useDispatch();
-  const { user, COD, coupon: isCouponApplied } = useSelector((state) => ({
+  const {
+    user,
+    COD,
+    coupon: isCouponApplied,
+  } = useSelector((state) => ({
     ...state,
   }));
 
@@ -136,7 +141,7 @@ const Checkout = ({ history }) => {
 
         emptyUserCart(user.token)
           .then(() => {
-            history.push('/user/history');
+            history.push(NAV_LINKS.USER_HISTORY.ROUTE);
           })
           .catch((err) => console.log(err));
       }
@@ -186,7 +191,7 @@ const Checkout = ({ history }) => {
               <button
                 className='btn btn-primary'
                 disabled={!addressSaved || !products.length}
-                onClick={() => history.push('/payment')}
+                onClick={() => history.push(NAV_LINKS.PAYMENT.ROUTE)}
               >
                 Place Order
               </button>

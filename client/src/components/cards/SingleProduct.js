@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addToWishlist } from '../../functions/user';
 import { toast } from 'react-toastify';
+import { NAV_LINKS } from '../../constants';
 
 const { TabPane } = Tabs;
 
@@ -59,7 +60,7 @@ const SingleProduct = ({ product, star, onStarClick }) => {
 
     addToWishlist(product._id, user.token).then(() => {
       toast.success('Added to wishlist');
-      history.push('/user/wishlist');
+      history.push(NAV_LINKS.USER_WISHLIST.ROUTE);
     });
   };
 

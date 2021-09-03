@@ -2,6 +2,7 @@ import { Card } from 'antd';
 import laptop from '../../images/laptop.png';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { NAV_LINKS } from '../../constants';
 
 const { Meta } = Card;
 
@@ -24,7 +25,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
         />
       }
       actions={[
-        <Link to={`/admin/product/${slug}`}>
+        <Link to={`${NAV_LINKS.ADMIN_PRODUCT.ROUTE}/${slug}`}>
           <EditOutlined className='text-warning' />
         </Link>,
         <DeleteOutlined

@@ -6,6 +6,7 @@ import { Button } from 'antd';
 import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { auth, googleAuthProvider } from '../../firebase';
 import { createOrUpdateUser } from '../../store/action-creators';
+import { NAV_LINKS } from '../../constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const Login = () => {
       return;
     } else {
       if (user && user.token) {
-        history.push('/');
+        history.push(NAV_LINKS.ROOT.ROUTE);
       }
     }
   }, [user, history]);
@@ -104,9 +105,9 @@ const Login = () => {
       return <Redirect to={intended.from} />;
     } else {
       if (user.role === 'admin') {
-        return <Redirect to='/admin/dashboard' />;
+        return <Redirect to={NAV_LINKS.ADMIN_DASHBOARD.ROUTE} />;
       }
-      return <Redirect to='/user/history' />;
+      return <Redirect to={NAV_LINKS.USER_HISTORY.ROUTE} />;
     }
   }
 
@@ -134,8 +135,11 @@ const Login = () => {
             Login with Google
           </Button>
 
-          <Link to='/forgot-password' className='float-right text-danger'>
-            Forgot Password?
+          <Link
+            to={NAV_LINKS.FORGOT_PASSWORD.ROUTE}
+            className='float-right text-danger'
+          >
+            {NAV_LINKS.FORGOT_PASSWORD.LABEL}?
           </Link>
         </div>
       </div>

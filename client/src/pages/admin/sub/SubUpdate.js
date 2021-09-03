@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { getCategories } from '../../../functions/category';
 import { updateSub, getSub } from '../../../functions/sub';
 import CategoryForm from '../../../components/forms/CategoryForm';
+import { NAV_LINKS } from '../../../constants';
 
 const SubUpdate = ({ match, history }) => {
   const { user } = useSelector((state) => state.user);
@@ -40,7 +41,7 @@ const SubUpdate = ({ match, history }) => {
         setLoading(false);
         setName('');
         toast.success(`"${res.data.name}" is updated`);
-        history.push('/admin/sub');
+        history.push(NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE);
       })
       .catch((err) => {
         console.log(err);

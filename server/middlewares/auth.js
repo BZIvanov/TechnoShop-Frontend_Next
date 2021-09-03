@@ -23,9 +23,9 @@ exports.authCheck = async (req, res, next) => {
 exports.adminCheck = async (req, res, next) => {
   const { email } = req.user;
 
-  const adminUser = await User.findOne({ email }).exec();
+  const user = await User.findOne({ email }).exec();
 
-  if (adminUser.role !== USER_ROLES.ADMIN) {
+  if (user.role !== USER_ROLES.ADMIN) {
     return res.status(status.FORBIDDEN).json({
       message: messages.accessDenied,
     });

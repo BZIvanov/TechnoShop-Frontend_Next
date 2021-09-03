@@ -7,6 +7,7 @@ import { Card } from 'antd';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
 import Laptop from '../images/laptop.png';
 import { createOrder, emptyUserCart } from '../functions/user';
+import { NAV_LINKS } from '../constants';
 
 const StripeCheckout = () => {
   const [succeeded, setSucceeded] = useState(false);
@@ -157,7 +158,9 @@ const StripeCheckout = () => {
       <br />
       <p className={succeeded ? 'result-message' : 'result-message hidden'}>
         Payment Successful.{' '}
-        <Link to='/user/history'>See it in your purchase history.</Link>
+        <Link to={NAV_LINKS.USER_HISTORY.ROUTE}>
+          See it in your purchase history.
+        </Link>
       </p>
     </>
   );
