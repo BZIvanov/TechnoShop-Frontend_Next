@@ -6,6 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { auth } from './firebase';
 import { loginUser } from './store/action-creators';
 import axios from 'axios';
+import { NAV_LINKS } from './constants';
 
 const Home = lazy(() => import('./pages/Home'));
 const Register = lazy(() => import('./pages/auth/Register'));
@@ -81,38 +82,98 @@ const App = () => {
       <SideDrawer />
       <ToastContainer />
       <Switch>
-        <Route exact path='/' component={Home} />
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/register' component={Register} />
-        <Route exact path='/register-complete' component={RegisterComplete} />
-        <Route exact path='/forgot-password' component={ForgotPassword} />
-        <UserRoute exact path='/user/history' component={History} />
-        <UserRoute exact path='/user/password' component={Password} />
-        <UserRoute exact path='/user/wishlist' component={Wishlist} />
-        <AdminRoute exact path='/admin/dashboard' component={AdminDashboard} />
-        <AdminRoute exact path='/admin/category' component={CategoryCreate} />
+        <Route exact path={NAV_LINKS.ROOT.ROUTE} component={Home} />
+        <Route exact path={NAV_LINKS.LOGIN.ROUTE} component={Login} />
+        <Route exact path={NAV_LINKS.REGISTER.ROUTE} component={Register} />
+        <Route
+          exact
+          path={NAV_LINKS.REGISTER_COMPLETE.ROUTE}
+          component={RegisterComplete}
+        />
+        <Route
+          exact
+          path={NAV_LINKS.FORGOT_PASSWORD.ROUTE}
+          component={ForgotPassword}
+        />
+        <UserRoute
+          exact
+          path={NAV_LINKS.USER_HISTORY.ROUTE}
+          component={History}
+        />
+        <UserRoute
+          exact
+          path={NAV_LINKS.USER_PASSWORD.ROUTE}
+          component={Password}
+        />
+        <UserRoute
+          exact
+          path={NAV_LINKS.USER_WISHLIST.ROUTE}
+          component={Wishlist}
+        />
         <AdminRoute
           exact
-          path='/admin/category/:slug'
+          path={NAV_LINKS.ADMIN_DASHBOARD.ROUTE}
+          component={AdminDashboard}
+        />
+        <AdminRoute
+          exact
+          path={NAV_LINKS.ADMIN_CATEGORY.ROUTE}
+          component={CategoryCreate}
+        />
+        <AdminRoute
+          exact
+          path={`${NAV_LINKS.ADMIN_CATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
           component={CategoryUpdate}
         />
-        <AdminRoute exact path='/admin/sub' component={SubCreate} />
-        <AdminRoute exact path='/admin/sub/:slug' component={SubUpdate} />
-        <AdminRoute exact path='/admin/product' component={ProductCreate} />
-        <AdminRoute exact path='/admin/products' component={AllProducts} />
         <AdminRoute
           exact
-          path='/admin/product/:slug'
+          path={NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE}
+          component={SubCreate}
+        />
+        <AdminRoute
+          exact
+          path={`${NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
+          component={SubUpdate}
+        />
+        <AdminRoute
+          exact
+          path={NAV_LINKS.ADMIN_PRODUCT.ROUTE}
+          component={ProductCreate}
+        />
+        <AdminRoute
+          exact
+          path={NAV_LINKS.ADMIN_PRODUCTS.ROUTE}
+          component={AllProducts}
+        />
+        <AdminRoute
+          exact
+          path={`${NAV_LINKS.ADMIN_PRODUCT.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
           component={ProductUpdate}
         />
-        <Route exact path='/product/:slug' component={Product} />
-        <Route exact path='/category/:slug' component={CategoryHome} />
-        <Route exact path='/sub/:slug' component={SubHome} />
-        <Route exact path='/shop' component={Shop} />
-        <Route exact path='/cart' component={Cart} />
-        <UserRoute exact path='/checkout' component={Checkout} />
-        <AdminRoute exact path='/admin/coupon' component={CreateCouponPage} />
-        <UserRoute exact path='/payment' component={Payment} />
+        <Route
+          exact
+          path={`${NAV_LINKS.PRODUCT.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
+          component={Product}
+        />
+        <Route
+          exact
+          path={`${NAV_LINKS.CATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
+          component={CategoryHome}
+        />
+        <Route
+          exact
+          path={`${NAV_LINKS.SUBCATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
+          component={SubHome}
+        />
+        <Route exact path={NAV_LINKS.SHOP.ROUTE} component={Shop} />
+        <Route exact path={NAV_LINKS.CART.ROUTE} component={Cart} />
+        <UserRoute exact path={NAV_LINKS.CHECKOUT.ROUTE} component={Checkout} />
+        <AdminRoute
+          exact
+          path={NAV_LINKS.ADMIN_COUPON.ROUTE}
+          component={CreateCouponPage}
+        />
+        <UserRoute exact path={NAV_LINKS.PAYMENT.ROUTE} component={Payment} />
       </Switch>
     </Suspense>
   );

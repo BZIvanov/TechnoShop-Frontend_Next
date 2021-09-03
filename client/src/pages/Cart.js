@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
 import { userCart } from '../functions/user';
+import { NAV_LINKS } from '../constants';
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Cart = ({ history }) => {
 
     userCart(cart, user.token)
       .then((res) => {
-        if (res.data.ok) history.push('/checkout');
+        if (res.data.ok) history.push(NAV_LINKS.CHECKOUT.ROUTE);
       })
       .catch((err) => console.log('cart save err', err));
   };
@@ -55,7 +56,8 @@ const Cart = ({ history }) => {
 
           {!cart.length ? (
             <p>
-              No products in cart. <Link to='/shop'>Continue Shopping.</Link>
+              No products in cart.{' '}
+              <Link to={NAV_LINKS.SHOP.ROUTE}>Continue Shopping.</Link>
             </p>
           ) : (
             showCartItems()
@@ -97,7 +99,7 @@ const Cart = ({ history }) => {
             <button className='btn btn-sm btn-primary mt-2'>
               <Link
                 to={{
-                  pathname: '/login',
+                  pathname: NAV_LINKS.LOGIN.ROUTE,
                   state: { from: 'cart' },
                 }}
               >

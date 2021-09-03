@@ -3,6 +3,7 @@ import { Drawer } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import laptop from '../../images/laptop.png';
+import { NAV_LINKS } from '../../constants';
 
 const SideDrawer = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const SideDrawer = () => {
         </div>
       ))}
 
-      <Link to='/cart'>
+      <Link to={NAV_LINKS.CART.ROUTE}>
         <button
           onClick={() =>
             dispatch({

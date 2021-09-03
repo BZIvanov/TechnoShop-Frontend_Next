@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { StarOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom';
+import { NAV_LINKS } from '../../constants';
 
 const RatingModal = ({ children }) => {
   const { user } = useSelector((state) => state.user);
@@ -17,8 +18,8 @@ const RatingModal = ({ children }) => {
       setModalVisible(true);
     } else {
       history.push({
-        pathname: '/login',
-        state: { from: `/product/${slug}` },
+        pathname: NAV_LINKS.LOGIN.ROUTE,
+        state: { from: `${NAV_LINKS.PRODUCT.ROUTE}/${slug}` },
       });
     }
   };
