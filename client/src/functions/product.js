@@ -6,7 +6,7 @@ export const createProduct = async (product, authtoken) =>
   });
 
 export const getProductsByCount = async (count) =>
-  await axios.get(`${process.env.REACT_APP_API}/products/${count}`);
+  await axios.get(`${process.env.REACT_APP_API}/product/${count}`);
 
 export const getProduct = async (slug) =>
   await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
@@ -29,7 +29,7 @@ export const getProducts = async (sort, order, page) =>
   });
 
 export const getProductsCount = async () =>
-  await axios.get(`${process.env.REACT_APP_API}/products/total`);
+  await axios.get(`${process.env.REACT_APP_API}/product/total`);
 
 export const productStar = async (productId, star, authtoken) =>
   await axios.put(

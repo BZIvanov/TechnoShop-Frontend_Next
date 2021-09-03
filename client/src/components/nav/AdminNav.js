@@ -1,41 +1,42 @@
 import { Link } from 'react-router-dom';
+import { NAV_LINKS } from '../../constants';
 
 const AdminNav = () => (
   <nav>
     <ul className='nav flex-column'>
       <li className='nav-item'>
-        <Link to='/admin/dashboard' className='nav-link'>
-          Dashboard
+        <Link to={NAV_LINKS.ADMIN_DASHBOARD.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_DASHBOARD.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/admin/product' className='nav-link'>
-          Product
+        <Link to={NAV_LINKS.ADMIN_PRODUCT.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_PRODUCT.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/admin/products' className='nav-link'>
-          Products
+        <Link to={NAV_LINKS.ADMIN_PRODUCTS.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_PRODUCTS.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/admin/category' className='nav-link'>
-          Category
+        <Link to={NAV_LINKS.ADMIN_CATEGORY.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_CATEGORY.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/admin/sub' className='nav-link'>
-          Sub Category
+        <Link to={NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_SUBCATEGORY.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/admin/coupon' className='nav-link'>
-          Coupon
+        <Link to={NAV_LINKS.ADMIN_COUPON.ROUTE} className='nav-link'>
+          {NAV_LINKS.ADMIN_COUPON.LABEL}
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to='/user/password' className='nav-link'>
-          Password
+        <Link to={NAV_LINKS.USER_PASSWORD.ROUTE} className='nav-link'>
+          {NAV_LINKS.USER_PASSWORD.LABEL}
         </Link>
       </li>
     </ul>

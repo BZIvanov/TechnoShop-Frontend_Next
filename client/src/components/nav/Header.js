@@ -14,6 +14,7 @@ import {
 import firebase from 'firebase';
 import Search from '../forms/Search';
 import { logoutUser } from '../../store/action-creators';
+import { NAV_LINKS } from '../../constants';
 
 const { SubMenu, Item } = Menu;
 
@@ -33,23 +34,23 @@ const Header = () => {
   const logout = () => {
     firebase.auth().signOut();
     dispatch(logoutUser());
-    history.push('/login');
+    history.push(NAV_LINKS.LOGIN.ROUTE);
   };
 
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
       <Item key='home' icon={<AppstoreOutlined />}>
-        <Link to='/'>Home</Link>
+        <Link to={NAV_LINKS.ROOT.ROUTE}>{NAV_LINKS.ROOT.LABEL}</Link>
       </Item>
 
       <Item key='shop' icon={<ShoppingOutlined />}>
-        <Link to='/shop'>Shop</Link>
+        <Link to={NAV_LINKS.SHOP.ROUTE}>{NAV_LINKS.SHOP.LABEL}</Link>
       </Item>
 
       <Item key='cart' icon={<ShoppingCartOutlined />}>
-        <Link to='/cart'>
+        <Link to={NAV_LINKS.CART.ROUTE}>
           <Badge count={cart.length} offset={[9, 0]}>
-            Cart
+            {NAV_LINKS.CART.LABEL}
           </Badge>
         </Link>
       </Item>
@@ -61,26 +62,32 @@ const Header = () => {
             icon={<UserAddOutlined />}
             className='float-right'
           >
-            <Link to='/register'>Register</Link>
+            <Link to={NAV_LINKS.REGISTER.ROUTE}>
+              {NAV_LINKS.REGISTER.LABEL}
+            </Link>
           </Item>
           <Item key='login' icon={<UserOutlined />} className='float-right'>
-            <Link to='/login'>Login</Link>
+            <Link to={NAV_LINKS.LOGIN.ROUTE}>{NAV_LINKS.LOGIN.LABEL}</Link>
           </Item>
         </>
       ) : (
         <SubMenu
           icon={<SettingOutlined />}
-          title={user.email.split('@')[0]}
+          title={user.name}
           className='float-right'
         >
           {user.role === 'user' && (
             <Item key='user'>
-              <Link to='/user/history'>Dashboard</Link>
+              <Link to={NAV_LINKS.USER_HISTORY.ROUTE}>
+                {NAV_LINKS.USER_HISTORY.LABEL}
+              </Link>
             </Item>
           )}
           {user.role === 'admin' && (
             <Item key='admin'>
-              <Link to='/admin/dashboard'>Dashboard</Link>
+              <Link to={NAV_LINKS.ADMIN_DASHBOARD.ROUTE}>
+                {NAV_LINKS.ADMIN_DASHBOARD.LABEL}
+              </Link>
             </Item>
           )}
           <Item key='logout' icon={<LogoutOutlined />} onClick={logout}>

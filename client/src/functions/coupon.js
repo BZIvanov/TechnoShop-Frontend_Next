@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getCoupons = async () =>
-  await axios.get(`${process.env.REACT_APP_API}/coupons`);
+  await axios.get(`${process.env.REACT_APP_API}/coupon`);
 
 export const createCoupon = async (coupon, authtoken) =>
   await axios.post(
