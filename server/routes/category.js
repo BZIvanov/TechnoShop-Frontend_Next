@@ -1,21 +1,21 @@
 const express = require('express');
 const { authCheck, adminCheck } = require('../middlewares/auth');
 const {
-  create,
-  read,
-  update,
-  remove,
-  list,
+  listCategories,
+  createCategory,
+  getCategory,
+  updateCategory,
+  removeCategory,
   getSubCategories,
 } = require('../controllers/category');
 
 const router = express.Router();
 
-router.post('/category', authCheck, adminCheck, create);
-router.get('/category', list);
-router.get('/category/:slug', read);
-router.put('/category/:slug', authCheck, adminCheck, update);
-router.delete('/category/:slug', authCheck, adminCheck, remove);
-router.get('/category/subcategories/:_id', getSubCategories);
+router.get('/category', listCategories);
+router.post('/category', authCheck, adminCheck, createCategory);
+router.get('/category/:slug', getCategory);
+router.put('/category/:slug', authCheck, adminCheck, updateCategory);
+router.delete('/category/:slug', authCheck, adminCheck, removeCategory);
+router.get('/category/subcategory/:id', getSubCategories);
 
 module.exports = router;

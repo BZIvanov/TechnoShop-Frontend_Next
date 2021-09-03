@@ -1,58 +1,77 @@
+const status = require('http-status');
+const slugify = require('slugify');
 const Category = require('../models/category');
 const Product = require('../models/product');
 const SubCategory = require('../models/sub-category');
-const slugify = require('slugify');
 
-exports.create = async (req, res) => {
+exports.listCategories = async (_, res) => {
   try {
-    const { name } = req.body;
+    const categories = await Category.find().sort({ createdAt: -1 }).exec();
 
-    res.json(await new Category({ name, slug: slugify(name) }).save());
-  } catch (err) {
-    res.status(400).send('Create category failed');
+    res.status(status.OK).json(categories);
+  } catch (error) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
-exports.list = async (req, res) =>
-  res.json(await Category.find({}).sort({ createdAt: -1 }).exec());
+exports.createCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
 
-exports.read = async (req, res) => {
-  const category = await Category.findOne({ slug: req.params.slug }).exec();
-  const products = await Product.find({ category }).populate('category').exec();
+    const category = await new Category({ name, slug: slugify(name) }).save();
 
-  res.json({
-    category,
-    products,
-  });
+    res.status(status.CREATED).json(category);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
 };
 
-exports.update = async (req, res) => {
+exports.getCategory = async (req, res) => {
+  try {
+    const category = await Category.findOne({ slug: req.params.slug }).exec();
+    const products = await Product.find({ category })
+      .populate('category')
+      .exec();
+
+    res.status(status.OK).json({ category, products });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
+};
+
+exports.updateCategory = async (req, res) => {
   const { name } = req.body;
   try {
-    const updated = await Category.findOneAndUpdate(
+    const category = await Category.findOneAndUpdate(
       { slug: req.params.slug },
       { name, slug: slugify(name) },
       { new: true }
     );
-    res.json(updated);
-  } catch (err) {
-    res.status(400).send('Category update failed');
+
+    res.status(status.OK).json(category);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 
-exports.remove = async (req, res) => {
+exports.removeCategory = async (req, res) => {
   try {
-    const deleted = await Category.findOneAndDelete({ slug: req.params.slug });
-    res.json(deleted);
-  } catch (err) {
-    res.status(400).send('Category delete failed');
+    await Category.findOneAndDelete({ slug: req.params.slug });
+
+    res.status(status.OK).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 
-exports.getSubCategories = (req, res) => {
-  SubCategory.find({ parent: req.params._id }).exec((err, subcategories) => {
-    if (err) console.log(err);
+exports.getSubCategories = async (req, res) => {
+  try {
+    const subcategories = await SubCategory.find({
+      parent: req.params.id,
+    }).exec();
 
-    res.json(subcategories);
-  });
+    res.status(status.OK).json(subcategories);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
 };
