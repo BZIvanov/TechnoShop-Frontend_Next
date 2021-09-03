@@ -16,11 +16,13 @@ const {
 const router = express.Router();
 
 router.post('/product', authCheck, adminCheck, create);
-router.get('/products/total', productsCount);
+router.get('/product/total', productsCount);
+// TODO fix products -> product
 router.get('/products/:count', listAll);
 router.get('/product/:slug', read);
 router.put('/product/:slug', authCheck, adminCheck, update);
 router.delete('/product/:slug', authCheck, adminCheck, remove);
+// TODO fix products -> product
 router.post('/products', list);
 router.put('/product/star/:productId', authCheck, productStar);
 router.get('/product/related/:productId', listRelated);
