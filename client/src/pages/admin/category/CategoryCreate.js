@@ -5,7 +5,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import AdminNav from '../../../components/nav/AdminNav';
 import {
-  getCategoriesAction,
+  getAllCategoriesAction,
   createCategoryAction,
   removeCategoryAction,
   apiCallReset,
@@ -29,7 +29,7 @@ const CategoryCreate = () => {
 
   // initial load of already created categories
   useEffect(() => {
-    dispatch(getCategoriesAction());
+    dispatch(getAllCategoriesAction());
   }, [dispatch]);
 
   // display success or error message after every api call
@@ -46,7 +46,7 @@ const CategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createCategoryAction(name, user.token));
+    dispatch(createCategoryAction({ name }, user.token));
     setName('');
   };
 

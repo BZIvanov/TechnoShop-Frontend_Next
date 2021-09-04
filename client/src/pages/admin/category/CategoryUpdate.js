@@ -46,7 +46,7 @@ const CategoryUpdate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(updateCategoryAction(slug, name, user.token));
+    dispatch(updateCategoryAction(slug, { name }, user.token));
     setName('');
   };
 

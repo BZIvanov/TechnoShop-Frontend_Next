@@ -1,53 +1,58 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import { getCategories } from '../../../functions/category';
-import { updateSub, getSub } from '../../../functions/sub';
+import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
+import {
+  getAllCategoriesAction,
+  getSubcategoryAction,
+  updateSubcategoryAction,
+  apiCallReset,
+} from '../../../store/action-creators';
 import { NAV_LINKS } from '../../../constants';
 
-const SubcategoryUpdate = ({ match, history }) => {
+const SubcategoryUpdate = () => {
   const { user } = useSelector((state) => state.user);
-
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [parent, setParent] = useState('');
-
-  const loadSub = useCallback(
-    () =>
-      getSub(match.params.slug).then((s) => {
-        setName(s.data.name);
-        setParent(s.data.parent);
-      }),
-    [match.params.slug]
+  const { categories } = useSelector((state) => state.category);
+  const selectedSubcategory = useSelector(
+    (state) => state.subcategory.selectedSubcategory
   );
+  const { loading, success, error } = useSelector((state) => state.apiCall);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { slug } = useParams();
+
+  const [parent, setParent] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    loadCategories();
-    loadSub();
-  }, [loadSub]);
+    dispatch(getAllCategoriesAction());
+    dispatch(getSubcategoryAction(slug));
+  }, [dispatch, slug]);
 
-  const loadCategories = () =>
-    getCategories().then((c) => setCategories(c.data));
+  useEffect(() => {
+    setParent(selectedSubcategory ? selectedSubcategory.parent : '');
+    setName(selectedSubcategory ? selectedSubcategory.name : '');
+  }, [selectedSubcategory]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+      history.push(NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    updateSub(match.params.slug, { name, parent }, user.token)
-      .then((res) => {
-        setLoading(false);
-        setName('');
-        toast.success(`"${res.data.name}" is updated`);
-        history.push(NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.response.status === 400) toast.error(err.response.data);
-      });
+    dispatch(updateSubcategoryAction(slug, { parent, name }, user.token));
+    setName('');
   };
 
   return (
@@ -58,23 +63,24 @@ const SubcategoryUpdate = ({ match, history }) => {
         </div>
         <div className='col'>
           {loading ? (
-            <h4 className='text-danger'>Loading..</h4>
+            <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4>Update sub category</h4>
+            <h4>Update subcategory</h4>
           )}
 
           <div className='form-group'>
             <label>Parent category</label>
             <select
-              name='category'
+              name='parent'
               className='form-control'
+              value={parent}
               onChange={(e) => setParent(e.target.value)}
             >
-              <option>Please select</option>
+              <option disabled>Please select</option>
               {categories.length > 0 &&
-                categories.map((c) => (
-                  <option key={c._id} value={c._id} selected={c._id === parent}>
-                    {c.name}
+                categories.map(({ _id, name }) => (
+                  <option key={_id} value={_id}>
+                    {name}
                   </option>
                 ))}
             </select>

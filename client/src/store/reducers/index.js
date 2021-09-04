@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { apiCallReducer } from './api-call';
 import { userReducer } from './user';
 import { categoryReducer } from './category';
+import { subcategoryReducer } from './subcategory';
 import { searchReducer } from './searchReducer';
 import { cartReducer } from './cartReducer';
 import { drawerReducer } from './drawerReducer';
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   apiCall: apiCallReducer,
   user: userReducer,
   category: categoryReducer,
+  subcategory: subcategoryReducer,
   search: searchReducer,
   cart: cartReducer,
   drawer: drawerReducer,

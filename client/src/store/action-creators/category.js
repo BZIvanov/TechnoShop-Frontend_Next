@@ -8,32 +8,32 @@ import {
 import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
 
-export const storeCategories = (categories) => ({
+export const allCategoriesType = (categories) => ({
   type: actionType.GET_CATEGORIES,
   payload: categories,
 });
 
-export const storeSelectedCategory = (category) => ({
+export const selectedCategoryType = (category) => ({
   type: actionType.GET_CATEGORY,
   payload: category,
 });
 
-export const storeCategory = (category) => ({
+export const creatCategoryType = (category) => ({
   type: actionType.CREATE_CATEGORY,
   payload: category,
 });
 
-export const updateCategory = (category) => ({
+export const updateCategoryType = (category) => ({
   type: actionType.UPDATE_CATEGORY,
   payload: category,
 });
 
-export const removeCategory = (slug) => ({
+export const removeCategoryType = (slug) => ({
   type: actionType.REMOVE_CATEGORY,
   payload: slug,
 });
 
-export const getCategoriesAction = () => {
+export const getAllCategoriesAction = () => {
   return async (dispatch) => {
     dispatch(apiCallStart());
 
@@ -41,7 +41,7 @@ export const getCategoriesAction = () => {
       const { data } = await getCategoriesCall();
 
       dispatch(apiCallSuccess());
-      dispatch(storeCategories(data));
+      dispatch(allCategoriesType(data));
     } catch (error) {
       dispatch(apiCallFail('Get categories error'));
     }
@@ -56,7 +56,7 @@ export const getCategoryAction = (slug) => {
       const { data } = await getCategoryCall(slug);
 
       dispatch(apiCallSuccess());
-      dispatch(storeSelectedCategory(data));
+      dispatch(selectedCategoryType(data));
     } catch (error) {
       dispatch(apiCallFail('Get category error'));
     }
@@ -71,22 +71,22 @@ export const createCategoryAction = (category, token) => {
       const { data } = await createCategoryCall(category, token);
 
       dispatch(apiCallSuccess(`Category '${data.name}' created`));
-      dispatch(storeCategory(data));
+      dispatch(creatCategoryType(data));
     } catch (error) {
       dispatch(apiCallFail('Create category error'));
     }
   };
 };
 
-export const updateCategoryAction = (slug, categoryName, token) => {
+export const updateCategoryAction = (slug, category, token) => {
   return async (dispatch) => {
     dispatch(apiCallStart());
 
     try {
-      const { data } = await updateCategoryCall(slug, categoryName, token);
+      const { data } = await updateCategoryCall(slug, category, token);
 
       dispatch(apiCallSuccess(`Category '${data.name}' updated`));
-      dispatch(updateCategory(data));
+      dispatch(updateCategoryType(data));
     } catch (error) {
       dispatch(apiCallFail('Update category error'));
     }
@@ -101,7 +101,7 @@ export const removeCategoryAction = (slug, token) => {
       await removeCategoryCall(slug, token);
 
       dispatch(apiCallSuccess(`Category removed`));
-      dispatch(removeCategory(slug));
+      dispatch(removeCategoryType(slug));
     } catch (error) {
       dispatch(apiCallFail('Remove category error'));
     }
