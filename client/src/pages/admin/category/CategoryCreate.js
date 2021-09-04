@@ -12,6 +12,10 @@ import {
 } from '../../../store/action-creators';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
+import { NAV_LINKS } from '../../../constants';
+
+const searchInCategories = (keyword) => (category) =>
+  category.name.toLowerCase().includes(keyword);
 
 const CategoryCreate = () => {
   const { user } = useSelector((state) => state.user);
@@ -42,17 +46,15 @@ const CategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createCategoryAction({ name }, user.token));
+    dispatch(createCategoryAction(name, user.token));
     setName('');
   };
 
   const handleRemove = async (slug) => {
-    if (window.confirm('Delete?')) {
+    if (window.confirm('Are you sure you want to delete this item?')) {
       dispatch(removeCategoryAction(slug, user.token));
     }
   };
-
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   return (
     <div className='container-fluid'>
@@ -75,22 +77,26 @@ const CategoryCreate = () => {
 
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
-          {categories.filter(searched(keyword)).map((c) => (
-            <div className='alert alert-secondary' key={c._id}>
-              {c.name}
-              <span
-                onClick={() => handleRemove(c.slug)}
-                className='btn btn-sm float-right'
-              >
-                <DeleteOutlined className='text-danger' />
-              </span>
-              <Link to={`/admin/category/${c.slug}`}>
-                <span className='btn btn-sm float-right'>
-                  <EditOutlined className='text-warning' />
+          {categories
+            .filter(searchInCategories(keyword))
+            .map(({ _id, name, slug }) => (
+              <div className='alert alert-secondary' key={_id}>
+                <span>{name}</span>
+
+                <span
+                  onClick={() => handleRemove(slug)}
+                  className='btn btn-sm float-right'
+                >
+                  <DeleteOutlined className='text-danger' />
                 </span>
-              </Link>
-            </div>
-          ))}
+
+                <Link to={`${NAV_LINKS.ADMIN_CATEGORY.ROUTE}/${slug}`}>
+                  <span className='btn btn-sm float-right'>
+                    <EditOutlined className='text-warning' />
+                  </span>
+                </Link>
+              </div>
+            ))}
         </div>
       </div>
     </div>

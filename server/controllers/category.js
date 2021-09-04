@@ -33,7 +33,9 @@ exports.getCategory = async (req, res) => {
       .populate('category')
       .exec();
 
-    res.status(status.OK).json({ category, products });
+    const categoryWithProducts = { ...category.toObject(), products };
+
+    res.status(status.OK).json(categoryWithProducts);
   } catch (error) {
     res.status(status.BAD_REQUEST).json({ error });
   }

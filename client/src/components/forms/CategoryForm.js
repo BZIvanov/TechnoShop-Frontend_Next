@@ -1,7 +1,7 @@
 const CategoryForm = ({ handleSubmit, name, setName }) => (
   <form onSubmit={handleSubmit}>
     <div className='form-group'>
-      <label>Name</label>
+      <label>Category Name</label>
       <input
         type='text'
         className='form-control'

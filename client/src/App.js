@@ -24,8 +24,12 @@ const CategoryCreate = lazy(() =>
 const CategoryUpdate = lazy(() =>
   import('./pages/admin/category/CategoryUpdate')
 );
-const SubCreate = lazy(() => import('./pages/admin/sub/SubCreate'));
-const SubUpdate = lazy(() => import('./pages/admin/sub/SubUpdate'));
+const SubcategoryCreate = lazy(() =>
+  import('./pages/admin/sub-category/SubcategoryCreate')
+);
+const SubcategoryUpdate = lazy(() =>
+  import('./pages/admin/sub-category/SubcategoryUpdate')
+);
 const CreateCouponPage = lazy(() =>
   import('./pages/admin/coupon/CreateCouponPage')
 );
@@ -128,12 +132,12 @@ const App = () => {
         <AdminRoute
           exact
           path={NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE}
-          component={SubCreate}
+          component={SubcategoryCreate}
         />
         <AdminRoute
           exact
           path={`${NAV_LINKS.ADMIN_SUBCATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
-          component={SubUpdate}
+          component={SubcategoryUpdate}
         />
         <AdminRoute
           exact
