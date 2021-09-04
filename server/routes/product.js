@@ -1,8 +1,8 @@
 const express = require('express');
 const { authCheck, adminCheck } = require('../middlewares/auth');
 const {
-  create,
-  listAll,
+  listProducts,
+  createProduct,
   read,
   update,
   remove,
@@ -15,10 +15,9 @@ const {
 
 const router = express.Router();
 
-router.post('/product', authCheck, adminCheck, create);
+router.get('/product', listProducts); // ok
+router.post('/product', authCheck, adminCheck, createProduct); // ok
 router.get('/product/total', productsCount);
-// TODO fix products -> product
-router.get('/products/:count', listAll);
 router.get('/product/:slug', read);
 router.put('/product/:slug', authCheck, adminCheck, update);
 router.delete('/product/:slug', authCheck, adminCheck, remove);

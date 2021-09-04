@@ -1,30 +1,35 @@
+const status = require('http-status');
+const slugify = require('slugify');
 const Product = require('../models/product');
 const User = require('../models/user');
-const slugify = require('slugify');
 
-exports.create = async (req, res) => {
+exports.listProducts = async (req, res) => {
   try {
-    req.body.slug = slugify(req.body.title);
+    const products = await Product.find()
+      .limit(parseInt(req.query.count))
+      .populate('category')
+      .populate('subcategories')
+      .sort([['createdAt', 'desc']])
+      .exec();
 
-    const newProduct = await new Product(req.body).save();
-    res.json(newProduct);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      err: err.message,
-    });
+    res.status(status.OK).json(products);
+  } catch (error) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
-exports.listAll = async (req, res) => {
-  const products = await Product.find({})
-    .limit(parseInt(req.params.count))
-    .populate('category')
-    .populate('subcategories')
-    .sort([['createdAt', 'desc']])
-    .exec();
+exports.createProduct = async (req, res) => {
+  try {
+    const product = { ...req.body };
+    product.slug = slugify(product.title);
+    product.subcategories = req.body.selectedSubcategories;
 
-  res.json(products);
+    const newProduct = await new Product(product).save();
+
+    res.status(status.CREATED).json(newProduct);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
 };
 
 exports.read = async (req, res) => {

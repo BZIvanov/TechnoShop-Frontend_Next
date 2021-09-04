@@ -26,7 +26,6 @@ const productSchema = new Schema(
     price: {
       type: Number,
       required: true,
-      trim: true,
       maxlength: 32,
     },
     category: {

@@ -25,3 +25,7 @@ export const removeCategoryCall = (slug, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const getCategorySubcategoriesCall = (id) => {
+  return axios.get(`/category/${id}/subcategory`);
+};
