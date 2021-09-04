@@ -1,81 +1,79 @@
-import { useState, useEffect, useCallback } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import { createProduct } from '../../../functions/product';
-import ProductCreateForm from '../../../components/forms/ProductCreateForm';
-import {
-  getCategories,
-  getCategorySubcategories,
-} from '../../../functions/category';
-import FileUpload from '../../../components/forms/FileUpload';
 import { LoadingOutlined } from '@ant-design/icons';
+import AdminNav from '../../../components/nav/AdminNav';
+import ProductCreateForm from '../../../components/forms/ProductCreateForm';
+import FileUpload from '../../../components/forms/FileUpload';
+import {
+  getAllCategoriesAction,
+  getCategorySubcategoriesAction,
+  createProductAction,
+  apiCallReset,
+} from '../../../store/action-creators';
+import { NAV_LINKS } from '../../../constants';
 
-const initialState = {
+const initialValues = {
   title: '',
   description: '',
-  price: '',
-  categories: [],
+  price: 0,
+  shipping: 'Yes',
+  quantity: 0,
+  color: 'Black',
+  brand: 'Samsung',
   category: '',
-  subs: [],
-  shipping: '',
-  quantity: '',
+  selectedSubcategories: [],
   images: [],
-  colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-  brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
-  color: '',
-  brand: '',
 };
 
 const ProductCreate = () => {
   const { user } = useSelector((state) => state.user);
+  const { categories, subcategories } = useSelector((state) => state.category);
+  const { loading, success, error } = useSelector((state) => state.apiCall);
 
-  const [values, setValues] = useState(initialState);
-  const [subOptions, setSubOptions] = useState([]);
-  const [showSub, setShowSub] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const loadCategories = useCallback(
-    () =>
-      getCategories().then((c) =>
-        setValues((values) => ({ ...values, categories: c.data }))
-      ),
-    []
-  );
+  const [values, setValues] = useState(initialValues);
+  const [showSubcategory, setShowSubcategory] = useState(false);
 
   useEffect(() => {
-    loadCategories();
-  }, [loadCategories]);
+    dispatch(getAllCategoriesAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+      history.push(NAV_LINKS.ADMIN_PRODUCTS.ROUTE);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createProduct(values, user.token)
-      .then((res) => {
-        console.log(res);
-        window.alert(`"${res.data.title}" is created`);
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.response.data.err);
-      });
+    dispatch(createProductAction(values, user.token));
   };
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleCatagoryChange = (e) => {
+  const handleCategoryChange = (e) => {
     e.preventDefault();
 
-    setValues({ ...values, subs: [], category: e.target.value });
-
-    getCategorySubcategories(e.target.value).then((res) => {
-      setSubOptions(res.data);
+    setValues({
+      ...values,
+      category: e.target.value,
+      selectedSubcategories: [],
     });
 
-    setShowSub(true);
+    dispatch(getCategorySubcategoriesAction(e.target.value));
+    setShowSubcategory(true);
   };
 
   return (
@@ -94,11 +92,7 @@ const ProductCreate = () => {
           <hr />
 
           <div className='p-3'>
-            <FileUpload
-              values={values}
-              setValues={setValues}
-              setLoading={setLoading}
-            />
+            <FileUpload values={values} setValues={setValues} />
           </div>
 
           <ProductCreateForm
@@ -106,9 +100,10 @@ const ProductCreate = () => {
             handleChange={handleChange}
             values={values}
             setValues={setValues}
-            handleCatagoryChange={handleCatagoryChange}
-            subOptions={subOptions}
-            showSub={showSub}
+            handleCategoryChange={handleCategoryChange}
+            categories={categories}
+            subcategories={subcategories}
+            showSubcategory={showSubcategory}
           />
         </div>
       </div>

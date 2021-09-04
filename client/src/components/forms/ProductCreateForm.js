@@ -2,25 +2,21 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
+const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
+const brands = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
+const shipping = ['Yes', 'No'];
+
 const ProductCreateForm = ({
-  handleSubmit,
-  handleChange,
   values,
   setValues,
-  handleCatagoryChange,
-  subOptions,
-  showSub,
+  handleChange,
+  handleCategoryChange,
+  handleSubmit,
+  showSubcategory,
+  categories,
+  subcategories,
 }) => {
-  const {
-    title,
-    description,
-    price,
-    categories,
-    subs,
-    quantity,
-    colors,
-    brands,
-  } = values;
+  const { title, description, price, selectedSubcategories, quantity } = values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -64,9 +60,12 @@ const ProductCreateForm = ({
           className='form-control'
           onChange={handleChange}
         >
-          <option>Please select</option>
-          <option value='No'>No</option>
-          <option value='Yes'>Yes</option>
+          <option disabled>Select shipping</option>
+          {shipping.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -84,7 +83,7 @@ const ProductCreateForm = ({
       <div className='form-group'>
         <label>Color</label>
         <select name='color' className='form-control' onChange={handleChange}>
-          <option>Please select</option>
+          <option disabled>Select color</option>
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -96,7 +95,7 @@ const ProductCreateForm = ({
       <div className='form-group'>
         <label>Brand</label>
         <select name='brand' className='form-control' onChange={handleChange}>
-          <option>Please select</option>
+          <option disabled>Select brand</option>
           {brands.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -110,34 +109,34 @@ const ProductCreateForm = ({
         <select
           name='category'
           className='form-control'
-          onChange={handleCatagoryChange}
+          onChange={handleCategoryChange}
         >
-          <option>Please select</option>
-          {categories.length > 0 &&
-            categories.map((c) => (
-              <option key={c._id} value={c._id}>
-                {c.name}
-              </option>
-            ))}
+          <option>Select category</option>
+          {categories.map(({ _id, name }) => (
+            <option key={_id} value={_id}>
+              {name}
+            </option>
+          ))}
         </select>
       </div>
 
-      {showSub && (
+      {showSubcategory && (
         <div>
           <label>Sub Categories</label>
           <Select
             mode='multiple'
             style={{ width: '100%' }}
-            placeholder='Please select'
-            value={subs}
-            onChange={(value) => setValues({ ...values, subs: value })}
+            placeholder='Select subcategories'
+            value={selectedSubcategories}
+            onChange={(value) => {
+              setValues({ ...values, selectedSubcategories: value });
+            }}
           >
-            {subOptions.length &&
-              subOptions.map((s) => (
-                <Option key={s._id} value={s._id}>
-                  {s.name}
-                </Option>
-              ))}
+            {subcategories.map(({ _id, name }) => (
+              <Option key={_id} value={_id}>
+                {name}
+              </Option>
+            ))}
           </Select>
         </div>
       )}

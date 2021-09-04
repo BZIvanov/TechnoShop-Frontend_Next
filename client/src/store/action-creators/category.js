@@ -4,6 +4,7 @@ import {
   createCategoryCall,
   updateCategoryCall,
   removeCategoryCall,
+  getCategorySubcategoriesCall,
 } from '../../api/category';
 import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
@@ -18,7 +19,7 @@ export const selectedCategoryType = (category) => ({
   payload: category,
 });
 
-export const creatCategoryType = (category) => ({
+export const createCategoryType = (category) => ({
   type: actionType.CREATE_CATEGORY,
   payload: category,
 });
@@ -31,6 +32,11 @@ export const updateCategoryType = (category) => ({
 export const removeCategoryType = (slug) => ({
   type: actionType.REMOVE_CATEGORY,
   payload: slug,
+});
+
+export const getCategorySubcategoriesType = (subcategories) => ({
+  type: actionType.GET_CATEGORY_SUBCATEGORIES,
+  payload: subcategories,
 });
 
 export const getAllCategoriesAction = () => {
@@ -71,7 +77,7 @@ export const createCategoryAction = (category, token) => {
       const { data } = await createCategoryCall(category, token);
 
       dispatch(apiCallSuccess(`Category '${data.name}' created`));
-      dispatch(creatCategoryType(data));
+      dispatch(createCategoryType(data));
     } catch (error) {
       dispatch(apiCallFail('Create category error'));
     }
@@ -104,6 +110,21 @@ export const removeCategoryAction = (slug, token) => {
       dispatch(removeCategoryType(slug));
     } catch (error) {
       dispatch(apiCallFail('Remove category error'));
+    }
+  };
+};
+
+export const getCategorySubcategoriesAction = (id) => {
+  return async (dispatch) => {
+    dispatch(apiCallStart());
+
+    try {
+      const { data } = await getCategorySubcategoriesCall(id);
+
+      dispatch(apiCallSuccess());
+      dispatch(getCategorySubcategoriesType(data));
+    } catch (error) {
+      dispatch(apiCallFail('Get category subcategories error'));
     }
   };
 };

@@ -66,7 +66,7 @@ exports.removeCategory = async (req, res) => {
   }
 };
 
-exports.getSubCategories = async (req, res) => {
+exports.getCategorySubcategories = async (req, res) => {
   try {
     const subcategories = await SubCategory.find({
       parent: req.params.id,
