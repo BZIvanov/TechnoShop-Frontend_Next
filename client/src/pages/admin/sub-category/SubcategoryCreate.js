@@ -9,7 +9,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
 
-const SubCreate = () => {
+const SubcategoryCreate = () => {
   const { user } = useSelector((state) => state.user);
 
   const [name, setName] = useState('');
@@ -77,7 +77,7 @@ const SubCreate = () => {
           {loading ? (
             <h4 className='text-danger'>Loading..</h4>
           ) : (
-            <h4>Create sub category</h4>
+            <h4>Create subcategory</h4>
           )}
 
           <div className='form-group'>
@@ -125,4 +125,4 @@ const SubCreate = () => {
   );
 };
 
-export default SubCreate;
+export default SubcategoryCreate;

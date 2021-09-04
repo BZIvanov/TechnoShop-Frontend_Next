@@ -1,42 +1,53 @@
-import { useState, useEffect, useCallback } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import { getCategory, updateCategory } from '../../../functions/category';
+import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
+import {
+  getCategoryAction,
+  updateCategoryAction,
+  apiCallReset,
+} from '../../../store/action-creators';
 import { NAV_LINKS } from '../../../constants';
 
-const CategoryUpdate = ({ history, match }) => {
+const CategoryUpdate = () => {
   const { user } = useSelector((state) => state.user);
+  const selectedCategory = useSelector(
+    (state) => state.category.selectedCategory
+  );
+  const { loading, success, error } = useSelector((state) => state.apiCall);
+
+  const history = useHistory();
+  const { slug } = useParams();
+  const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const loadCategory = useCallback(
-    () => getCategory(match.params.slug).then((c) => setName(c.data.name)),
-    [match.params.slug]
-  );
 
   useEffect(() => {
-    loadCategory();
-  }, [loadCategory]);
+    dispatch(getCategoryAction(slug));
+  }, [dispatch, slug]);
+
+  useEffect(() => {
+    setName(selectedCategory ? selectedCategory.name : '');
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+      history.push(NAV_LINKS.ADMIN_CATEGORY.ROUTE);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    updateCategory(match.params.slug, { name }, user.token)
-      .then((res) => {
-        setLoading(false);
-        setName('');
-        toast.success(`"${res.data.name}" is updated`);
-        history.push(NAV_LINKS.ADMIN_CATEGORY.ROUTE);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.response.status === 400) toast.error(err.response.data);
-      });
+    dispatch(updateCategoryAction(slug, name, user.token));
+    setName('');
   };
 
   return (

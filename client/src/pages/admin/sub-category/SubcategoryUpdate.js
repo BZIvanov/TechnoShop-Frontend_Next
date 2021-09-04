@@ -7,7 +7,7 @@ import { updateSub, getSub } from '../../../functions/sub';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import { NAV_LINKS } from '../../../constants';
 
-const SubUpdate = ({ match, history }) => {
+const SubcategoryUpdate = ({ match, history }) => {
   const { user } = useSelector((state) => state.user);
 
   const [name, setName] = useState('');
@@ -91,4 +91,4 @@ const SubUpdate = ({ match, history }) => {
   );
 };
 
-export default SubUpdate;
+export default SubcategoryUpdate;
