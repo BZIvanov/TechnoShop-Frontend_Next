@@ -4,7 +4,10 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
-import { getCategories, getCategorySubs } from '../../../functions/category';
+import {
+  getCategories,
+  getCategorySubcategories,
+} from '../../../functions/category';
 import FileUpload from '../../../components/forms/FileUpload';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -68,7 +71,7 @@ const ProductCreate = () => {
 
     setValues({ ...values, subs: [], category: e.target.value });
 
-    getCategorySubs(e.target.value).then((res) => {
+    getCategorySubcategories(e.target.value).then((res) => {
       setSubOptions(res.data);
     });
 

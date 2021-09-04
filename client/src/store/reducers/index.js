@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { apiCallReducer } from './api-call';
 import { userReducer } from './user';
+import { categoryReducer } from './category';
 import { searchReducer } from './searchReducer';
 import { cartReducer } from './cartReducer';
 import { drawerReducer } from './drawerReducer';
@@ -10,6 +11,7 @@ import { CODReducer } from './CODReducer';
 const rootReducer = combineReducers({
   apiCall: apiCallReducer,
   user: userReducer,
+  category: categoryReducer,
   search: searchReducer,
   cart: cartReducer,
   drawer: drawerReducer,

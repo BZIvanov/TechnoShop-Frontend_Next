@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
 import { getProduct, updateProduct } from '../../../functions/product';
-import { getCategories, getCategorySubs } from '../../../functions/category';
+import {
+  getCategories,
+  getCategorySubcategories,
+} from '../../../functions/category';
 import FileUpload from '../../../components/forms/FileUpload';
 import { LoadingOutlined } from '@ant-design/icons';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
@@ -40,7 +43,7 @@ const ProductUpdate = ({ match, history }) => {
     getProduct(slug).then((p) => {
       setValues((values) => ({ ...values, ...p.data }));
 
-      getCategorySubs(p.data.category._id).then((res) => {
+      getCategorySubcategories(p.data.category._id).then((res) => {
         setSubOptions(res.data);
       });
 
@@ -89,7 +92,7 @@ const ProductUpdate = ({ match, history }) => {
 
     setSelectedCategory(e.target.value);
 
-    getCategorySubs(e.target.value).then((res) => {
+    getCategorySubcategories(e.target.value).then((res) => {
       setSubOptions(res.data);
     });
 

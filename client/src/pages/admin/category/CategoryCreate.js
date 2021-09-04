@@ -1,66 +1,54 @@
 import { useState, useEffect } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
-import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import {
-  createCategory,
-  getCategories,
-  removeCategory,
-} from '../../../functions/category';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
+import AdminNav from '../../../components/nav/AdminNav';
+import {
+  getCategoriesAction,
+  createCategoryAction,
+  removeCategoryAction,
+  apiCallReset,
+} from '../../../store/action-creators';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
 
 const CategoryCreate = () => {
   const { user } = useSelector((state) => state.user);
+  const { categories } = useSelector((state) => state.category);
+  const { loading, success, error } = useSelector((state) => state.apiCall);
+
+  const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [keyword, setKeyword] = useState('');
 
+  // initial load of already created categories
   useEffect(() => {
-    loadCategories();
-  }, []);
+    dispatch(getCategoriesAction());
+  }, [dispatch]);
 
-  const loadCategories = () =>
-    getCategories().then((c) => setCategories(c.data));
+  // display success or error message after every api call
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    createCategory({ name }, user.token)
-      .then((res) => {
-        setLoading(false);
-        setName('');
-        toast.success(`"${res.data.name}" is created`);
-        loadCategories();
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.response.status === 400) toast.error(err.response.data);
-      });
+    dispatch(createCategoryAction({ name }, user.token));
+    setName('');
   };
 
   const handleRemove = async (slug) => {
     if (window.confirm('Delete?')) {
-      setLoading(true);
-
-      removeCategory(slug, user.token)
-        .then((res) => {
-          setLoading(false);
-          toast.error(`${res.data.name} deleted`);
-          loadCategories();
-        })
-        .catch((err) => {
-          if (err.response.status === 400) {
-            setLoading(false);
-            toast.error(err.response.data);
-          }
-        });
+      dispatch(removeCategoryAction(slug, user.token));
     }
   };
 
@@ -72,6 +60,7 @@ const CategoryCreate = () => {
         <div className='col-md-2'>
           <AdminNav />
         </div>
+
         <div className='col'>
           {loading ? (
             <h4 className='text-danger'>Loading..</h4>
@@ -83,7 +72,9 @@ const CategoryCreate = () => {
             name={name}
             setName={setName}
           />
+
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+
           {categories.filter(searched(keyword)).map((c) => (
             <div className='alert alert-secondary' key={c._id}>
               {c.name}
