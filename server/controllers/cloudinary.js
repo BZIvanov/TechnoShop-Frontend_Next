@@ -1,4 +1,6 @@
+const status = require('http-status');
 const cloudinary = require('cloudinary');
+const { v4: uuidv4 } = require('uuid');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,23 +8,36 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-exports.upload = async (req, res) => {
-  const result = await cloudinary.uploader.upload(req.body.image, {
-    public_id: Date.now(),
-    resource_type: 'auto', // jpeg, png
-  });
+exports.uploadImage = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.body.image, {
+      public_id: uuidv4(),
+      resource_type: 'auto', // jpeg, png
+    });
 
-  res.json({
-    public_id: result.public_id,
-    url: result.secure_url,
-  });
+    res.status(status.OK).json({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  } catch (error) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ error });
+  }
 };
 
-exports.remove = (req, res) => {
-  const image_id = req.body.public_id;
+exports.removeImage = async (req, res) => {
+  try {
+    const image_id = req.body.public_id;
 
-  cloudinary.uploader.destroy(image_id, (err, result) => {
-    if (err) return res.json({ success: false, err });
-    res.send('ok');
-  });
+    const { result } = await cloudinary.uploader.destroy(image_id);
+
+    if (result !== 'ok') {
+      return res
+        .status(status.BAD_REQUEST)
+        .json({ result, message: 'Remove image error' });
+    }
+
+    res.status(status.OK).json({ success: true });
+  } catch (error) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, error });
+  }
 };

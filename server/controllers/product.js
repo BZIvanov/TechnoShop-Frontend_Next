@@ -5,8 +5,10 @@ const User = require('../models/user');
 
 exports.listProducts = async (req, res) => {
   try {
+    const count = parseInt(req.query.count || 5, 10);
+
     const products = await Product.find()
-      .limit(parseInt(req.query.count))
+      .limit(count)
       .populate('category')
       .populate('subcategories')
       .sort([['createdAt', 'desc']])
