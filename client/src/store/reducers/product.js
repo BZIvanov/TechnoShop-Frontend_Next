@@ -1,6 +1,7 @@
 import { actionType } from '../action-types';
 
 const initialState = {
+  totalCount: 0,
   products: [],
   selectedProduct: null,
 };
@@ -8,7 +9,11 @@ const initialState = {
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.GET_PRODUCTS:
-      return { ...state, products: action.payload };
+      return {
+        ...state,
+        totalCount: action.payload.totalCount,
+        products: action.payload.products,
+      };
     case actionType.GET_PRODUCT:
       return { ...state, selectedProduct: action.payload };
     case actionType.CREATE_PRODUCT:

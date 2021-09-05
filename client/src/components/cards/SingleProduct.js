@@ -1,30 +1,30 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Card, Tabs, Tooltip } from 'antd';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Laptop from '../../images/laptop.png';
-import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
+import { toast } from 'react-toastify';
+import ProductListItems from './ProductListItems';
 import RatingModal from '../modal/RatingModal';
 import { showAverage } from '../../functions/rating';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { addToWishlist } from '../../functions/user';
-import { toast } from 'react-toastify';
 import { NAV_LINKS } from '../../constants';
+import Laptop from '../../images/laptop.png';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, star, onStarClick }) => {
   const { title, images, description, _id } = product;
 
-  const [tooltip, setTooltip] = useState('Click to add');
-
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [tooltip, setTooltip] = useState('Click to add');
 
   const handleAddToCart = () => {
     let cart = [];
@@ -69,8 +69,8 @@ const SingleProduct = ({ product, star, onStarClick }) => {
       <div className='col-md-7'>
         {images && images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
-            {images.map((i) => (
-              <img src={i.url} key={i.public_id} alt='product-preview' />
+            {images.map(({ url, public_id }) => (
+              <img src={url} key={public_id} alt='product-preview' />
             ))}
           </Carousel>
         ) : (
@@ -98,7 +98,7 @@ const SingleProduct = ({ product, star, onStarClick }) => {
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
 
-        {product && product.ratings && product.ratings.length > 0 ? (
+        {product.ratings.length > 0 ? (
           showAverage(product)
         ) : (
           <div className='text-center pt-1 pb-3'>No rating yet</div>
@@ -108,7 +108,7 @@ const SingleProduct = ({ product, star, onStarClick }) => {
           actions={[
             <Tooltip title={tooltip}>
               <div onClick={handleAddToCart}>
-                <ShoppingCartOutlined className='text-danger' /> <br /> Add to
+                <ShoppingCartOutlined className='text-success' /> <br /> Add to
                 Cart
               </div>
             </Tooltip>,

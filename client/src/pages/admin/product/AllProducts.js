@@ -17,7 +17,7 @@ const AllProducts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProductsAction(20));
+    dispatch(getProductsAction());
   }, [dispatch]);
 
   useEffect(() => {

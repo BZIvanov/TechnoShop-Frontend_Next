@@ -26,3 +26,11 @@ export const NAV_LINKS = {
 
   SLUG: { ROUTE: '/:slug', LABEL: null },
 };
+
+export const JUMBOTRON_TEXTS = [
+  'Latest Products',
+  'New Arrivals',
+  'Best Sellers',
+];
+
+export const HOME_PAGE_CARDS_COUNT = 3;
