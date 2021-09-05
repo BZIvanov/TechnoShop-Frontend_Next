@@ -23,20 +23,22 @@ const initialValues = {
   color: 'Black',
   brand: 'Samsung',
   category: '',
-  selectedSubcategories: [],
+  subcategories: [],
   images: [],
 };
 
 const ProductCreate = () => {
   const { user } = useSelector((state) => state.user);
-  const { categories, subcategories } = useSelector((state) => state.category);
+  const {
+    categories: availableCategories,
+    subcategories: availableSubcategories,
+  } = useSelector((state) => state.category);
   const { loading, success, error } = useSelector((state) => state.apiCall);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [values, setValues] = useState(initialValues);
-  const [showSubcategory, setShowSubcategory] = useState(false);
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
@@ -69,11 +71,10 @@ const ProductCreate = () => {
     setValues({
       ...values,
       category: e.target.value,
-      selectedSubcategories: [], // reset previously selected values
+      subcategories: [], // reset previously selected values
     });
 
     dispatch(getCategorySubcategoriesAction(e.target.value));
-    setShowSubcategory(true);
   };
 
   return (
@@ -101,9 +102,8 @@ const ProductCreate = () => {
             values={values}
             setValues={setValues}
             handleCategoryChange={handleCategoryChange}
-            categories={categories}
-            subcategories={subcategories}
-            showSubcategory={showSubcategory}
+            availableCategories={availableCategories}
+            availableSubcategories={availableSubcategories}
           />
         </div>
       </div>

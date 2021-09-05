@@ -37,7 +37,6 @@ exports.createProduct = async (req, res) => {
   try {
     const product = { ...req.body };
     product.slug = slugify(product.title);
-    product.subcategories = req.body.selectedSubcategories;
 
     const newProduct = await new Product(product).save();
 
@@ -47,23 +46,20 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.update = async (req, res) => {
+exports.updateProduct = async (req, res) => {
   try {
-    if (req.body.title) {
-      req.body.slug = slugify(req.body.title);
-    }
-    const updated = await Product.findOneAndUpdate(
+    const product = { ...req.body };
+    product.slug = slugify(product.title);
+
+    const updatedProduct = await Product.findOneAndUpdate(
       { slug: req.params.slug },
-      req.body,
+      product,
       { new: true }
     ).exec();
 
-    res.json(updated);
-  } catch (err) {
-    console.log('PRODUCT UPDATE ERROR ----> ', err);
-    res.status(400).json({
-      err: err.message,
-    });
+    res.status(status.OK).json(updatedProduct);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 

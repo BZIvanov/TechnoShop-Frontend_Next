@@ -1,85 +1,103 @@
-import { useState, useEffect, useCallback } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
-import { getProduct, updateProduct } from '../../../functions/product';
-import {
-  getCategories,
-  getCategorySubcategories,
-} from '../../../functions/category';
-import FileUpload from '../../../components/forms/FileUpload';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';
-import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import AdminNav from '../../../components/nav/AdminNav';
+import FileUpload from '../../../components/forms/FileUpload';
+import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
+import {
+  getProductAction,
+  getAllCategoriesAction,
+  getCategorySubcategoriesAction,
+  updateProductAction,
+  apiCallReset,
+} from '../../../store/action-creators';
 import { NAV_LINKS } from '../../../constants';
 
-const initialState = {
+const initialValues = {
   title: '',
   description: '',
-  price: '',
+  price: 0,
+  shipping: 'Yes',
+  quantity: 0,
+  color: 'Black',
+  brand: 'Samsung',
   category: '',
-  subs: [],
-  shipping: '',
-  quantity: '',
+  subcategories: [],
   images: [],
-  colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-  brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
-  color: '',
-  brand: '',
 };
 
-const ProductUpdate = ({ match, history }) => {
+const ProductUpdate = () => {
   const { user } = useSelector((state) => state.user);
+  const { selectedProduct } = useSelector((state) => state.product);
+  const {
+    categories: availableCategories,
+    subcategories: availableSubcategories,
+  } = useSelector((state) => state.category);
+  const { loading, success, error } = useSelector((state) => state.apiCall);
 
-  const [values, setValues] = useState(initialState);
-  const [categories, setCategories] = useState([]);
-  const [subOptions, setSubOptions] = useState([]);
-  const [arrayOfSubs, setArrayOfSubs] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { slug } = useParams();
 
-  const { slug } = match.params;
-
-  const loadProduct = useCallback(() => {
-    getProduct(slug).then((p) => {
-      setValues((values) => ({ ...values, ...p.data }));
-
-      getCategorySubcategories(p.data.category._id).then((res) => {
-        setSubOptions(res.data);
-      });
-
-      const subsIds = p.data.subs.map((s) => s._id);
-      setArrayOfSubs(subsIds);
-    });
-  }, [slug]);
+  const [values, setValues] = useState(initialValues);
 
   useEffect(() => {
-    loadProduct();
-    loadCategories();
-  }, [loadProduct]);
+    dispatch(getProductAction(slug));
+    dispatch(getAllCategoriesAction());
+  }, [dispatch, slug]);
 
-  const loadCategories = () =>
-    getCategories().then((c) => {
-      setCategories(c.data);
-    });
+  useEffect(() => {
+    if (selectedProduct) {
+      dispatch(getCategorySubcategoriesAction(selectedProduct.category._id));
+    }
+  }, [dispatch, selectedProduct]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+      history.push(NAV_LINKS.ADMIN_PRODUCTS.ROUTE);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch, history]);
+
+  // rewrite initialValues with the product values
+  useEffect(() => {
+    if (selectedProduct) {
+      const originalCategoryId = selectedProduct.category._id;
+      const originalSubcategoriesIds = selectedProduct.subcategories.map(
+        (subcategory) => subcategory._id
+      );
+
+      setValues((values) => ({
+        ...values,
+        title: selectedProduct.title,
+        description: selectedProduct.description,
+        price: selectedProduct.price,
+        shipping: selectedProduct.shipping,
+        quantity: selectedProduct.quantity,
+        color: selectedProduct.color,
+        brand: selectedProduct.brand,
+        category: originalCategoryId,
+        subcategories: originalSubcategoriesIds,
+        images: selectedProduct.images,
+      }));
+
+      // save the original values in the initial values to be able to reffer to them later if needed
+      // we need this for setState for handleCategoryChange
+      initialValues.category = originalCategoryId;
+      initialValues.subcategories = originalSubcategoriesIds;
+    }
+  }, [selectedProduct]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    values.subs = arrayOfSubs;
-    values.category = selectedCategory ? selectedCategory : values.category;
-
-    updateProduct(slug, values, user.token)
-      .then((res) => {
-        setLoading(false);
-        toast.success(`"${res.data.title}" is updated`);
-        history.push(NAV_LINKS.ADMIN_PRODUCTS.ROUTE);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        toast.error(err.response.data.err);
-      });
+    dispatch(updateProductAction(slug, values, user.token));
   };
 
   const handleChange = (e) => {
@@ -88,19 +106,17 @@ const ProductUpdate = ({ match, history }) => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values, subs: [] });
 
-    setSelectedCategory(e.target.value);
-
-    getCategorySubcategories(e.target.value).then((res) => {
-      setSubOptions(res.data);
+    setValues({
+      ...values,
+      category: e.target.value,
+      subcategories:
+        e.target.value === initialValues.category
+          ? initialValues.subcategories
+          : [],
     });
 
-    if (values.category._id === e.target.value) {
-      loadProduct();
-    }
-
-    setArrayOfSubs([]);
+    dispatch(getCategorySubcategoriesAction(e.target.value));
   };
 
   return (
@@ -118,24 +134,17 @@ const ProductUpdate = ({ match, history }) => {
           )}
 
           <div className='p-3'>
-            <FileUpload
-              values={values}
-              setValues={setValues}
-              setLoading={setLoading}
-            />
+            <FileUpload values={values} setValues={setValues} />
           </div>
 
           <ProductUpdateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            setValues={setValues}
             values={values}
+            setValues={setValues}
             handleCategoryChange={handleCategoryChange}
-            categories={categories}
-            subOptions={subOptions}
-            arrayOfSubs={arrayOfSubs}
-            setArrayOfSubs={setArrayOfSubs}
-            selectedCategory={selectedCategory}
+            availableCategories={availableCategories}
+            availableSubcategories={availableSubcategories}
           />
           <hr />
         </div>

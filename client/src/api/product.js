@@ -14,6 +14,12 @@ export const createProductCall = (product, authtoken) => {
   });
 };
 
+export const updateProductCall = (slug, product, authtoken) => {
+  return axios.put(`/product/${slug}`, product, {
+    headers: { authtoken },
+  });
+};
+
 export const removeProductCall = (slug, authtoken) => {
   return axios.delete(`/product/${slug}`, {
     headers: { authtoken },
