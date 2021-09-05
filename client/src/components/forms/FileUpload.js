@@ -1,87 +1,80 @@
 import Resizer from 'react-image-file-resizer';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Avatar, Badge } from 'antd';
+import { uploadImageCall, removeImageCall } from '../../api/cloudinary';
 
 const FileUpload = ({ values, setValues }) => {
   const { user } = useSelector((state) => state.user);
 
   const fileUploadAndResize = (e) => {
-    const files = e.target.files;
-    const allUploadedFiles = values.images;
+    const allUploadedFiles = [...values.images];
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        Resizer.imageFileResizer(
-          files[i],
-          720,
-          720,
-          'JPEG',
-          100,
-          0,
-          (uri) => {
-            axios
-              .post(
-                `${process.env.REACT_APP_API}/uploadimages`,
-                { image: uri },
-                { headers: { authtoken: user ? user.token : '' } }
-              )
-              .then((res) => {
-                allUploadedFiles.push(res.data);
+    // loop through all selected files and resize them
+    for (const file of e.target.files) {
+      Resizer.imageFileResizer(
+        file,
+        720,
+        720,
+        'JPEG',
+        100,
+        0,
+        async (uri) => {
+          // send the resized files to the backend to upload the images to cloudinary
+          try {
+            const { data } = await uploadImageCall(uri, user.token);
 
-                setValues({ ...values, images: allUploadedFiles });
-              })
-              .catch((err) => {
-                console.log('CLOUDINARY UPLOAD ERR', err);
-              });
-          },
-          'base64'
-        );
-      }
+            allUploadedFiles.push(data);
+
+            setValues({ ...values, images: allUploadedFiles });
+          } catch (error) {
+            console.log('CLOUDINARY UPLOAD ERROR', error);
+          }
+        },
+        'base64'
+      );
     }
   };
 
-  const handleImageRemove = (public_id) => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API}/removeimage`,
-        { public_id },
-        { headers: { authtoken: user ? user.token : '' } }
-      )
-      .then(() => {
-        const { images } = values;
-        const filteredImages = images.filter(
-          (item) => item.public_id !== public_id
-        );
-        setValues({ ...values, images: filteredImages });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleImageRemove = async (public_id) => {
+    try {
+      // send the image id to the backend to remove it from cloduinary
+      await removeImageCall(public_id, user.token);
+
+      // update the form ininitial values.images
+      const filteredImages = values.images.filter(
+        (img) => img.public_id !== public_id
+      );
+      setValues({ ...values, images: filteredImages });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
       <div className='row'>
-        {values.images.map((image) => (
-          <Badge
-            count='X'
-            key={image.public_id}
-            onClick={() => handleImageRemove(image.public_id)}
-            style={{ cursor: 'pointer' }}
-          >
-            <Avatar
-              src={image.url}
-              size={100}
-              shape='square'
-              className='ml-3'
-            />
-          </Badge>
-        ))}
+        {values.images.map((image) => {
+          return (
+            <Badge
+              count='X'
+              key={image.public_id}
+              onClick={() => handleImageRemove(image.public_id)}
+              style={{ cursor: 'pointer' }}
+            >
+              <Avatar
+                src={image.url}
+                size={80}
+                shape='square'
+                className='ml-3'
+              />
+            </Badge>
+          );
+        })}
       </div>
+
       <div className='row'>
         <label className='btn btn-primary btn-raised mt-3'>
-          Choose File
+          <span>Choose File</span>
           <input
             type='file'
             multiple

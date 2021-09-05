@@ -69,7 +69,7 @@ const ProductCreate = () => {
     setValues({
       ...values,
       category: e.target.value,
-      selectedSubcategories: [],
+      selectedSubcategories: [], // reset previously selected values
     });
 
     dispatch(getCategorySubcategoriesAction(e.target.value));
