@@ -7,8 +7,17 @@ const initialState = {
 
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionType.GET_PRODUCTS:
+      return { ...state, products: action.payload };
+    case actionType.GET_PRODUCT:
+      return { ...state, selectedProduct: action.payload };
     case actionType.CREATE_PRODUCT:
       return { ...state, products: [...state.products, action.payload] };
+    case actionType.REMOVE_PRODUCT:
+      const filteredProducts = state.products.filter(
+        (product) => product.slug !== action.payload
+      );
+      return { ...state, products: filteredProducts };
     default:
       return state;
   }

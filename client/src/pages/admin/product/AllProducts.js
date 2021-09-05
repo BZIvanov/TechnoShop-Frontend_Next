@@ -1,45 +1,38 @@
-import { useEffect, useState } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
-import { getProductsByCount } from '../../../functions/product';
-import AdminProductCard from '../../../components/cards/AdminProductCard';
-import { removeProduct } from '../../../functions/product';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import AdminNav from '../../../components/nav/AdminNav';
+import AdminProductCard from '../../../components/cards/AdminProductCard';
+import {
+  getProductsAction,
+  removeProductAction,
+  apiCallReset,
+} from '../../../store/action-creators';
 
 const AllProducts = () => {
   const { user } = useSelector((state) => state.user);
+  const { products } = useSelector((state) => state.product);
+  const { loading, success, error } = useSelector((state) => state.apiCall);
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const loadAllProducts = () => {
-    setLoading(true);
-    getProductsByCount(100)
-      .then((res) => {
-        setProducts(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    loadAllProducts();
-  }, []);
+    dispatch(getProductsAction(20));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch]);
 
   const handleRemove = (slug) => {
-    if (window.confirm('Delete?')) {
-      removeProduct(slug, user.token)
-        .then((res) => {
-          loadAllProducts();
-          toast.success(`${res.data.title} is deleted`);
-        })
-        .catch((err) => {
-          if (err.response.status === 400) toast.error(err.response.data);
-          console.log(err);
-        });
+    if (window.confirm('Delete the product?')) {
+      dispatch(removeProductAction(slug, user.token));
     }
   };
 

@@ -20,6 +20,19 @@ exports.listProducts = async (req, res) => {
   }
 };
 
+exports.getProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ slug: req.params.slug })
+      .populate('category')
+      .populate('subcategories')
+      .exec();
+
+    res.status(status.OK).json(product);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
+};
+
 exports.createProduct = async (req, res) => {
   try {
     const product = { ...req.body };
@@ -32,15 +45,6 @@ exports.createProduct = async (req, res) => {
   } catch (error) {
     res.status(status.BAD_REQUEST).json({ error });
   }
-};
-
-exports.read = async (req, res) => {
-  const product = await Product.findOne({ slug: req.params.slug })
-    .populate('category')
-    .populate('subcategories')
-    .exec();
-
-  res.json(product);
 };
 
 exports.update = async (req, res) => {
@@ -63,16 +67,13 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.remove = async (req, res) => {
+exports.removeProduct = async (req, res) => {
   try {
-    const deleted = await Product.findOneAndRemove({
-      slug: req.params.slug,
-    }).exec();
+    await Product.findOneAndRemove({ slug: req.params.slug }).exec();
 
-    res.json(deleted);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send('Product delete failed');
+    res.status(status.OK).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 

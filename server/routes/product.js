@@ -2,10 +2,10 @@ const express = require('express');
 const { authCheck, adminCheck } = require('../middlewares/auth');
 const {
   listProducts,
+  getProduct,
   createProduct,
-  read,
+  removeProduct,
   update,
-  remove,
   list,
   productsCount,
   productStar,
@@ -16,11 +16,11 @@ const {
 const router = express.Router();
 
 router.get('/product', listProducts); // ok
+router.get('/product/:slug', getProduct); // ok
 router.post('/product', authCheck, adminCheck, createProduct); // ok
+router.delete('/product/:slug', authCheck, adminCheck, removeProduct); // ok
 router.get('/product/total', productsCount);
-router.get('/product/:slug', read);
 router.put('/product/:slug', authCheck, adminCheck, update);
-router.delete('/product/:slug', authCheck, adminCheck, remove);
 // TODO fix products -> product
 router.post('/products', list);
 router.put('/product/star/:productId', authCheck, productStar);
