@@ -4,7 +4,7 @@ const { Option } = Select;
 
 const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
 const brands = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
-const shipping = ['Yes', 'No'];
+const shippingOptions = ['Yes', 'No'];
 
 const ProductCreateForm = ({
   values,
@@ -12,11 +12,10 @@ const ProductCreateForm = ({
   handleChange,
   handleCategoryChange,
   handleSubmit,
-  showSubcategory,
-  categories,
-  subcategories,
+  availableCategories,
+  availableSubcategories,
 }) => {
-  const { title, description, price, selectedSubcategories, quantity } = values;
+  const { title, description, price, quantity, subcategories } = values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -61,7 +60,7 @@ const ProductCreateForm = ({
           onChange={handleChange}
         >
           <option disabled>Select shipping</option>
-          {shipping.map((c) => (
+          {shippingOptions.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
@@ -111,8 +110,8 @@ const ProductCreateForm = ({
           className='form-control'
           onChange={handleCategoryChange}
         >
-          <option>Select category</option>
-          {categories.map(({ _id, name }) => (
+          <option disabled>Select category</option>
+          {availableCategories.map(({ _id, name }) => (
             <option key={_id} value={_id}>
               {name}
             </option>
@@ -120,26 +119,22 @@ const ProductCreateForm = ({
         </select>
       </div>
 
-      {showSubcategory && (
-        <div>
-          <label>Sub Categories</label>
-          <Select
-            mode='multiple'
-            style={{ width: '100%' }}
-            placeholder='Select subcategories'
-            value={selectedSubcategories}
-            onChange={(value) => {
-              setValues({ ...values, selectedSubcategories: value });
-            }}
-          >
-            {subcategories.map(({ _id, name }) => (
-              <Option key={_id} value={_id}>
-                {name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-      )}
+      <div>
+        <label>Sub Categories</label>
+        <Select
+          mode='multiple'
+          style={{ width: '100%' }}
+          placeholder='Select subcategories'
+          value={subcategories}
+          onChange={(value) => setValues({ ...values, subcategories: value })}
+        >
+          {availableSubcategories.map(({ _id, name }) => (
+            <Option key={_id} value={_id}>
+              {name}
+            </Option>
+          ))}
+        </Select>
+      </div>
 
       <br />
       <button className='btn btn-outline-info'>Save</button>
