@@ -6,8 +6,6 @@ const {
   createProduct,
   updateProduct,
   removeProduct,
-  list,
-  productsCount,
   productStar,
   listRelated,
   searchFilters,
@@ -15,14 +13,11 @@ const {
 
 const router = express.Router();
 
-router.get('/product', listProducts); // ok
-router.get('/product/:slug', getProduct); // ok
-router.post('/product', authCheck, adminCheck, createProduct); // ok
-router.put('/product/:slug', authCheck, adminCheck, updateProduct); // ok
-router.delete('/product/:slug', authCheck, adminCheck, removeProduct); // ok
-router.get('/product/total', productsCount);
-// TODO fix products -> product
-router.post('/products', list);
+router.get('/product', listProducts);
+router.get('/product/:slug', getProduct);
+router.post('/product', authCheck, adminCheck, createProduct);
+router.put('/product/:slug', authCheck, adminCheck, updateProduct);
+router.delete('/product/:slug', authCheck, adminCheck, removeProduct);
 router.put('/product/star/:productId', authCheck, productStar);
 router.get('/product/related/:productId', listRelated);
 router.post('/search/filters', searchFilters);

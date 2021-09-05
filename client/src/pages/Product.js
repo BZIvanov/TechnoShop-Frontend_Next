@@ -1,52 +1,47 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getProduct, productStar } from '../functions/product';
 import SingleProduct from '../components/cards/SingleProduct';
-import { useSelector } from 'react-redux';
 import { getRelated } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
+import { getProductAction } from '../store/action-creators';
 
-const Product = ({ match }) => {
-  const [product, setProduct] = useState({});
+const Product = () => {
+  const { user } = useSelector((state) => state.user);
+  const { selectedProduct: product } = useSelector((state) => state.product);
+
   const [related, setRelated] = useState([]);
   const [star, setStar] = useState(0);
 
-  const { user } = useSelector((state) => state.user);
+  const { slug } = useParams();
+  const dispatch = useDispatch();
 
-  const { slug } = match.params;
-
-  const loadSingleProduct = useCallback(
-    () =>
-      getProduct(slug)
-        .then((res) => {
-          setProduct(res.data);
-
-          getRelated(res.data._id)
-            .then((res) => setRelated(res.data))
-            .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err)),
-    [slug]
+  const loadSingleProduct = useCallback(() =>
+    getProduct(slug).then((res) => {
+      getRelated(res.data._id).then((res) => setRelated(res.data));
+    })
   );
 
   useEffect(() => {
-    loadSingleProduct();
-  }, [loadSingleProduct, slug]);
+    dispatch(getProductAction(slug));
+  }, [dispatch, slug]);
 
   useEffect(() => {
-    if (product.ratings && user) {
+    if (product && product.ratings && user) {
       const existingRatingObject = product.ratings.find(
         (ele) => ele.postedBy.toString() === user._id.toString()
       );
       existingRatingObject && setStar(existingRatingObject.star);
     }
-  }, [product.ratings, user]);
+  }, [product, user]);
 
   const onStarClick = (newRating, name) => {
     setStar(newRating);
 
     productStar(name, newRating, user.token)
       .then(() => {
-        loadSingleProduct();
+        // loadSingleProduct();
       })
       .catch((err) => console.log(err));
   };
@@ -54,11 +49,13 @@ const Product = ({ match }) => {
   return (
     <div className='container-fluid'>
       <div className='row pt-4'>
-        <SingleProduct
-          product={product}
-          onStarClick={onStarClick}
-          star={star}
-        />
+        {product && (
+          <SingleProduct
+            product={product}
+            onStarClick={onStarClick}
+            star={star}
+          />
+        )}
       </div>
 
       <div className='row'>

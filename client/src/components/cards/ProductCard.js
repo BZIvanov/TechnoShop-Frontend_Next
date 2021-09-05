@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
-import { Link } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
-import { useDispatch } from 'react-redux';
+import { NAV_LINKS } from '../../constants';
 
 const { Meta } = Card;
 
@@ -66,7 +67,7 @@ const ProductCard = ({ product }) => {
           />
         }
         actions={[
-          <Link to={`/product/${slug}`}>
+          <Link to={`${NAV_LINKS.PRODUCT.ROUTE}/${slug}`}>
             <EyeOutlined className='text-warning' /> <br /> View Product
           </Link>,
           <Tooltip title={tooltip}>

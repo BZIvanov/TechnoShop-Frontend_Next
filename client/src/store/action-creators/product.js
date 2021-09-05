@@ -33,12 +33,12 @@ export const removeProductType = (slug) => ({
   payload: slug,
 });
 
-export const getProductsAction = (count) => {
+export const getProductsAction = (config) => {
   return async (dispatch) => {
     dispatch(apiCallStart());
 
     try {
-      const { data } = await getProductsCall(count);
+      const { data } = await getProductsCall(config);
 
       dispatch(apiCallSuccess());
       dispatch(getProductsType(data));

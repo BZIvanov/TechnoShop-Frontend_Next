@@ -5,16 +5,27 @@ const User = require('../models/user');
 
 exports.listProducts = async (req, res) => {
   try {
-    const count = parseInt(req.query.count || 5, 10);
+    const {
+      sortColumn = 'createdAt',
+      order = 'desc',
+      page,
+      perPage,
+    } = req.query;
+
+    const pageNumber = parseInt(page || 1, 10);
+    const perPageNumber = parseInt(perPage || 10, 10);
 
     const products = await Product.find()
-      .limit(count)
+      .skip((pageNumber - 1) * perPageNumber)
+      .limit(perPageNumber)
       .populate('category')
       .populate('subcategories')
-      .sort([['createdAt', 'desc']])
+      .sort([[sortColumn, order]])
       .exec();
 
-    res.status(status.OK).json(products);
+    const totalCount = await Product.find().estimatedDocumentCount().exec();
+
+    res.status(status.OK).json({ totalCount, products });
   } catch (error) {
     res.status(status.INTERNAL_SERVER_ERROR).json({ error });
   }
@@ -71,31 +82,6 @@ exports.removeProduct = async (req, res) => {
   } catch (error) {
     res.status(status.BAD_REQUEST).json({ error });
   }
-};
-
-exports.list = async (req, res) => {
-  try {
-    const { sort, order, page } = req.body;
-    const currentPage = page || 1;
-    const perPage = 3;
-
-    const products = await Product.find({})
-      .skip((currentPage - 1) * perPage)
-      .populate('category')
-      .populate('subcategories')
-      .sort([[sort, order]])
-      .limit(perPage)
-      .exec();
-
-    res.json(products);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-exports.productsCount = async (req, res) => {
-  const total = await Product.find({}).estimatedDocumentCount().exec();
-  res.json(total);
 };
 
 exports.productStar = async (req, res) => {
