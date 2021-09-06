@@ -11,7 +11,7 @@ import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
 import { PRODUCT_TYPES_FETCH } from '../../constants';
 
-export const getProductsType = (products, config) => {
+export const getProductsType = (products, config = {}) => {
   let type = actionType.GET_ALL_PRODUCTS;
   if (config.productsType === PRODUCT_TYPES_FETCH.NEWEST) {
     type = actionType.GET_NEWEST_PRODUCTS;

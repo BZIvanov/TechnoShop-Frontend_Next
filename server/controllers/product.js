@@ -3,6 +3,42 @@ const slugify = require('slugify');
 const Product = require('../models/product');
 const User = require('../models/user');
 
+const handleStars = (stars) => {
+  return Product.aggregate([
+    {
+      $project: {
+        document: '$$ROOT',
+        cailAverage: {
+          $ceil: { $avg: '$ratings.star' },
+        },
+      },
+    },
+    { $match: { cailAverage: parseInt(stars, 10) } },
+  ]);
+};
+
+const handleQueryParams = async (params) => {
+  const { text, price, categories, stars } = params;
+
+  const aggregates = stars && (await handleStars(stars));
+
+  const build = {
+    ...(text && { $text: { $search: text } }),
+    ...(price && {
+      price: {
+        $gte: parseInt(price.split(',')[0], 10),
+        $lte: parseInt(price.split(',')[1], 10),
+      },
+    }),
+    ...(categories && {
+      category: categories.split(','),
+    }),
+    ...(stars && { _id: aggregates }),
+  };
+
+  return build;
+};
+
 exports.listProducts = async (req, res) => {
   try {
     const {
@@ -10,12 +46,16 @@ exports.listProducts = async (req, res) => {
       order = 'desc',
       page,
       perPage,
+      ...rest
     } = req.query;
+
+    const builder = await handleQueryParams(rest);
+    console.log(builder);
 
     const pageNumber = parseInt(page || 1, 10);
     const perPageNumber = parseInt(perPage || 10, 10);
 
-    const products = await Product.find()
+    const products = await Product.find(builder)
       .skip((pageNumber - 1) * perPageNumber)
       .limit(perPageNumber)
       .populate('category')
@@ -141,81 +181,6 @@ exports.listSimilarProducts = async (req, res) => {
   } catch (error) {
     res.status(status.INTERNAL_SERVER_ERROR).json({ error });
   }
-};
-
-const handleQuery = async (req, res, query) => {
-  try {
-    const products = await Product.find({ $text: { $search: query } })
-      .populate('category', '_id name')
-      .populate('subcategories', '_id name')
-      .populate('postedBy', '_id name')
-      .exec();
-
-    res.json(products);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const handlePrice = async (req, res, price) => {
-  try {
-    const products = await Product.find({
-      price: {
-        $gte: price[0],
-        $lte: price[1],
-      },
-    })
-      .populate('category', '_id name')
-      .populate('subcategories', '_id name')
-      .populate('postedBy', '_id name')
-      .exec();
-
-    res.json(products);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const handleCategory = async (req, res, category) => {
-  try {
-    const products = await Product.find({ category })
-      .populate('category', '_id name')
-      .populate('subcategories', '_id name')
-      .populate('postedBy', '_id name')
-      .exec();
-
-    res.json(products);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const handleStar = (req, res, stars) => {
-  Product.aggregate([
-    {
-      $project: {
-        document: '$$ROOT',
-        floorAverage: {
-          $floor: { $avg: '$ratings.star' },
-        },
-      },
-    },
-    { $match: { floorAverage: stars } },
-  ])
-    .limit(12)
-    .exec((err, aggregates) => {
-      if (err) console.log('AGGREGATE ERROR', err);
-
-      Product.find({ _id: aggregates })
-        .populate('category', '_id name')
-        .populate('subcategories', '_id name')
-        .populate('postedBy', '_id name')
-        .exec((err, products) => {
-          if (err) console.log('PRODUCT AGGREGATE ERROR', err);
-
-          res.json(products);
-        });
-    });
 };
 
 const handleSubCategory = async (req, res, sub) => {
