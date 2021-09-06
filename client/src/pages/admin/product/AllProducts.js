@@ -8,16 +8,17 @@ import {
   removeProductAction,
   apiCallReset,
 } from '../../../store/action-creators';
+import { PRODUCT_TYPES_FETCH } from '../../../constants';
 
 const AllProducts = () => {
   const { user } = useSelector((state) => state.user);
-  const { products } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product.allProducts);
   const { loading, success, error } = useSelector((state) => state.apiCall);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProductsAction());
+    dispatch(getProductsAction({ productsType: PRODUCT_TYPES_FETCH.ALL }));
   }, [dispatch]);
 
   useEffect(() => {

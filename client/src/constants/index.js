@@ -34,3 +34,9 @@ export const JUMBOTRON_TEXTS = [
 ];
 
 export const HOME_PAGE_CARDS_COUNT = 3;
+
+export const PRODUCT_TYPES_FETCH = {
+  ALL: 'all',
+  NEWEST: 'newest',
+  BESTSELLING: 'bestselling',
+};

@@ -25,3 +25,9 @@ export const removeProductCall = (slug, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const rateProductCall = (productId, rating, authtoken) => {
+  return axios.put(`/product/${productId}/rate`, rating, {
+    headers: { authtoken },
+  });
+};

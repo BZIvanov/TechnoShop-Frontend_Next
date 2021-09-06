@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Card, Tabs, Tooltip } from 'antd';
@@ -7,24 +7,41 @@ import { Carousel } from 'react-responsive-carousel';
 import StarRating from 'react-star-ratings';
 import { toast } from 'react-toastify';
 import ProductListItems from './ProductListItems';
+import StarsRating from '../common/StarsRating';
 import RatingModal from '../modal/RatingModal';
-import { showAverage } from '../../functions/rating';
 import { addToWishlist } from '../../functions/user';
 import { NAV_LINKS } from '../../constants';
 import Laptop from '../../images/laptop.png';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { rateProductAction } from '../../store/action-creators';
 
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product, star, onStarClick }) => {
-  const { title, images, description, _id } = product;
-
+const SingleProduct = ({ product }) => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [tooltip, setTooltip] = useState('Click to add');
+  const [star, setStar] = useState(0);
+
+  // check if the user already rated the product and use his rating
+  useEffect(() => {
+    const userRating = product.ratings.find(
+      (rating) => rating.postedBy.toString() === user._id.toString()
+    );
+    userRating && setStar(userRating.star);
+  }, [product.ratings, user._id]);
+
+  // call the backend with the new rating
+  const rateProduct = () => {
+    dispatch(rateProductAction(product._id, { rating: star }, user.token));
+  };
+
+  const onStarClick = (newRating) => {
+    setStar(newRating);
+  };
 
   const handleAddToCart = () => {
     let cart = [];
@@ -67,9 +84,9 @@ const SingleProduct = ({ product, star, onStarClick }) => {
   return (
     <>
       <div className='col-md-7'>
-        {images && images.length ? (
+        {product.images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
-            {images.map(({ url, public_id }) => (
+            {product.images.map(({ url, public_id }) => (
               <img src={url} key={public_id} alt='product-preview' />
             ))}
           </Carousel>
@@ -87,19 +104,19 @@ const SingleProduct = ({ product, star, onStarClick }) => {
 
         <Tabs type='card'>
           <TabPane tab='Description' key='1'>
-            {description}
+            {product.description}
           </TabPane>
           <TabPane tab='More' key='2'>
-            Call use on xxxx xxx xxx to learn more about this product.
+            Call use on 0897 654 321 to learn more about this product.
           </TabPane>
         </Tabs>
       </div>
 
       <div className='col-md-5'>
-        <h1 className='bg-info p-3'>{title}</h1>
+        <h1 className='bg-info p-3'>{product.title}</h1>
 
         {product.ratings.length > 0 ? (
-          showAverage(product)
+          <StarsRating ratings={product.ratings} />
         ) : (
           <div className='text-center pt-1 pb-3'>No rating yet</div>
         )}
@@ -115,9 +132,9 @@ const SingleProduct = ({ product, star, onStarClick }) => {
             <span onClick={handleAddToWishlist}>
               <HeartOutlined className='text-info' /> <br /> Add to Wishlist
             </span>,
-            <RatingModal>
+            <RatingModal rateProduct={rateProduct}>
               <StarRating
-                name={_id}
+                name={product._id}
                 numberOfStars={5}
                 rating={star}
                 changeRating={onStarClick}

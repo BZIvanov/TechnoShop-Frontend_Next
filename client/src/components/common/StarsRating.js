@@ -1,9 +1,11 @@
 import StarRating from 'react-star-ratings';
 
-export const showAverage = (p) => {
-  const allStarsSum = p.ratings.map((r) => r.star).reduce((p, n) => p + n, 0);
+const StarsRating = ({ ratings }) => {
+  const allStarsSum = ratings
+    .map((rating) => rating.star)
+    .reduce((total, star) => total + star, 0);
 
-  const result = (allStarsSum * 5) / (p.ratings.length * 5);
+  const result = (allStarsSum * 5) / (ratings.length * 5);
 
   return (
     <div className='text-center pt-1 pb-3'>
@@ -15,8 +17,10 @@ export const showAverage = (p) => {
           rating={result}
           editing={false}
         />{' '}
-        ({p.ratings.length})
+        ({ratings.length})
       </span>
     </div>
   );
 };
+
+export default StarsRating;

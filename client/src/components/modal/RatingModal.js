@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Modal } from 'antd';
-import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { StarOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom';
+import { Modal } from 'antd';
+import { StarOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 import { NAV_LINKS } from '../../constants';
 
-const RatingModal = ({ children }) => {
+const RatingModal = ({ children, rateProduct }) => {
   const { user } = useSelector((state) => state.user);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -14,7 +14,7 @@ const RatingModal = ({ children }) => {
   const { slug } = useParams();
 
   const handleModal = () => {
-    if (user && user.token) {
+    if (user) {
       setModalVisible(true);
     } else {
       history.push({
@@ -37,7 +37,7 @@ const RatingModal = ({ children }) => {
         visible={modalVisible}
         onOk={() => {
           setModalVisible(false);
-          toast.success('Thanks for your review. It will appear soon');
+          rateProduct();
         }}
         onCancel={() => setModalVisible(false)}
       >

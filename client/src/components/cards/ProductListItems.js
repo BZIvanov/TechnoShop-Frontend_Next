@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import ProductListItem from './ProductListItem';
+import LinkTo from '../common/LinkTo';
+import { NAV_LINKS } from '../../constants';
 
 const ProductListItems = ({ product }) => {
   const {
     price,
     category,
-    subs,
+    subcategories,
     shipping,
     color,
     brand,
@@ -14,74 +16,36 @@ const ProductListItems = ({ product }) => {
 
   return (
     <ul className='list-group'>
-      <li className='list-group-item'>
-        Price{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          $ {price}
-        </span>
-      </li>
+      <ProductListItem label='Price' text={`$ ${price}`} />
 
       {category && (
         <li className='list-group-item'>
-          Category{' '}
-          <Link
-            to={`/category/${category.slug}`}
-            className='label label-default label-pill pull-xs-right'
-          >
-            {category.name}
-          </Link>
+          Category
+          <LinkTo
+            linkTo={`${NAV_LINKS.CATEGORY.ROUTE}/${category.slug}`}
+            text={category.name}
+          />
         </li>
       )}
 
-      {subs && subs.length > 0 && (
+      {subcategories.length > 0 && (
         <li className='list-group-item'>
           Sub Categories
-          {subs.map((s) => (
-            <Link
-              key={s._id}
-              to={`/sub/${s.slug}`}
-              className='label label-default label-pill pull-xs-right'
-            >
-              {s.name}
-            </Link>
+          {subcategories.map(({ _id, slug, name }) => (
+            <LinkTo
+              key={_id}
+              linkTo={`${NAV_LINKS.SUBCATEGORY.ROUTE}/${slug}`}
+              text={name}
+            />
           ))}
         </li>
       )}
 
-      <li className='list-group-item'>
-        Shipping{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          {shipping}
-        </span>
-      </li>
-
-      <li className='list-group-item'>
-        Color{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          {color}
-        </span>
-      </li>
-
-      <li className='list-group-item'>
-        Brand{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          {brand}
-        </span>
-      </li>
-
-      <li className='list-group-item'>
-        Available{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          {quantity}
-        </span>
-      </li>
-
-      <li className='list-group-item'>
-        Sold{' '}
-        <span className='label label-default label-pill pull-xs-right'>
-          {sold}
-        </span>
-      </li>
+      <ProductListItem label='Shipping' text={shipping} />
+      <ProductListItem label='Color' text={color} />
+      <ProductListItem label='Brand' text={brand} />
+      <ProductListItem label='Available' text={quantity} />
+      <ProductListItem label='Sold' text={sold} />
     </ul>
   );
 };

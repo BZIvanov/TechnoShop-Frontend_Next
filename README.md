@@ -7,3 +7,5 @@ Ecommerce styled application.
 Google Firebase account - required for authentication.
 
 Cloudinary account - required for storing images.
+
+Stripe - required for online payments.

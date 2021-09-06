@@ -4,10 +4,14 @@ import { Pagination } from 'antd';
 import ProductCard from '../cards/ProductCard';
 import LoadingCard from '../cards/LoadingCard';
 import { getProductsAction } from '../../store/action-creators';
-import { HOME_PAGE_CARDS_COUNT } from '../../constants';
+import { HOME_PAGE_CARDS_COUNT, PRODUCT_TYPES_FETCH } from '../../constants';
 
-const FeaturedProducts = ({ sortColumn }) => {
-  const { totalCount, products } = useSelector((state) => state.product);
+const FeaturedProducts = ({ type }) => {
+  const { totalCount, products } = useSelector(({ product }) =>
+    type === PRODUCT_TYPES_FETCH.NEWEST
+      ? product.newestProducts
+      : product.bestsellingProducts
+  );
   const { loading } = useSelector((state) => state.apiCall);
 
   const dispatch = useDispatch();
@@ -17,12 +21,13 @@ const FeaturedProducts = ({ sortColumn }) => {
   useEffect(() => {
     dispatch(
       getProductsAction({
+        productsType: type,
         page,
         perPage: HOME_PAGE_CARDS_COUNT,
-        sortColumn,
+        sortColumn: type === PRODUCT_TYPES_FETCH.NEWEST ? 'createdAt' : 'sold',
       })
     );
-  }, [dispatch, page]);
+  }, [dispatch, page, type]);
 
   return (
     <>
