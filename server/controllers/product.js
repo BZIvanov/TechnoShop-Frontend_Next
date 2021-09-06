@@ -120,20 +120,27 @@ exports.rateProduct = async (req, res) => {
   res.status(status.OK).json(updatedProduct);
 };
 
-exports.listRelated = async (req, res) => {
-  const product = await Product.findById(req.params.productId).exec();
+exports.listSimilarProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id).exec();
 
-  const related = await Product.find({
-    _id: { $ne: product._id },
-    category: product.category,
-  })
-    .limit(3)
-    .populate('category')
-    .populate('subcategories')
-    .populate('postedBy')
-    .exec();
+    const numberOfProducts = 3;
+    const similarProducts = await Product.find({
+      _id: { $ne: product._id },
+      category: product.category,
+    })
+      .limit(numberOfProducts)
+      .populate('category')
+      .populate('subcategories')
+      .populate('postedBy')
+      .exec();
 
-  res.json(related);
+    res
+      .status(status.OK)
+      .json({ totalCount: numberOfProducts, products: similarProducts });
+  } catch (error) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ error });
+  }
 };
 
 const handleQuery = async (req, res, query) => {
