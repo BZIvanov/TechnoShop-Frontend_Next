@@ -32,6 +32,8 @@ const SingleProduct = ({ product }) => {
       (rating) => rating.postedBy.toString() === user._id.toString()
     );
     userRating && setStar(userRating.star);
+
+    return () => setStar(0);
   }, [product.ratings, user._id]);
 
   // call the backend with the new rating
@@ -118,7 +120,7 @@ const SingleProduct = ({ product }) => {
         {product.ratings.length > 0 ? (
           <StarsRating ratings={product.ratings} />
         ) : (
-          <div className='text-center pt-1 pb-3'>No rating yet</div>
+          <div className='text-center pt-1 pb-3'>Not rated yet</div>
         )}
 
         <Card
@@ -132,7 +134,7 @@ const SingleProduct = ({ product }) => {
             <span onClick={handleAddToWishlist}>
               <HeartOutlined className='text-info' /> <br /> Add to Wishlist
             </span>,
-            <RatingModal rateProduct={rateProduct}>
+            <RatingModal rateProduct={rateProduct} userRated={star > 0}>
               <StarRating
                 name={product._id}
                 numberOfStars={5}

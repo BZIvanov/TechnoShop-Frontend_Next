@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/cards/ProductCard';
-import { getCategoryAction } from '../../store/action-creators';
+import { getSubcategoryAction } from '../../store/action-creators';
 
-const CategoryHome = () => {
-  const selectedCategory = useSelector(
-    (state) => state.category.selectedCategory
+const SubcategoryHome = () => {
+  const selectedSubcategory = useSelector(
+    (state) => state.subcategory.selectedSubcategory
   );
   const { loading } = useSelector((state) => state.apiCall);
 
@@ -14,12 +14,12 @@ const CategoryHome = () => {
   const { slug } = useParams();
 
   useEffect(() => {
-    dispatch(getCategoryAction(slug));
+    dispatch(getSubcategoryAction(slug));
   }, [dispatch, slug]);
 
   return (
     <div className='container-fluid'>
-      {selectedCategory && (
+      {selectedSubcategory && (
         <>
           <div className='row'>
             <div className='col'>
@@ -29,15 +29,15 @@ const CategoryHome = () => {
                 </h4>
               ) : (
                 <h4 className='text-center p-3 mt-5 mb-5 display-4 jumbotron'>
-                  {selectedCategory.products.length} Products in "
-                  {selectedCategory.name}" category
+                  {selectedSubcategory.products.length} Products in "
+                  {selectedSubcategory.name}" subcategory
                 </h4>
               )}
             </div>
           </div>
 
           <div className='row'>
-            {selectedCategory.products.map((product) => (
+            {selectedSubcategory.products.map((product) => (
               <div className='col' key={product._id}>
                 <ProductCard product={product} />
               </div>
@@ -49,4 +49,4 @@ const CategoryHome = () => {
   );
 };
 
-export default CategoryHome;
+export default SubcategoryHome;

@@ -4,6 +4,7 @@ const initialState = {
   allProducts: { products: [], totalCount: 0 },
   newestProducts: { products: [], totalCount: 0 },
   bestsellingProducts: { products: [], totalCount: 0 },
+  similarProducts: { products: [], totalCount: 0 },
   selectedProduct: null,
 };
 
@@ -29,6 +30,14 @@ export const productReducer = (state = initialState, action) => {
       return {
         ...state,
         bestsellingProducts: {
+          totalCount: action.payload.totalCount,
+          products: action.payload.products,
+        },
+      };
+    case actionType.GET_SIMILAR_PRODUCTS:
+      return {
+        ...state,
+        similarProducts: {
           totalCount: action.payload.totalCount,
           products: action.payload.products,
         },

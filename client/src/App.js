@@ -37,7 +37,9 @@ const History = lazy(() => import('./pages/user/History'));
 const Wishlist = lazy(() => import('./pages/user/Wishlist'));
 const Product = lazy(() => import('./pages/Product'));
 const CategoryHome = lazy(() => import('./pages/category/CategoryHome'));
-const SubHome = lazy(() => import('./pages/sub/SubHome'));
+const SubcategoryHome = lazy(() =>
+  import('./pages/sub-category/SubcategoryHome')
+);
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
@@ -167,7 +169,7 @@ const App = () => {
         <Route
           exact
           path={`${NAV_LINKS.SUBCATEGORY.ROUTE}${NAV_LINKS.SLUG.ROUTE}`}
-          component={SubHome}
+          component={SubcategoryHome}
         />
         <Route exact path={NAV_LINKS.SHOP.ROUTE} component={Shop} />
         <Route exact path={NAV_LINKS.CART.ROUTE} component={Cart} />

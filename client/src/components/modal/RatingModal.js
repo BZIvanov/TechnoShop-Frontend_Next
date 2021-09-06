@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Modal } from 'antd';
-import { StarOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
+import { StarFilled, StarOutlined } from '@ant-design/icons';
 import { NAV_LINKS } from '../../constants';
 
-const RatingModal = ({ children, rateProduct }) => {
+const RatingModal = ({ children, rateProduct, userRated }) => {
   const { user } = useSelector((state) => state.user);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,7 +26,12 @@ const RatingModal = ({ children, rateProduct }) => {
   return (
     <>
       <div onClick={handleModal}>
-        <StarOutlined className='text-danger' /> <br />{' '}
+        {userRated ? (
+          <StarFilled className='text-danger' />
+        ) : (
+          <StarOutlined className='text-danger' />
+        )}
+        <br />
         {user ? 'Leave rating' : 'Login to leave rating'}
       </div>
 

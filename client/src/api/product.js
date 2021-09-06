@@ -31,3 +31,7 @@ export const rateProductCall = (productId, rating, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const getSimilarProductsCall = (productId) => {
+  return axios.get(`/product/${productId}/similar`);
+};

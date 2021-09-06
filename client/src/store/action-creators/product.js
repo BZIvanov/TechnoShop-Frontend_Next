@@ -5,6 +5,7 @@ import {
   updateProductCall,
   removeProductCall,
   rateProductCall,
+  getSimilarProductsCall,
 } from '../../api/product';
 import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
@@ -42,6 +43,11 @@ export const updateProductType = (product) => ({
 export const removeProductType = (slug) => ({
   type: actionType.REMOVE_PRODUCT,
   payload: slug,
+});
+
+export const getSimilarProductsType = (products) => ({
+  type: actionType.GET_SIMILAR_PRODUCTS,
+  payload: products,
 });
 
 export const getProductsAction = (config) => {
@@ -130,6 +136,21 @@ export const rateProductAction = (productId, rating, authtoken) => {
       dispatch(getProductType(data));
     } catch (error) {
       dispatch(apiCallFail('Rate product error'));
+    }
+  };
+};
+
+export const getSimilarProductsAction = (productId) => {
+  return async (dispatch) => {
+    dispatch(apiCallStart());
+
+    try {
+      const { data } = await getSimilarProductsCall(productId);
+
+      dispatch(apiCallSuccess());
+      dispatch(getSimilarProductsType(data));
+    } catch (error) {
+      dispatch(apiCallFail('Get similar products error'));
     }
   };
 };

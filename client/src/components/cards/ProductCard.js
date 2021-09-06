@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import StarsRating from '../common/StarsRating';
 import laptop from '../../images/laptop.png';
-import { showAverage } from '../../functions/rating';
 import { NAV_LINKS } from '../../constants';
 
 const { Meta } = Card;
@@ -51,10 +51,10 @@ const ProductCard = ({ product }) => {
 
   return (
     <>
-      {product && product.ratings && product.ratings.length > 0 ? (
-        showAverage(product)
+      {product.ratings.length > 0 ? (
+        <StarsRating ratings={product.ratings} />
       ) : (
-        <div className='text-center pt-1 pb-3'>No rating yet</div>
+        <div className='text-center pt-1 pb-3'>Not rated yet</div>
       )}
 
       <Card
