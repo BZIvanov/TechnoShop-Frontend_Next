@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,26 +9,14 @@ import { createOrUpdateUser } from '../../store/action-creators';
 import { NAV_LINKS } from '../../constants';
 
 const Login = () => {
+  const { user } = useSelector((state) => state.user);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const history = useHistory();
-  const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    const intended = history.location.state;
-
-    if (intended) {
-      return;
-    } else {
-      if (user && user.token) {
-        history.push(NAV_LINKS.ROOT.ROUTE);
-      }
-    }
-  }, [user, history]);
-
-  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

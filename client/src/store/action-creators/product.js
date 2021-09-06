@@ -4,18 +4,29 @@ import {
   createProductCall,
   updateProductCall,
   removeProductCall,
+  rateProductCall,
 } from '../../api/product';
 import { apiCallStart, apiCallSuccess, apiCallFail } from './';
 import { actionType } from '../action-types';
+import { PRODUCT_TYPES_FETCH } from '../../constants';
 
-export const getProductsType = (products) => ({
-  type: actionType.GET_PRODUCTS,
-  payload: products,
-});
+export const getProductsType = (products, config) => {
+  let type = actionType.GET_ALL_PRODUCTS;
+  if (config.productsType === PRODUCT_TYPES_FETCH.NEWEST) {
+    type = actionType.GET_NEWEST_PRODUCTS;
+  } else if (config.productsType === PRODUCT_TYPES_FETCH.BESTSELLING) {
+    type = actionType.GET_BESTSELLING_PRODUCTS;
+  }
 
-export const getProductType = (category) => ({
+  return {
+    type,
+    payload: products,
+  };
+};
+
+export const getProductType = (product) => ({
   type: actionType.GET_PRODUCT,
-  payload: category,
+  payload: product,
 });
 
 export const createProductType = (product) => ({
@@ -41,7 +52,7 @@ export const getProductsAction = (config) => {
       const { data } = await getProductsCall(config);
 
       dispatch(apiCallSuccess());
-      dispatch(getProductsType(data));
+      dispatch(getProductsType(data, config));
     } catch (error) {
       dispatch(apiCallFail('Get products error'));
     }
@@ -104,6 +115,21 @@ export const removeProductAction = (slug, token) => {
       dispatch(removeProductType(slug));
     } catch (error) {
       dispatch(apiCallFail('Remove product error'));
+    }
+  };
+};
+
+export const rateProductAction = (productId, rating, authtoken) => {
+  return async (dispatch) => {
+    dispatch(apiCallStart());
+
+    try {
+      const { data } = await rateProductCall(productId, rating, authtoken);
+
+      dispatch(apiCallSuccess('Rated successfuly'));
+      dispatch(getProductType(data));
+    } catch (error) {
+      dispatch(apiCallFail('Rate product error'));
     }
   };
 };

@@ -6,7 +6,7 @@ const {
   createProduct,
   updateProduct,
   removeProduct,
-  productStar,
+  rateProduct,
   listRelated,
   searchFilters,
 } = require('../controllers/product');
@@ -18,7 +18,7 @@ router.get('/product/:slug', getProduct);
 router.post('/product', authCheck, adminCheck, createProduct);
 router.put('/product/:slug', authCheck, adminCheck, updateProduct);
 router.delete('/product/:slug', authCheck, adminCheck, removeProduct);
-router.put('/product/star/:productId', authCheck, productStar);
+router.put('/product/:id/rate', authCheck, rateProduct);
 router.get('/product/related/:productId', listRelated);
 router.post('/search/filters', searchFilters);
 

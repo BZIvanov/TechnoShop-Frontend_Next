@@ -84,36 +84,40 @@ exports.removeProduct = async (req, res) => {
   }
 };
 
-exports.productStar = async (req, res) => {
-  const product = await Product.findById(req.params.productId).exec();
+exports.rateProduct = async (req, res) => {
+  const { rating: userRating } = req.body;
+
+  const product = await Product.findById(req.params.id).exec();
   const user = await User.findOne({ email: req.user.email }).exec();
-  const { star } = req.body;
 
   const existingRatingObject = product.ratings.find(
-    (ele) => ele.postedBy.toString() === user._id.toString()
+    (rating) => rating.postedBy.toString() === user._id.toString()
   );
 
-  if (existingRatingObject === undefined) {
-    const ratingAdded = await Product.findByIdAndUpdate(
-      product._id,
-      {
-        $push: { ratings: { star, postedBy: user._id } },
-      },
-      { new: true }
-    ).exec();
-
-    res.json(ratingAdded);
-  } else {
-    const ratingUpdated = await Product.updateOne(
+  if (existingRatingObject) {
+    await Product.updateOne(
       {
         ratings: { $elemMatch: existingRatingObject },
       },
-      { $set: { 'ratings.$.star': star } },
+      { $set: { 'ratings.$.star': userRating } },
       { new: true }
     ).exec();
-
-    res.json(ratingUpdated);
+  } else {
+    await Product.findByIdAndUpdate(
+      product._id,
+      {
+        $push: { ratings: { star: userRating, postedBy: user._id } },
+      },
+      { new: true }
+    ).exec();
   }
+
+  const updatedProduct = await Product.findById(req.params.id)
+    .populate('category')
+    .populate('subcategories')
+    .exec();
+
+  res.status(status.OK).json(updatedProduct);
 };
 
 exports.listRelated = async (req, res) => {
