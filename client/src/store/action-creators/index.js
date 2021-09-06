@@ -3,3 +3,4 @@ export * from './auth';
 export * from './category';
 export * from './sub-category';
 export * from './product';
+export * from './search';
