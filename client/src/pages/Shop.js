@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Slider, Checkbox, Radio } from 'antd';
 import {
@@ -6,20 +6,17 @@ import {
   DownSquareOutlined,
   StarOutlined,
 } from '@ant-design/icons';
-import { fetchProductsByFilter } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
-import Star from '../components/forms/Star';
+import Star from '../components/common/Star';
 import {
   getProductsAction,
   getAllCategoriesAction,
   getAllSubcategoriesAction,
   searchAction,
 } from '../store/action-creators';
+import { BRANDS_LIST, COLORS_LIST, SHIPPING_OPTIONS } from '../constants';
 
 const { SubMenu } = Menu;
-
-const brands = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
-const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
 
 const Shop = () => {
   const {
@@ -27,20 +24,20 @@ const Shop = () => {
     price,
     categories: searchedCategories,
     stars,
+    subcategory,
+    brands: searchedBrands,
+    colors: searchedColors,
+    shipping: searchedShipping,
   } = useSelector((state) => state.search);
   const { products } = useSelector((state) => state.product.allProducts);
   const { categories } = useSelector((state) => state.category);
   const { subcategories } = useSelector((state) => state.subcategory);
   const { loading } = useSelector((state) => state.apiCall);
 
-  const [brand, setBrand] = useState('');
-  const [color, setColor] = useState('');
-  const [shipping, setShipping] = useState('');
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProductsAction({ text }));
+    dispatch(getProductsAction());
     dispatch(getAllCategoriesAction());
     dispatch(getAllSubcategoriesAction());
   }, [dispatch]);
@@ -55,18 +52,26 @@ const Shop = () => {
           price: queryPrice,
           categories: searchedCategories.join(),
           stars: stars > 0 ? stars : '',
+          subcategory,
+          brands: searchedBrands.join(),
+          colors: searchedColors.join(),
+          shipping: searchedShipping,
         })
       );
     }, 1000);
 
     return () => clearTimeout(throttle);
-  }, [text, price, searchedCategories, stars]);
-
-  const fetchProducts = (arg) => {
-    fetchProductsByFilter(arg).then((res) => {
-      // setProducts(res.data);
-    });
-  };
+  }, [
+    dispatch,
+    text,
+    price,
+    searchedCategories,
+    stars,
+    subcategory,
+    searchedBrands,
+    searchedColors,
+    searchedShipping,
+  ]);
 
   const handlePriceSlider = (values) => {
     dispatch(searchAction({ price: values }));
@@ -89,111 +94,34 @@ const Shop = () => {
     dispatch(searchAction({ stars: n }));
   };
 
-  const showSubs = () =>
-    subcategories.map((s) => (
-      <div
-        key={s._id}
-        onClick={() => handleSub(s)}
-        className='p-1 m-1 badge badge-secondary'
-        style={{ cursor: 'pointer' }}
-      >
-        {s.name}
-      </div>
-    ));
-
-  const handleSub = (sub) => {
-    dispatch({
-      type: 'SEARCH_QUERY',
-      payload: { text: '' },
-    });
-    setBrand('');
-    setColor('');
-    setShipping('');
-
-    fetchProducts({ sub });
+  const handleSubcategory = (id) => {
+    dispatch(searchAction({ subcategory: id }));
   };
 
-  const showBrands = () =>
-    brands.map((b) => (
-      <Radio
-        key={b}
-        value={b}
-        name={b}
-        checked={b === brand}
-        onChange={handleBrand}
-        className='pb-1 pl-4 pr-4'
-      >
-        {b}
-      </Radio>
-    ));
-
-  const handleBrand = (e) => {
-    dispatch({
-      type: 'SEARCH_QUERY',
-      payload: { text: '' },
-    });
-    setBrand(e.target.value);
-    setColor('');
-    setShipping('');
-    fetchProducts({ brand: e.target.value });
+  const handleBrandChange = (e) => {
+    if (searchedBrands.indexOf(e.target.value) > -1) {
+      const filteredBrands = searchedBrands.filter(
+        (brand) => brand !== e.target.value
+      );
+      dispatch(searchAction({ brands: filteredBrands }));
+    } else {
+      dispatch(searchAction({ brands: [...searchedBrands, e.target.value] }));
+    }
   };
 
-  const showColors = () =>
-    colors.map((c) => (
-      <Radio
-        key={c}
-        value={c}
-        name={c}
-        checked={c === color}
-        onChange={handleColor}
-        className='pb-1 pl-4 pr-4'
-      >
-        {c}
-      </Radio>
-    ));
-
-  const handleColor = (e) => {
-    dispatch({
-      type: 'SEARCH_QUERY',
-      payload: { text: '' },
-    });
-    setBrand('');
-    setColor(e.target.value);
-    setShipping('');
-    fetchProducts({ color: e.target.value });
+  const handleColorChange = (e) => {
+    if (searchedColors.indexOf(e.target.value) > -1) {
+      const filteredColors = searchedColors.filter(
+        (color) => color !== e.target.value
+      );
+      dispatch(searchAction({ colors: filteredColors }));
+    } else {
+      dispatch(searchAction({ colors: [...searchedColors, e.target.value] }));
+    }
   };
 
-  const showShipping = () => (
-    <>
-      <Checkbox
-        className='pb-2 pl-4 pr-4'
-        onChange={handleShippingchange}
-        value='Yes'
-        checked={shipping === 'Yes'}
-      >
-        Yes
-      </Checkbox>
-
-      <Checkbox
-        className='pb-2 pl-4 pr-4'
-        onChange={handleShippingchange}
-        value='No'
-        checked={shipping === 'No'}
-      >
-        No
-      </Checkbox>
-    </>
-  );
-
-  const handleShippingchange = (e) => {
-    dispatch({
-      type: 'SEARCH_QUERY',
-      payload: { text: '' },
-    });
-    setBrand('');
-    setColor('');
-    setShipping(e.target.value);
-    fetchProducts({ shipping: e.target.value });
+  const handleShippingChange = (e) => {
+    dispatch(searchAction({ shipping: e.target.value }));
   };
 
   return (
@@ -286,7 +214,18 @@ const Shop = () => {
               }
             >
               <div style={{ maringTop: '-10px' }} className='pl-4 pr-4'>
-                {showSubs()}
+                {subcategories.map(({ _id, name }) => (
+                  <div
+                    key={_id}
+                    onClick={() => handleSubcategory(_id)}
+                    className={`p-1 m-1 badge ${
+                      subcategory === _id ? 'badge-primary' : 'badge-secondary'
+                    }`}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {name}
+                  </div>
+                ))}
               </div>
             </SubMenu>
 
@@ -298,8 +237,21 @@ const Shop = () => {
                 </span>
               }
             >
-              <div style={{ maringTop: '-10px' }} className='pr-5'>
-                {showBrands()}
+              <div style={{ maringTop: '-10px' }}>
+                {BRANDS_LIST.map((brand) => (
+                  <div key={brand}>
+                    <Checkbox
+                      name='brand'
+                      value={brand}
+                      onChange={handleBrandChange}
+                      className='pb-2 pl-4 pr-4'
+                      checked={searchedBrands.includes(brand)}
+                    >
+                      {brand}
+                    </Checkbox>
+                    <br />
+                  </div>
+                ))}
               </div>
             </SubMenu>
 
@@ -311,8 +263,21 @@ const Shop = () => {
                 </span>
               }
             >
-              <div style={{ maringTop: '-10px' }} className='pr-5'>
-                {showColors()}
+              <div style={{ maringTop: '-10px' }}>
+                {COLORS_LIST.map((color) => (
+                  <div key={color}>
+                    <Checkbox
+                      name='color'
+                      value={color}
+                      onChange={handleColorChange}
+                      className='pb-2 pl-4 pr-4'
+                      checked={searchedColors.includes(color)}
+                    >
+                      {color}
+                    </Checkbox>
+                    <br />
+                  </div>
+                ))}
               </div>
             </SubMenu>
 
@@ -325,7 +290,18 @@ const Shop = () => {
               }
             >
               <div style={{ maringTop: '-10px' }} className='pr-5'>
-                {showShipping()}
+                {SHIPPING_OPTIONS.map((ship) => (
+                  <Radio
+                    key={ship}
+                    value={ship}
+                    name={ship}
+                    checked={ship === searchedShipping}
+                    onChange={handleShippingChange}
+                    className='pb-1 pl-4 pr-4'
+                  >
+                    {ship}
+                  </Radio>
+                ))}
               </div>
             </SubMenu>
           </Menu>

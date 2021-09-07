@@ -40,3 +40,7 @@ export const PRODUCT_TYPES_FETCH = {
   NEWEST: 'newest',
   BESTSELLING: 'bestselling',
 };
+
+export const BRANDS_LIST = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
+export const COLORS_LIST = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
+export const SHIPPING_OPTIONS = ['Yes', 'No'];

@@ -8,7 +8,6 @@ const {
   removeProduct,
   rateProduct,
   listSimilarProducts,
-  searchFilters,
 } = require('../controllers/product');
 
 const router = express.Router();
@@ -20,6 +19,5 @@ router.put('/product/:slug', authCheck, adminCheck, updateProduct);
 router.delete('/product/:slug', authCheck, adminCheck, removeProduct);
 router.put('/product/:id/rate', authCheck, rateProduct);
 router.get('/product/:id/similar', listSimilarProducts);
-router.post('/search/filters', searchFilters);
 
 module.exports = router;
