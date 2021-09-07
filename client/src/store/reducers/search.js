@@ -5,6 +5,10 @@ const initialState = {
   price: [0, 0], // [min, max]
   categories: [],
   stars: 0,
+  subcategory: '',
+  brands: [],
+  colors: [],
+  shipping: '',
 };
 
 export const searchReducer = (state = initialState, action) => {
