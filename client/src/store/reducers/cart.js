@@ -13,19 +13,20 @@ if (isBrowser) {
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.ADD_TO_CART:
+      const [product, count] = action.payload;
       // we can have the same item in the cart more than once and we keep count to track that
-      const existingItem = state.cart.find(
-        (item) => item._id === action.payload._id
-      );
+      const existingItem = state.cart.find((item) => item._id === product._id);
 
-      const count = existingItem ? existingItem.count + 1 : 1;
+      const previousProductCount = existingItem ? existingItem.count : 0;
+      product.count = previousProductCount + count;
+
       const filteredCart = state.cart.filter(
-        (item) => item._id !== action.payload._id
+        (item) => item._id !== product._id
       );
 
       const updatedState = {
         ...state,
-        cart: [...filteredCart, { ...action.payload, count }],
+        cart: [...filteredCart, product],
       };
 
       if (isBrowser) {
@@ -33,6 +34,11 @@ export const cartReducer = (state = initialState, action) => {
       }
 
       return updatedState;
+    case actionType.REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item._id !== action.payload._id),
+      };
     default:
       return state;
   }
