@@ -1,19 +1,21 @@
-import React from 'react';
-import { Drawer } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Drawer } from 'antd';
 import laptop from '../../images/laptop.png';
 import { NAV_LINKS } from '../../constants';
 
-const SideDrawer = () => {
-  const dispatch = useDispatch();
-  const { drawer, cart } = useSelector((state) => ({ ...state }));
+const imageStyle = {
+  width: '100%',
+  height: '50px',
+  objectFit: 'cover',
+};
 
-  const imageStyle = {
-    width: '100%',
-    height: '50px',
-    objectFit: 'cover',
-  };
+const SideDrawer = () => {
+  const { cart } = useSelector((state) => state.cart);
+
+  const { drawer } = useSelector((state) => ({ ...state }));
+
+  const dispatch = useDispatch();
 
   return (
     <Drawer

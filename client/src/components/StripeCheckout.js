@@ -55,7 +55,7 @@ const StripeCheckout = () => {
         if (res.data.ok) {
           if (typeof window !== 'undefined') localStorage.removeItem('cart');
           dispatch({
-            type: 'ADD_TO_CART',
+            type: 'ADD_TO_CART_',
             payload: [],
           });
           dispatch({

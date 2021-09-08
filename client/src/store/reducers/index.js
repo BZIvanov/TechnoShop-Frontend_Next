@@ -5,7 +5,7 @@ import { categoryReducer } from './category';
 import { subcategoryReducer } from './subcategory';
 import { productReducer } from './product';
 import { searchReducer } from './search';
-import { cartReducer } from './cartReducer';
+import { cartReducer } from './cart';
 import { drawerReducer } from './drawerReducer';
 import { couponReducer } from './couponReducer';
 import { CODReducer } from './CODReducer';

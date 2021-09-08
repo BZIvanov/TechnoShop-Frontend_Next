@@ -43,7 +43,7 @@ const Checkout = ({ history }) => {
     }
 
     dispatch({
-      type: 'ADD_TO_CART',
+      type: 'ADD_TO_CART_',
       payload: [],
     });
 
@@ -127,7 +127,7 @@ const Checkout = ({ history }) => {
         if (typeof window !== 'undefined') localStorage.removeItem('cart');
 
         dispatch({
-          type: 'ADD_TO_CART',
+          type: 'ADD_TO_CART_',
           payload: [],
         });
         dispatch({

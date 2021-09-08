@@ -29,7 +29,7 @@ const ProductCardInCheckout = ({ p }) => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       dispatch({
-        type: 'ADD_TO_CART',
+        type: 'ADD_TO_CART_',
         payload: cart,
       });
     }
@@ -58,7 +58,7 @@ const ProductCardInCheckout = ({ p }) => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       dispatch({
-        type: 'ADD_TO_CART',
+        type: 'ADD_TO_CART_',
         payload: cart,
       });
     }
@@ -76,7 +76,7 @@ const ProductCardInCheckout = ({ p }) => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       dispatch({
-        type: 'ADD_TO_CART',
+        type: 'ADD_TO_CART_',
         payload: cart,
       });
     }
