@@ -63,7 +63,6 @@ exports.listProducts = async (req, res) => {
     } = req.query;
 
     const builder = await handleQueryParams(rest);
-    console.log(builder);
 
     const pageNumber = parseInt(page || 1, 10);
     const perPageNumber = parseInt(perPage || 12, 10);

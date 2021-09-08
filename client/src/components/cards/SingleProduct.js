@@ -13,7 +13,10 @@ import { addToWishlist } from '../../functions/user';
 import { NAV_LINKS } from '../../constants';
 import Laptop from '../../images/laptop.png';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { rateProductAction } from '../../store/action-creators';
+import {
+  rateProductAction,
+  addToCartAction,
+} from '../../store/action-creators';
 
 const { TabPane } = Tabs;
 
@@ -46,32 +49,14 @@ const SingleProduct = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    let cart = [];
-    if (typeof window !== 'undefined') {
-      const localStorageCart = localStorage.getItem('cart');
-      if (localStorageCart) {
-        cart = JSON.parse(localStorageCart);
-      }
+    dispatch(addToCartAction(product));
 
-      if (!cart.some((item) => item._id === product._id)) {
-        cart.push({
-          ...product,
-          count: 1,
-        });
-      }
+    setTooltip('In the cart already');
 
-      localStorage.setItem('cart', JSON.stringify(cart));
-      setTooltip('Added');
-
-      dispatch({
-        type: 'ADD_TO_CART',
-        payload: cart,
-      });
-      dispatch({
-        type: 'SET_VISIBLE',
-        payload: true,
-      });
-    }
+    dispatch({
+      type: 'SET_VISIBLE',
+      payload: true,
+    });
   };
 
   const handleAddToWishlist = (e) => {
@@ -126,10 +111,10 @@ const SingleProduct = ({ product }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-              <div onClick={handleAddToCart}>
-                <ShoppingCartOutlined className='text-success' /> <br /> Add to
-                Cart
-              </div>
+              <button onClick={handleAddToCart} disabled={product.quantity < 1}>
+                <ShoppingCartOutlined className='text-success' /> <br />
+                {product.quantity < 1 ? 'Out of stock' : 'Add to Cart'}
+              </button>
             </Tooltip>,
             <span onClick={handleAddToWishlist}>
               <HeartOutlined className='text-info' /> <br /> Add to Wishlist

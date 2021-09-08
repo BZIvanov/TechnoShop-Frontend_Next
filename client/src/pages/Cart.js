@@ -1,12 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
 import { userCart } from '../functions/user';
 import { NAV_LINKS } from '../constants';
 
-const Cart = ({ history }) => {
+const Cart = () => {
+  const { user } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
-  const { cart, user } = useSelector((state) => ({ ...state }));
+  const history = useHistory();
 
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
