@@ -11,11 +11,12 @@ import StarsRating from '../common/StarsRating';
 import RatingModal from '../modal/RatingModal';
 import { addToWishlist } from '../../functions/user';
 import { NAV_LINKS } from '../../constants';
-import Laptop from '../../images/laptop.png';
+import Laptop from '../../assets/images/laptop.png';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {
   rateProductAction,
   addToCartAction,
+  toggleVisibleAction,
 } from '../../store/action-creators';
 
 const { TabPane } = Tabs;
@@ -50,13 +51,9 @@ const SingleProduct = ({ product }) => {
 
   const handleAddToCart = () => {
     dispatch(addToCartAction(product, 1));
+    dispatch(toggleVisibleAction(true));
 
     setTooltip('In the cart already');
-
-    dispatch({
-      type: 'SET_VISIBLE',
-      payload: true,
-    });
   };
 
   const handleAddToWishlist = (e) => {

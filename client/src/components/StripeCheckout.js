@@ -5,7 +5,7 @@ import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
-import Laptop from '../images/laptop.png';
+import Laptop from '../assets/images/laptop.png';
 import { createOrder, emptyUserCart } from '../functions/user';
 import { NAV_LINKS } from '../constants';
 

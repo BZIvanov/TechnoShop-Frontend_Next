@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import StarsRating from '../common/StarsRating';
-import laptop from '../../images/laptop.png';
-import { addToCartAction } from '../../store/action-creators';
+import laptop from '../../assets/images/laptop.png';
+import {
+  addToCartAction,
+  toggleVisibleAction,
+} from '../../store/action-creators';
 import { NAV_LINKS } from '../../constants';
 
 const { Meta } = Card;
@@ -24,13 +27,9 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = () => {
     dispatch(addToCartAction(product, 1));
+    dispatch(toggleVisibleAction(true));
 
     setTooltip('In the cart already');
-
-    dispatch({
-      type: 'SET_VISIBLE',
-      payload: true,
-    });
   };
 
   return (
