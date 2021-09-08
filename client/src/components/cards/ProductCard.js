@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
       : description;
 
   const handleAddToCart = () => {
-    dispatch(addToCartAction(product));
+    dispatch(addToCartAction(product, 1));
 
     setTooltip('In the cart already');
 

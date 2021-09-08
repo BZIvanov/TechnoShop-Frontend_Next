@@ -11,11 +11,12 @@ const Cart = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const getTotal = () => {
-    return cart.reduce((currentValue, nextValue) => {
-      return currentValue + nextValue.count * nextValue.price;
-    }, 0);
-  };
+  const getTotal = () =>
+    cart.reduce(
+      (currentValue, nextValue) =>
+        currentValue + nextValue.count * nextValue.price,
+      0
+    );
 
   const saveOrderToDb = (isCashPayment) => {
     dispatch({
@@ -30,50 +31,46 @@ const Cart = () => {
       .catch((err) => console.log('cart save err', err));
   };
 
-  const showCartItems = () => (
-    <table className='table table-bordered'>
-      <thead className='thead-light'>
-        <tr>
-          <th scope='col'>Image</th>
-          <th scope='col'>Title</th>
-          <th scope='col'>Price</th>
-          <th scope='col'>Brand</th>
-          <th scope='col'>Color</th>
-          <th scope='col'>Count</th>
-          <th scope='col'>Shipping</th>
-          <th scope='col'>Remove</th>
-        </tr>
-      </thead>
-
-      {cart.map((p) => (
-        <ProductCardInCheckout key={p._id} p={p} />
-      ))}
-    </table>
-  );
-
   return (
     <div className='container-fluid pt-2'>
       <div className='row'>
         <div className='col-md-8'>
-          <h4>Cart / {cart.length} Product</h4>
-
+          <h4>Cart / {cart.length} Products</h4>
           {!cart.length ? (
             <p>
               No products in cart.{' '}
               <Link to={NAV_LINKS.SHOP.ROUTE}>Continue Shopping.</Link>
             </p>
           ) : (
-            showCartItems()
+            <table className='table table-bordered'>
+              <thead className='thead-light'>
+                <tr>
+                  <th scope='col'>Image</th>
+                  <th scope='col'>Title</th>
+                  <th scope='col'>Price</th>
+                  <th scope='col'>Brand</th>
+                  <th scope='col'>Color</th>
+                  <th scope='col'>Count</th>
+                  <th scope='col'>Shipping</th>
+                  <th scope='col'>Remove</th>
+                </tr>
+              </thead>
+
+              {cart.map((product) => (
+                <ProductCardInCheckout key={product._id} product={product} />
+              ))}
+            </table>
           )}
         </div>
+
         <div className='col-md-4'>
           <h4>Order Summary</h4>
           <hr />
           <p>Products</p>
-          {cart.map((c, i) => (
-            <div key={i}>
+          {cart.map(({ _id, title, price, count }) => (
+            <div key={_id}>
               <p>
-                {c.title} x {c.count} = ${c.price * c.count}
+                {title} x {count} = ${price * count}
               </p>
             </div>
           ))}
