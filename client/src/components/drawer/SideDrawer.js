@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Drawer } from 'antd';
-import laptop from '../../images/laptop.png';
+import { toggleVisibleAction } from '../../store/action-creators';
+import laptop from '../../assets/images/laptop.png';
 import { NAV_LINKS } from '../../constants';
 
 const imageStyle = {
@@ -12,35 +13,29 @@ const imageStyle = {
 
 const SideDrawer = () => {
   const { cart } = useSelector((state) => state.cart);
-
-  const { drawer } = useSelector((state) => ({ ...state }));
+  const { isVisible } = useSelector((state) => state.sidedrawer);
 
   const dispatch = useDispatch();
 
   return (
     <Drawer
       className='text-center'
-      title={`Cart / ${cart.length} Product`}
+      title={`Cart / ${cart.length} Products`}
       placement='right'
       closable={false}
-      onClose={() => {
-        dispatch({
-          type: 'SET_VISIBLE',
-          payload: false,
-        });
-      }}
-      visible={drawer}
+      onClose={() => dispatch(toggleVisibleAction(false))}
+      visible={isVisible}
     >
-      {cart.map((p) => (
-        <div key={p._id} className='row'>
+      {cart.map(({ _id, images, title, count }) => (
+        <div key={_id} className='row'>
           <div className='col'>
             <img
-              src={p.images[0] ? p.images[0].url : laptop}
+              src={images[0] ? images[0].url : laptop}
               style={imageStyle}
-              alt='prodduct preview'
+              alt='product preview'
             />
             <p className='text-center bg-secondary text-light'>
-              {p.title} x {p.count}
+              {title} x {count}
             </p>
           </div>
         </div>
@@ -48,12 +43,7 @@ const SideDrawer = () => {
 
       <Link to={NAV_LINKS.CART.ROUTE}>
         <button
-          onClick={() =>
-            dispatch({
-              type: 'SET_VISIBLE',
-              payload: false,
-            })
-          }
+          onClick={() => dispatch(toggleVisibleAction(false))}
           className='text-center btn btn-primary btn-raised btn-block'
         >
           Go To Cart

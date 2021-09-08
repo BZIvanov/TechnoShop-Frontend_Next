@@ -6,7 +6,7 @@ import { subcategoryReducer } from './subcategory';
 import { productReducer } from './product';
 import { searchReducer } from './search';
 import { cartReducer } from './cart';
-import { drawerReducer } from './drawerReducer';
+import { sidedrawerReducer } from './side-drawer';
 import { couponReducer } from './couponReducer';
 import { CODReducer } from './CODReducer';
 
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   search: searchReducer,
   cart: cartReducer,
-  drawer: drawerReducer,
+  sidedrawer: sidedrawerReducer,
   coupon: couponReducer,
   COD: CODReducer,
 });

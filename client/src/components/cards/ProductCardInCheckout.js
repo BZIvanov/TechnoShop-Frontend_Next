@@ -11,7 +11,7 @@ import {
   addToCartAction,
   removeFromCartAction,
 } from '../../store/action-creators';
-import laptop from '../../images/laptop.png';
+import laptop from '../../assets/images/laptop.png';
 import { COLORS_LIST } from '../../constants';
 
 const ProductCardInCheckout = ({ product }) => {
