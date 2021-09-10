@@ -58,11 +58,15 @@ exports.saveUserCart = async (req, res) => {
   }
 };
 
-exports.emptyCart = async (req, res) => {
-  const user = await User.findOne({ email: req.user.email }).exec();
-  const cart = await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
+exports.emptyUserCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email }).exec();
+    await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
 
-  res.json(cart);
+    res.status(status.OK).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
 };
 
 exports.saveAddress = async (req, res) => {

@@ -11,3 +11,7 @@ export const getUserCartCall = (authtoken) => {
 export const saveUserCartCall = (cart, authtoken) => {
   return axios.post('/user/cart', cart, { headers: { authtoken } });
 };
+
+export const emptyUserCartCall = (authtoken) => {
+  return axios.delete('/user/cart', { headers: { authtoken } });
+};

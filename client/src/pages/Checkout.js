@@ -10,12 +10,17 @@ import {
 } from '../functions/user';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { getUserCartAction } from '../store/action-creators';
+import {
+  getUserCartAction,
+  emptyUserCartAction,
+  apiCallReset,
+} from '../store/action-creators';
 import { NAV_LINKS } from '../constants';
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);
   const { cart, totalPrice } = useSelector((state) => state.cart);
+  const { success, error } = useSelector((state) => state.apiCall);
   const { COD, coupon: isCouponApplied } = useSelector((state) => ({
     ...state,
   }));
@@ -33,21 +38,21 @@ const Checkout = () => {
     dispatch(getUserCartAction(user.token));
   }, [dispatch, user.token]);
 
-  const emptyCart = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('cart');
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
     }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch]);
 
-    dispatch({
-      type: 'ADD_TO_CART_',
-      payload: [],
-    });
+  const emptyCart = () => {
+    dispatch(emptyUserCartAction(user.token));
 
-    emptyUserCart(user.token).then(() => {
-      setTotalAfterDiscount(0);
-      setCoupon('');
-      toast.success('Cart is empty. Continue shopping.');
-    });
+    setTotalAfterDiscount(0);
+    setCoupon('');
   };
 
   const saveAddressToDb = () => {

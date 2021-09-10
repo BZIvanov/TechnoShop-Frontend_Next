@@ -36,13 +36,22 @@ export const cartReducer = (state = initialState, action) => {
       return updatedState;
     case actionType.REMOVE_FROM_CART:
       if (!action.payload) {
+        if (isBrowser) {
+          localStorage.removeItem('cart');
+        }
         return initialState;
       }
 
-      return {
+      const restProducts = {
         ...state,
         cart: state.cart.filter((item) => item._id !== action.payload._id),
       };
+
+      if (isBrowser) {
+        localStorage.setItem('cart', JSON.stringify(restProducts));
+      }
+
+      return restProducts;
     case actionType.TOTAL_PRICE_CART:
       return { ...state, totalPrice: action.payload };
     default:
