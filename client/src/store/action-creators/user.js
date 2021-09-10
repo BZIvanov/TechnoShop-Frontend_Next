@@ -1,4 +1,8 @@
-import { getUserCartCall, saveUserCartCall } from '../../api/user';
+import {
+  getUserCartCall,
+  saveUserCartCall,
+  emptyUserCartCall,
+} from '../../api/user';
 import {
   apiCallStart,
   apiCallSuccess,
@@ -42,6 +46,21 @@ export const saveUserCartAction = (cart, token) => {
       await saveUserCartCall(cart, token);
 
       dispatch(apiCallSuccess('Success'));
+    } catch (error) {
+      dispatch(apiCallFail('Save cart error'));
+    }
+  };
+};
+
+export const emptyUserCartAction = (token) => {
+  return async (dispatch) => {
+    dispatch(apiCallStart());
+
+    try {
+      await emptyUserCartCall(token);
+
+      dispatch(apiCallSuccess('Success'));
+      dispatch(removeFromCartAction());
     } catch (error) {
       dispatch(apiCallFail('Save cart error'));
     }
