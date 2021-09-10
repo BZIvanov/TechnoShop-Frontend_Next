@@ -1,15 +1,28 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
-import { userCart } from '../functions/user';
+import { saveUserCartAction, apiCallReset } from '../store/action-creators';
 import { NAV_LINKS } from '../constants';
 
 const Cart = () => {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
+  const { success, error } = useSelector((state) => state.apiCall);
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    if (success) {
+      history.push(NAV_LINKS.CHECKOUT.ROUTE);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch, history]);
 
   const getTotal = () =>
     cart.reduce(
@@ -18,17 +31,13 @@ const Cart = () => {
       0
     );
 
-  const saveOrderToDb = (isCashPayment) => {
+  const persistOrder = (isCashPayment) => {
     dispatch({
       type: 'COD',
       payload: isCashPayment,
     });
 
-    userCart(cart, user.token)
-      .then((res) => {
-        if (res.data.ok) history.push(NAV_LINKS.CHECKOUT.ROUTE);
-      })
-      .catch((err) => console.log('cart save err', err));
+    dispatch(saveUserCartAction({ cart }, user.token));
   };
 
   return (
@@ -80,7 +89,7 @@ const Cart = () => {
           {user ? (
             <>
               <button
-                onClick={() => saveOrderToDb(false)}
+                onClick={() => persistOrder(false)}
                 className='btn btn-sm btn-primary mt-2'
                 disabled={!cart.length}
               >
@@ -88,7 +97,7 @@ const Cart = () => {
               </button>
               <br />
               <button
-                onClick={() => saveOrderToDb(true)}
+                onClick={() => persistOrder(true)}
                 className='btn btn-sm btn-warning mt-2'
                 disabled={!cart.length}
               >

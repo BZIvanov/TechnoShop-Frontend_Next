@@ -1,3 +1,4 @@
+const status = require('http-status');
 const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
@@ -6,50 +7,55 @@ const Order = require('../models/order');
 const uniqueid = require('uniqueid');
 
 exports.getUserCart = async (req, res) => {
-  const user = await User.findOne({ email: req.user.email }).exec();
-  const cart = await Cart.findOne({ orderedBy: user._id })
-    .populate('products.product', '_id title price totalAfterDiscount')
-    .exec();
+  try {
+    const user = await User.findOne({ email: req.user.email }).exec();
+    const cart = await Cart.findOne({ orderedBy: user._id })
+      .populate('products.product')
+      .exec();
 
-  const { products, cartTotal, totalAfterDiscount } = cart;
-  res.json({ products, cartTotal, totalAfterDiscount });
+    res.status(status.OK).json(cart);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
 };
 
-exports.userCart = async (req, res) => {
-  const { cart } = req.body;
+exports.saveUserCart = async (req, res) => {
+  try {
+    const { cart } = req.body;
 
-  const user = await User.findOne({ email: req.user.email }).exec();
-  const cartExistByThisUser = await Cart.findOne({
-    orderedBy: user._id,
-  }).exec();
+    const user = await User.findOne({ email: req.user.email }).exec();
+    const existingCart = await Cart.findOne({
+      orderedBy: user._id,
+    }).exec();
 
-  if (cartExistByThisUser) {
-    cartExistByThisUser.remove();
+    if (existingCart) {
+      await existingCart.remove();
+    }
+
+    const products = await Promise.all(
+      cart.map(async (cartProduct) => {
+        // make sure the price was not manipulated for each product from the cart
+        const currentProduct = await Product.findById(cartProduct._id).exec();
+
+        return {
+          product: cartProduct._id,
+          count: cartProduct.count,
+          color: cartProduct.color,
+          price: currentProduct.price,
+        };
+      })
+    );
+
+    const cartTotal = products.reduce((acc, product) => {
+      return acc + product.price * product.count;
+    }, 0);
+
+    await new Cart({ products, cartTotal, orderedBy: user._id }).save();
+
+    res.status(status.CREATED).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
-
-  const products = await Promise.all(
-    cart.map(async (cartProduct) => {
-      const currentProduct = await Product.findById(cartProduct._id)
-        .select('price')
-        .exec();
-      const price = currentProduct.price;
-
-      return {
-        product: cartProduct._id,
-        count: cartProduct.count,
-        color: cartProduct.color,
-        price,
-      };
-    })
-  );
-
-  const cartTotal = products.reduce((acc, product) => {
-    return acc + product.price * product.count;
-  }, 0);
-
-  await new Cart({ products, cartTotal, orderedBy: user._id }).save();
-
-  res.json({ ok: true });
 };
 
 exports.emptyCart = async (req, res) => {
