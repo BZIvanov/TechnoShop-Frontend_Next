@@ -1,6 +1,6 @@
 import { actionType } from '../action-types';
 
-const initialState = { cart: [], totalPrice: 0 };
+const initialState = { cart: [], totalPrice: 0, totalAfterDiscount: 0 };
 
 const isBrowser = typeof window !== 'undefined';
 if (isBrowser) {
@@ -54,6 +54,8 @@ export const cartReducer = (state = initialState, action) => {
       return restProducts;
     case actionType.TOTAL_PRICE_CART:
       return { ...state, totalPrice: action.payload };
+    case actionType.TOTAL_PRICE_AFTER_DISCOUNT_CART:
+      return { ...state, totalAfterDiscount: action.payload };
     default:
       return state;
   }

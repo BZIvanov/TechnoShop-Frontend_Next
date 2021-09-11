@@ -2,25 +2,26 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  emptyUserCart,
-  saveUserAddress,
-  applyCoupon,
-  createCashOrderForUser,
-} from '../functions/user';
+import { emptyUserCart, createCashOrderForUser } from '../functions/user';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
+  updateUserAction,
   getUserCartAction,
   emptyUserCartAction,
+  applyCouponAction,
+  applyDiscountCouponAction,
   apiCallReset,
 } from '../store/action-creators';
 import { NAV_LINKS } from '../constants';
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);
-  const { cart, totalPrice } = useSelector((state) => state.cart);
+  const { cart, totalPrice, totalAfterDiscount } = useSelector(
+    (state) => state.cart
+  );
   const { success, error } = useSelector((state) => state.apiCall);
+  const { userCoupon } = useSelector((state) => state.coupon);
   const { COD, coupon: isCouponApplied } = useSelector((state) => ({
     ...state,
   }));
@@ -28,11 +29,7 @@ const Checkout = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [address, setAddress] = useState('');
-  const [addressSaved, setAddressSaved] = useState(false);
-  const [coupon, setCoupon] = useState('');
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
-  const [discountError, setDiscountError] = useState('');
+  const [address, setAddress] = useState(user.address || '');
 
   useEffect(() => {
     dispatch(getUserCartAction(user.token));
@@ -50,38 +47,14 @@ const Checkout = () => {
 
   const emptyCart = () => {
     dispatch(emptyUserCartAction(user.token));
-
-    setTotalAfterDiscount(0);
-    setCoupon('');
   };
 
-  const saveAddressToDb = () => {
-    saveUserAddress(user.token, address).then((res) => {
-      if (res.data.ok) {
-        setAddressSaved(true);
-        toast.success('Address saved');
-      }
-    });
+  const updateUserAddress = () => {
+    dispatch(updateUserAction({ address }, user.token));
   };
 
   const applyDiscountCoupon = () => {
-    applyCoupon(user.token, coupon).then((res) => {
-      if (res.data) {
-        setTotalAfterDiscount(res.data);
-        dispatch({
-          type: 'COUPON_APPLIED',
-          payload: true,
-        });
-      }
-
-      if (res.data.err) {
-        setDiscountError(res.data.err);
-        dispatch({
-          type: 'COUPON_APPLIED',
-          payload: true,
-        });
-      }
-    });
+    dispatch(applyDiscountCouponAction({ coupon: userCoupon }, user.token));
   };
 
   const createCashOrder = () => {
@@ -116,7 +89,7 @@ const Checkout = () => {
       <div className='col-md-6'>
         <h4>Delivery Address</h4>
         <ReactQuill theme='snow' value={address} onChange={setAddress} />
-        <button className='btn btn-primary mt-2' onClick={saveAddressToDb}>
+        <button className='btn btn-primary mt-2' onClick={updateUserAddress}>
           Save
         </button>
 
@@ -124,19 +97,16 @@ const Checkout = () => {
 
         <h4>Got Coupon?</h4>
         <input
-          onChange={(e) => {
-            setCoupon(e.target.value);
-            setDiscountError('');
-          }}
-          value={coupon}
           type='text'
+          value={userCoupon}
+          onChange={(e) => {
+            dispatch(applyCouponAction(e.target.value));
+          }}
           className='form-control'
         />
         <button onClick={applyDiscountCoupon} className='btn btn-primary mt-2'>
           Apply
         </button>
-
-        {discountError && <p className='bg-danger p-2'>{discountError}</p>}
       </div>
 
       <div className='col-md-6'>
@@ -164,7 +134,7 @@ const Checkout = () => {
             {COD ? (
               <button
                 className='btn btn-primary'
-                disabled={!addressSaved || !cart.length}
+                disabled={!user.address || !cart.length}
                 onClick={createCashOrder}
               >
                 Place Order
@@ -172,7 +142,7 @@ const Checkout = () => {
             ) : (
               <button
                 className='btn btn-primary'
-                disabled={!addressSaved || !cart.length}
+                disabled={!user.address || !cart.length}
                 onClick={() => history.push(NAV_LINKS.PAYMENT.ROUTE)}
               >
                 Place Order

@@ -8,9 +8,9 @@ const couponSchema = new Schema(
       trim: true,
       unique: true,
       uppercase: true,
-      required: 'Name is required',
-      minlength: [6, 'Too short'],
-      maxlength: [12, 'Too long'],
+      required: 'Coupon name is required',
+      minlength: [6, 'Coupon name is too short'],
+      maxlength: [12, 'Coupon name is too long'],
     },
     expiry: {
       type: Date,

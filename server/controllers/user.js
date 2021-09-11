@@ -6,6 +6,24 @@ const Coupon = require('../models/coupon');
 const Order = require('../models/order');
 const uniqueid = require('uniqueid');
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { address } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { email: req.user.email },
+      { address },
+      { new: true }
+    )
+      .select('_id name email address')
+      .exec();
+
+    res.json(user);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
+};
+
 exports.getUserCart = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email }).exec();
@@ -69,43 +87,34 @@ exports.emptyUserCart = async (req, res) => {
   }
 };
 
-exports.saveAddress = async (req, res) => {
-  await User.findOneAndUpdate(
-    { email: req.user.email },
-    { address: req.body.address }
-  ).exec();
-
-  res.json({ ok: true });
-};
-
 exports.applyCouponToUserCart = async (req, res) => {
-  const { coupon } = req.body;
+  try {
+    const { coupon } = req.body;
 
-  const validCoupon = await Coupon.findOne({ name: coupon }).exec();
-  if (validCoupon === null) {
-    return res.json({
-      err: 'Invalid coupon',
-    });
+    const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+    if (!validCoupon) {
+      return res.status(status.NOT_FOUND).json({ message: 'Invalid coupon' });
+    }
+
+    const user = await User.findOne({ email: req.user.email }).exec();
+
+    const { cartTotal } = await Cart.findOne({ orderedBy: user._id })
+      .populate('products.product', '_id title price')
+      .exec();
+
+    const totalAfterDiscount =
+      cartTotal - (cartTotal * validCoupon.discount) / 100;
+
+    const userCart = await Cart.findOneAndUpdate(
+      { orderedBy: user._id },
+      { totalAfterDiscount },
+      { new: true }
+    ).exec();
+
+    res.status(status.OK).json(userCart.totalAfterDiscount);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
-
-  const user = await User.findOne({ email: req.user.email }).exec();
-
-  const { cartTotal } = await Cart.findOne({ orderedBy: user._id })
-    .populate('products.product', '_id title price')
-    .exec();
-
-  const totalAfterDiscount = (
-    cartTotal -
-    (cartTotal * validCoupon.discount) / 100
-  ).toFixed(2);
-
-  Cart.findOneAndUpdate(
-    { orderedBy: user._id },
-    { totalAfterDiscount },
-    { new: true }
-  ).exec();
-
-  res.json(totalAfterDiscount);
 };
 
 exports.createOrder = async (req, res) => {

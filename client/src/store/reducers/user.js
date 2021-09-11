@@ -10,6 +10,8 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, user: { ...action.payload } };
     case actionType.LOGOUT:
       return { ...state, user: null };
+    case actionType.UPDATE_USER:
+      return { ...state, user: Object.assign(state.user, action.payload) };
     default:
       return state;
   }
