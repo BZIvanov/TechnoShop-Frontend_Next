@@ -1,26 +1,34 @@
+const status = require('http-status');
 const Coupon = require('../models/coupon');
 
-exports.create = async (req, res) => {
+exports.listCoupons = async (_, res) => {
   try {
-    const { name, expiry, discount } = req.body.coupon;
-    res.json(await new Coupon({ name, expiry, discount }).save());
-  } catch (err) {
-    console.log(err);
+    const coupons = await Coupon.find().sort({ createdAt: -1 }).exec();
+
+    res.status(status.OK).json(coupons);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 
-exports.remove = async (req, res) => {
+exports.createCoupon = async (req, res) => {
   try {
-    res.json(await Coupon.findByIdAndDelete(req.params.couponId).exec());
-  } catch (err) {
-    console.log(err);
+    const { name, expiry, discount } = req.body;
+
+    const coupon = await new Coupon({ name, expiry, discount }).save();
+
+    res.status(status.CREATED).json(coupon);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };
 
-exports.list = async (req, res) => {
+exports.removeCoupon = async (req, res) => {
   try {
-    res.json(await Coupon.find({}).sort({ createdAt: -1 }).exec());
-  } catch (err) {
-    console.log(err);
+    await Coupon.findByIdAndDelete(req.params.id).exec();
+
+    res.status(status.OK).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
   }
 };

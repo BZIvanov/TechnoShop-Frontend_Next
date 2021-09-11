@@ -7,7 +7,7 @@ import { productReducer } from './product';
 import { searchReducer } from './search';
 import { cartReducer } from './cart';
 import { sidedrawerReducer } from './side-drawer';
-import { couponReducer } from './couponReducer';
+import { couponReducer } from './coupon';
 import { CODReducer } from './CODReducer';
 
 const rootReducer = combineReducers({

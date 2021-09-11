@@ -20,3 +20,10 @@ export const cartTotalPriceAction = (value) => {
     payload: value,
   };
 };
+
+export const cartTotalPriceAfterDiscountAction = (value) => {
+  return {
+    type: actionType.TOTAL_PRICE_AFTER_DISCOUNT_CART,
+    payload: value,
+  };
+};
