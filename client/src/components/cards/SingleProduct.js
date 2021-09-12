@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Card, Tabs, Tooltip } from 'antd';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
@@ -108,10 +108,14 @@ const SingleProduct = ({ product }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-              <button onClick={handleAddToCart} disabled={product.quantity < 1}>
+              <Link
+                to={history.location.pathname} // the current path, Link is used here because of the disable option
+                onClick={handleAddToCart}
+                disabled={product.quantity < 1}
+              >
                 <ShoppingCartOutlined className='text-success' /> <br />
                 {product.quantity < 1 ? 'Out of stock' : 'Add to Cart'}
-              </button>
+              </Link>
             </Tooltip>,
             <span onClick={handleAddToWishlist}>
               <HeartOutlined className='text-info' /> <br /> Add to Wishlist

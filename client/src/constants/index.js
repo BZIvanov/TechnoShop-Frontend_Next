@@ -43,4 +43,4 @@ export const PRODUCT_TYPES_FETCH = {
 
 export const BRANDS_LIST = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
 export const COLORS_LIST = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
-export const SHIPPING_OPTIONS = ['Yes', 'No'];
+export const SHIPPING_OPTIONS = { YES: 'Yes', NO: 'No' };

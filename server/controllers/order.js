@@ -4,6 +4,20 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 const Order = require('../models/order');
 
+exports.listOrders = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email }).exec();
+
+    const orders = await Order.find({ orderedBy: user._id })
+      .populate('products.product')
+      .exec();
+
+    res.status(status.OK).json(orders);
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
+};
+
 exports.createOrder = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email }).exec();
