@@ -1,32 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import AdminNav from '../../components/nav/AdminNav';
-import { useSelector } from 'react-redux';
-import { getOrders, changeStatus } from '../../functions/admin';
 import Orders from '../../components/order/Orders';
-import { toast } from 'react-toastify';
+import {
+  getOrdersAction,
+  updateOrderAction,
+} from '../../store/action-creators';
 
 const AdminDashboard = () => {
-  const [orders, setOrders] = useState([]);
-
   const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
 
-  const loadOrders = useCallback(
-    () =>
-      getOrders(user.token).then((res) => {
-        setOrders(res.data);
-      }),
-    [user.token]
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    loadOrders();
-  }, [loadOrders]);
+    dispatch(getOrdersAction(user.token));
+  }, [dispatch, user.token]);
 
-  const handleStatusChange = (orderId, orderStatus) => {
-    changeStatus(orderId, orderStatus, user.token).then(() => {
-      toast.success('Status updated');
-      loadOrders();
-    });
+  const handleStatusChange = (id, orderStatus) => {
+    dispatch(updateOrderAction(id, { orderStatus }, user.token));
   };
 
   return (

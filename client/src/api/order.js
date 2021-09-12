@@ -9,3 +9,9 @@ export const createOrderCall = (stripePayment, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const updateOrderCall = (id, status, authtoken) => {
+  return axios.put(`/order/${id}`, status, {
+    headers: { authtoken },
+  });
+};

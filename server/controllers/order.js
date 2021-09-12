@@ -3,12 +3,18 @@ const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 const Order = require('../models/order');
+const { USER_ROLES } = require('../constants');
 
 exports.listOrders = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email }).exec();
 
-    const orders = await Order.find({ orderedBy: user._id })
+    const nonAdminFilters = {
+      ...(user.role !== USER_ROLES.ADMIN && { orderedBy: user._id }),
+    };
+
+    const orders = await Order.find(nonAdminFilters)
+      .sort('-createdAt')
       .populate('products.product')
       .exec();
 
@@ -41,6 +47,25 @@ exports.createOrder = async (req, res) => {
     await Product.bulkWrite(bulkOption, {});
 
     res.status(status.CREATED).json({ success: true });
+  } catch (error) {
+    res.status(status.BAD_REQUEST).json({ error });
+  }
+};
+
+exports.updateOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { orderStatus } = req.body;
+
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { orderStatus },
+      { new: true }
+    )
+      .populate('products.product')
+      .exec();
+
+    res.status(status.OK).json(order);
   } catch (error) {
     res.status(status.BAD_REQUEST).json({ error });
   }
