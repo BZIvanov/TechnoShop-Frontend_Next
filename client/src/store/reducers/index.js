@@ -10,6 +10,7 @@ import { sidedrawerReducer } from './side-drawer';
 import { couponReducer } from './coupon';
 import { CODReducer } from './CODReducer';
 import { stripeReducer } from './stripe';
+import { orderReducer } from './order';
 
 const rootReducer = combineReducers({
   apiCall: apiCallReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   coupon: couponReducer,
   COD: CODReducer,
   stripe: stripeReducer,
+  order: orderReducer,
 });
 
 export default rootReducer;

@@ -290,7 +290,7 @@ const Shop = () => {
               }
             >
               <div style={{ maringTop: '-10px' }} className='pr-5'>
-                {SHIPPING_OPTIONS.map((ship) => (
+                {Object.values(SHIPPING_OPTIONS).map((ship) => (
                   <Radio
                     key={ship}
                     value={ship}

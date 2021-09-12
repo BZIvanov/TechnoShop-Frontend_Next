@@ -9,3 +9,4 @@ export * from './cart';
 export * from './side-drawer';
 export * from './coupon';
 export * from './stripe';
+export * from './order';
