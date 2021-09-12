@@ -11,6 +11,7 @@ const MODELS = {
   SUB_CATEGORY: 'SubCategory',
   COUPON: 'Coupon',
   ORDER: 'Order',
+  WISHLIST: 'Wishlist',
 };
 
 const ORDER_STATUSES = {

@@ -5,18 +5,16 @@ import { Card, Tabs, Tooltip } from 'antd';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
 import StarRating from 'react-star-ratings';
-import { toast } from 'react-toastify';
 import ProductListItems from './ProductListItems';
 import StarsRating from '../common/StarsRating';
 import RatingModal from '../modal/RatingModal';
-import { addToWishlist } from '../../functions/user';
-import { NAV_LINKS } from '../../constants';
 import Laptop from '../../assets/images/laptop.png';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {
   rateProductAction,
   addToCartAction,
   toggleVisibleAction,
+  updateWishlistAction,
 } from '../../store/action-creators';
 
 const { TabPane } = Tabs;
@@ -56,13 +54,8 @@ const SingleProduct = ({ product }) => {
     setTooltip('In the cart already');
   };
 
-  const handleAddToWishlist = (e) => {
-    e.preventDefault();
-
-    addToWishlist(product._id, user.token).then(() => {
-      toast.success('Added to wishlist');
-      history.push(NAV_LINKS.USER_WISHLIST.ROUTE);
-    });
+  const handleAddToWishlist = () => {
+    dispatch(updateWishlistAction(product._id, user.token));
   };
 
   return (

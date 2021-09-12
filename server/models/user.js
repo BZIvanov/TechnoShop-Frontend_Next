@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { ObjectId } = Schema;
 const { MODELS, USER_ROLES } = require('../constants');
 
 const userSchema = new Schema(
@@ -11,9 +10,7 @@ const userSchema = new Schema(
       enum: Object.values(USER_ROLES),
       default: USER_ROLES.USER,
     },
-    cart: { type: Array, default: [] },
     address: String,
-    wishlist: [{ type: ObjectId, ref: MODELS.PRODUCT }],
   },
   { timestamps: true }
 );
