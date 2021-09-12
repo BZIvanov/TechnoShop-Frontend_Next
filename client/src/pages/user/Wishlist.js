@@ -1,31 +1,27 @@
-import { useState, useEffect, useCallback } from 'react';
-import UserNav from '../../components/nav/UserNav';
-import { getWishlist, removeWishlist } from '../../functions/user';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
+import UserNav from '../../components/nav/UserNav';
+import {
+  getWishlistAction,
+  updateWishlistAction,
+} from '../../store/action-creators';
+import { NAV_LINKS } from '../../constants';
 
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
-
   const { user } = useSelector((state) => state.user);
+  const { wishlist } = useSelector((state) => state.wishlist);
 
-  const loadWishlist = useCallback(
-    () =>
-      getWishlist(user.token).then((res) => {
-        setWishlist(res.data.wishlist);
-      }),
-    [user.token]
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    loadWishlist();
-  }, [loadWishlist]);
+    dispatch(getWishlistAction(user.token));
+  }, [dispatch, user.token]);
 
-  const handleRemove = (productId) =>
-    removeWishlist(productId, user.token).then(() => {
-      loadWishlist();
-    });
+  const handleRemove = (productId) => {
+    dispatch(updateWishlistAction(productId, user.token));
+  };
 
   return (
     <div className='container-fluid'>
@@ -35,12 +31,15 @@ const Wishlist = () => {
         </div>
         <div className='col'>
           <h4>Wishlist</h4>
+          {wishlist.length === 0 && <p>No products to display</p>}
 
-          {wishlist.map((p) => (
-            <div key={p._id} className='alert alert-secondary'>
-              <Link to={`/product/${p.slug}`}>{p.title}</Link>
+          {wishlist.map((product) => (
+            <div key={product._id} className='alert alert-secondary'>
+              <Link to={`${NAV_LINKS.PRODUCT.ROUTE}/${product.slug}`}>
+                {product.title}
+              </Link>
               <span
-                onClick={() => handleRemove(p._id)}
+                onClick={() => handleRemove(product._id)}
                 className='btn btn-sm float-right'
               >
                 <DeleteOutlined className='text-danger' />

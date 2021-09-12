@@ -11,6 +11,7 @@ import { couponReducer } from './coupon';
 import { CODReducer } from './CODReducer';
 import { stripeReducer } from './stripe';
 import { orderReducer } from './order';
+import { wishlistReducer } from './wishlist';
 
 const rootReducer = combineReducers({
   apiCall: apiCallReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   COD: CODReducer,
   stripe: stripeReducer,
   order: orderReducer,
+  wishlist: wishlistReducer,
 });
 
 export default rootReducer;

@@ -10,3 +10,4 @@ export * from './side-drawer';
 export * from './coupon';
 export * from './stripe';
 export * from './order';
+export * from './wishlist';
