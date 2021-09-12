@@ -67,10 +67,6 @@ const Checkout = () => {
           payload: [],
         });
         dispatch({
-          type: 'COUPON_APPLIED',
-          payload: false,
-        });
-        dispatch({
           type: 'COD',
           payload: false,
         });
