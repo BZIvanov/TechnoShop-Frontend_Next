@@ -44,3 +44,12 @@ export const PRODUCT_TYPES_FETCH = {
 export const BRANDS_LIST = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
 export const COLORS_LIST = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
 export const SHIPPING_OPTIONS = { YES: 'Yes', NO: 'No' };
+
+export const ORDER_STATUSES = {
+  NOT_PROCESSED: 'Not Processed',
+  CASH_ON_DELIVERY: 'Cash On Delivery',
+  PROCESSING: 'Processing',
+  DISPATCHED: 'Dispatched',
+  CANCELLED: 'Cancelled',
+  COMPLETED: 'Completed',
+};
