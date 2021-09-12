@@ -1,111 +1,92 @@
-import { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Card } from 'antd';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 import Laptop from '../assets/images/laptop.png';
-import { createOrder, emptyUserCart } from '../functions/user';
 import { NAV_LINKS } from '../constants';
+import {
+  createPaymentIntentAction,
+  confirmPaymentAction,
+  apiCallFail,
+  apiCallReset,
+} from '../store/action-creators';
+
+const cartStyle = {
+  style: {
+    base: {
+      color: '#32325d',
+      fontFamily: 'Arial, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#32325d',
+      },
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a',
+    },
+  },
+};
 
 const StripeCheckout = () => {
-  const [succeeded, setSucceeded] = useState(false);
-  const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState('');
-  const [disabled, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState('');
-  const [cartTotal, setCartTotal] = useState(0);
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
-  const [payable, setPayable] = useState(0);
+  const { user } = useSelector((state) => state.user);
+  const { totalPrice, totalAfterDiscount } = useSelector((state) => state.cart);
+  const { loading, success, error } = useSelector((state) => state.apiCall);
 
-  const { user, coupon } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
-
   const stripe = useStripe();
   const elements = useElements();
 
   useEffect(() => {
-    createPaymentIntent(user.token, coupon).then((res) => {
-      setClientSecret(res.data.clientSecret);
-      setCartTotal(res.data.cartTotal);
-      setTotalAfterDiscount(res.data.totalAfterDiscount);
-      setPayable(res.data.payable);
-    });
-  }, [user.token, coupon]);
+    dispatch(createPaymentIntentAction(user.token));
+  }, [dispatch, user.token]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setProcessing(true);
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+    }
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(apiCallReset());
+  }, [success, error, dispatch]);
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: e.target.name.value,
-        },
-      },
-    });
-
-    if (payload.error) {
-      setError(`Payment failed ${payload.error.message}`);
-      setProcessing(false);
-    } else {
-      createOrder(payload, user.token).then((res) => {
-        if (res.data.ok) {
-          if (typeof window !== 'undefined') localStorage.removeItem('cart');
-          dispatch({
-            type: 'ADD_TO_CART_',
-            payload: [],
-          });
-          dispatch({
-            type: 'COUPON_APPLIED',
-            payload: false,
-          });
-          emptyUserCart(user.token);
-        }
-      });
-
-      setError(null);
-      setProcessing(false);
-      setSucceeded(true);
+  // this is the payment card input field
+  const handleChange = async (e) => {
+    if (e.empty) {
+      dispatch(apiCallFail('Card number is required'));
+    }
+    if (e.error) {
+      dispatch(apiCallFail(e.error.message));
     }
   };
 
-  const handleChange = async (e) => {
-    setDisabled(e.empty);
-    setError(e.error ? e.error.message : '');
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const cartStyle = {
-    style: {
-      base: {
-        color: '#32325d',
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#32325d',
-        },
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a',
-      },
-    },
+    dispatch(
+      confirmPaymentAction(
+        user.token,
+        stripe,
+        elements.getElement(CardElement),
+        e.target.name.value
+      )
+    );
   };
 
   return (
     <>
-      {!succeeded && (
-        <div>
-          {coupon && totalAfterDiscount !== undefined ? (
-            <p className='alert alert-success'>{`Total after discount: $${totalAfterDiscount}`}</p>
-          ) : (
-            <p className='alert alert-danger'>No coupon applied</p>
-          )}
-        </div>
-      )}
+      <div>
+        <p className='alert alert-success'>
+          {totalAfterDiscount > 0
+            ? `Total after discount: $${totalAfterDiscount}`
+            : 'No coupon applied'}
+        </p>
+      </div>
 
       <div className='text-center pb-5'>
         <Card
@@ -123,11 +104,14 @@ const StripeCheckout = () => {
           actions={[
             <>
               <DollarOutlined className='text-info' /> <br /> Total: $
-              {cartTotal}
+              {totalPrice}
             </>,
             <>
               <CheckOutlined className='text-info' /> <br /> Total payable : $
-              {(payable / 100).toFixed(2)}
+              {(totalAfterDiscount > 0
+                ? totalAfterDiscount
+                : totalPrice
+              ).toFixed(2)}
             </>,
           ]}
         />
@@ -141,25 +125,23 @@ const StripeCheckout = () => {
         />
         <button
           className='stripe-button'
-          disabled={processing || disabled || succeeded}
+          disabled={loading || error || success}
         >
           <span id='button-text'>
-            {processing ? <div className='spinner' id='spinner'></div> : 'Pay'}
+            {loading ? <div className='spinner' id='spinner'></div> : 'Pay'}
           </span>
         </button>
-        <br />
-        {error && (
-          <div className='card-error' role='alert'>
-            {error}
-          </div>
-        )}
       </form>
 
-      <br />
-      <p className={succeeded ? 'result-message' : 'result-message hidden'}>
+      {/* totalPrice is reset after successful payment */}
+      <p
+        className={
+          totalPrice === 0 ? 'result-message' : 'result-message hidden'
+        }
+      >
         Payment Successful.{' '}
         <Link to={NAV_LINKS.USER_HISTORY.ROUTE}>
-          See it in your purchase history.
+          Check your purchase history.
         </Link>
       </p>
     </>

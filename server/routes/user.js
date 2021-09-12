@@ -6,7 +6,6 @@ const {
   saveUserCart,
   emptyUserCart,
   applyCouponToUserCart,
-  createOrder,
   createCashOrder,
   orders,
   addToWishlist,
@@ -21,7 +20,6 @@ router.get('/user/cart', authCheck, getUserCart);
 router.post('/user/cart', authCheck, saveUserCart);
 router.put('/user/cart', authCheck, applyCouponToUserCart);
 router.delete('/user/cart', authCheck, emptyUserCart);
-router.post('/user/order', authCheck, createOrder);
 router.post('/user/cash-order', authCheck, createCashOrder);
 router.get('/user/orders', authCheck, orders);
 router.post('/user/wishlist', authCheck, addToWishlist);
