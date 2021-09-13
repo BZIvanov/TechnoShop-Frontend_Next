@@ -6,7 +6,7 @@ const isBrowser = typeof window !== 'undefined';
 if (isBrowser) {
   const localStorageCart = localStorage.getItem('cart');
   if (localStorageCart) {
-    // initialState.cart = JSON.parse(localStorageCart);
+    initialState.cart = JSON.parse(localStorageCart);
   }
 }
 
@@ -30,7 +30,7 @@ export const cartReducer = (state = initialState, action) => {
       };
 
       if (isBrowser) {
-        localStorage.setItem('cart', JSON.stringify(updatedState));
+        localStorage.setItem('cart', JSON.stringify(updatedState.cart));
       }
 
       return updatedState;
@@ -48,7 +48,7 @@ export const cartReducer = (state = initialState, action) => {
       };
 
       if (isBrowser) {
-        localStorage.setItem('cart', JSON.stringify(restProducts));
+        localStorage.setItem('cart', JSON.stringify(restProducts.cart));
       }
 
       return restProducts;

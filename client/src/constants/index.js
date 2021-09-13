@@ -53,3 +53,8 @@ export const ORDER_STATUSES = {
   CANCELLED: 'Cancelled',
   COMPLETED: 'Completed',
 };
+
+export const PAYMENT_TYPES = {
+  STRIPE: 'stripe',
+  CASH: 'cash',
+};

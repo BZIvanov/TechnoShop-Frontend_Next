@@ -6,7 +6,6 @@ const {
   saveUserCart,
   emptyUserCart,
   applyCouponToUserCart,
-  createCashOrder,
 } = require('../controllers/user');
 
 const router = express.Router();
@@ -16,6 +15,5 @@ router.get('/user/cart', authCheck, getUserCart);
 router.post('/user/cart', authCheck, saveUserCart);
 router.put('/user/cart', authCheck, applyCouponToUserCart);
 router.delete('/user/cart', authCheck, emptyUserCart);
-router.post('/user/cash-order', authCheck, createCashOrder);
 
 module.exports = router;

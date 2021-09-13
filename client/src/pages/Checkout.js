@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { emptyUserCart, createCashOrderForUser } from '../functions/user';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
@@ -11,20 +10,19 @@ import {
   emptyUserCartAction,
   applyCouponAction,
   applyDiscountCouponAction,
+  confirmPaymentAction,
   apiCallReset,
 } from '../store/action-creators';
-import { NAV_LINKS } from '../constants';
+import { NAV_LINKS, PAYMENT_TYPES } from '../constants';
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);
   const { cart, totalPrice, totalAfterDiscount } = useSelector(
     (state) => state.cart
   );
-  const { success, error } = useSelector((state) => state.apiCall);
   const { userCoupon } = useSelector((state) => state.coupon);
-  const { COD, coupon: isCouponApplied } = useSelector((state) => ({
-    ...state,
-  }));
+  const paymentType = useSelector((state) => state.payment.paymentType);
+  const { success, error } = useSelector((state) => state.apiCall);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -37,13 +35,17 @@ const Checkout = () => {
 
   useEffect(() => {
     if (success) {
-      toast.success(success);
+      if (success === 'Payment successful') {
+        history.push(NAV_LINKS.USER_HISTORY.ROUTE);
+      } else {
+        toast.success(success);
+      }
     }
     if (error) {
       toast.error(error);
     }
     dispatch(apiCallReset());
-  }, [success, error, dispatch]);
+  }, [success, error, dispatch, history]);
 
   const emptyCart = () => {
     dispatch(emptyUserCartAction(user.token));
@@ -58,26 +60,7 @@ const Checkout = () => {
   };
 
   const createCashOrder = () => {
-    createCashOrderForUser(user.token, COD, isCouponApplied).then((res) => {
-      if (res.data.ok) {
-        if (typeof window !== 'undefined') localStorage.removeItem('cart');
-
-        dispatch({
-          type: 'ADD_TO_CART_',
-          payload: [],
-        });
-        dispatch({
-          type: 'COD',
-          payload: false,
-        });
-
-        emptyUserCart(user.token)
-          .then(() => {
-            history.push(NAV_LINKS.USER_HISTORY.ROUTE);
-          })
-          .catch((err) => console.log(err));
-      }
-    });
+    dispatch(confirmPaymentAction(user.token));
   };
 
   return (
@@ -127,13 +110,13 @@ const Checkout = () => {
 
         <div className='row'>
           <div className='col-md-6'>
-            {COD ? (
+            {paymentType === PAYMENT_TYPES.CASH ? (
               <button
                 className='btn btn-primary'
                 disabled={!user.address || !cart.length}
                 onClick={createCashOrder}
               >
-                Place Order
+                Pay with Cash
               </button>
             ) : (
               <button
@@ -141,7 +124,7 @@ const Checkout = () => {
                 disabled={!user.address || !cart.length}
                 onClick={() => history.push(NAV_LINKS.PAYMENT.ROUTE)}
               >
-                Place Order
+                Pay with Stripe
               </button>
             )}
           </div>

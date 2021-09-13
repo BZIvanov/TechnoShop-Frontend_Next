@@ -4,8 +4,8 @@ export const getOrdersCall = (authtoken) => {
   return axios.get('/order', { headers: { authtoken } });
 };
 
-export const createOrderCall = (stripePayment, authtoken) => {
-  return axios.post('/order', stripePayment, {
+export const createOrderCall = (payment, authtoken) => {
+  return axios.post('/order', payment, {
     headers: { authtoken },
   });
 };

@@ -3,8 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
-import { saveUserCartAction, apiCallReset } from '../store/action-creators';
-import { NAV_LINKS } from '../constants';
+import {
+  saveUserCartAction,
+  setPaymentTypeAction,
+  apiCallReset,
+} from '../store/action-creators';
+import { NAV_LINKS, PAYMENT_TYPES } from '../constants';
 
 const Cart = () => {
   const { user } = useSelector((state) => state.user);
@@ -32,11 +36,11 @@ const Cart = () => {
     );
 
   const persistOrder = (isCashPayment) => {
-    dispatch({
-      type: 'COD',
-      payload: isCashPayment,
-    });
+    const paymentType = isCashPayment
+      ? PAYMENT_TYPES.CASH
+      : PAYMENT_TYPES.STRIPE;
 
+    dispatch(setPaymentTypeAction(paymentType));
     dispatch(saveUserCartAction({ cart }, user.token));
   };
 
@@ -93,7 +97,7 @@ const Cart = () => {
                 className='btn btn-sm btn-primary mt-2'
                 disabled={!cart.length}
               >
-                Proceed to Checkout
+                Card Payment
               </button>
               <br />
               <button
@@ -101,7 +105,7 @@ const Cart = () => {
                 className='btn btn-sm btn-warning mt-2'
                 disabled={!cart.length}
               >
-                Pay Cash on Delivery
+                Cash Payment
               </button>
             </>
           ) : (

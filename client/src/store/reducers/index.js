@@ -8,8 +8,7 @@ import { searchReducer } from './search';
 import { cartReducer } from './cart';
 import { sidedrawerReducer } from './side-drawer';
 import { couponReducer } from './coupon';
-import { CODReducer } from './CODReducer';
-import { stripeReducer } from './stripe';
+import { paymentReducer } from './payment';
 import { orderReducer } from './order';
 import { wishlistReducer } from './wishlist';
 
@@ -23,8 +22,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   sidedrawer: sidedrawerReducer,
   coupon: couponReducer,
-  COD: CODReducer,
-  stripe: stripeReducer,
+  payment: paymentReducer,
   order: orderReducer,
   wishlist: wishlistReducer,
 });

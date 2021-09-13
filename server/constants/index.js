@@ -32,6 +32,11 @@ const COLORS = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
 
 const BRANDS = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'];
 
+const PAYMENT_TYPES = {
+  STRIPE: 'stripe',
+  CASH: 'cash',
+};
+
 module.exports = {
   USER_ROLES,
   MODELS,
@@ -39,4 +44,5 @@ module.exports = {
   YES_NO,
   COLORS,
   BRANDS,
+  PAYMENT_TYPES,
 };

@@ -8,6 +8,7 @@ import {
   removeFromCartAction,
 } from './';
 import { actionType } from '../action-types';
+import { PAYMENT_TYPES } from '../../constants';
 
 export const createPaymentIntentType = (clientSecret) => ({
   type: actionType.SET_CLIENT_SECRET,
@@ -24,7 +25,6 @@ export const createPaymentIntentAction = (token) => {
       dispatch(apiCallSuccess());
       dispatch(createPaymentIntentType(data));
     } catch (error) {
-      console.log(error);
       dispatch(apiCallFail('Get stripe client secret error'));
     }
   };
@@ -32,27 +32,39 @@ export const createPaymentIntentAction = (token) => {
 
 export const confirmPaymentAction = (token, stripe, card, name) => {
   return async (dispatch, getState) => {
-    const clientSecret = getState().stripe.clientSecret;
+    const { paymentType, clientSecret } = getState().payment;
     dispatch(apiCallStart());
 
     try {
-      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card,
-          billing_details: {
-            name,
-          },
-        },
-      });
+      let paymentInfo = {};
 
-      await createOrderCall(paymentIntent, token);
+      if (paymentType === PAYMENT_TYPES.STRIPE) {
+        const { paymentIntent } = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: {
+              card,
+              billing_details: {
+                name,
+              },
+            },
+          }
+        );
+        paymentInfo = paymentIntent;
+      }
+
+      await createOrderCall({ paymentType, paymentInfo }, token);
       await emptyUserCartCall(token);
 
       dispatch(apiCallSuccess('Payment successful'));
       dispatch(removeFromCartAction());
     } catch (error) {
-      console.log(error);
       dispatch(apiCallFail('Confirm stripe payment error'));
     }
   };
 };
+
+export const setPaymentTypeAction = (paymentType) => ({
+  type: actionType.SET_PAYMENT_TYPE,
+  payload: paymentType,
+});
