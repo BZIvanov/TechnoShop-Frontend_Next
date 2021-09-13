@@ -1,9 +1,10 @@
 const status = require('http-status');
+const { v4: uuidv4 } = require('uuid');
 const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 const Order = require('../models/order');
-const { USER_ROLES } = require('../constants');
+const { USER_ROLES, PAYMENT_TYPES, ORDER_STATUSES } = require('../constants');
 
 exports.listOrders = async (req, res) => {
   try {
@@ -26,16 +27,38 @@ exports.listOrders = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
+    let { paymentType, paymentInfo } = req.body;
+
     const user = await User.findOne({ email: req.user.email }).exec();
-    const { products } = await Cart.findOne({ orderedBy: user._id }).exec();
+    const cart = await Cart.findOne({ orderedBy: user._id }).exec();
+
+    // if cash payment create custom paymentIntent object similar to stripe's
+    if (paymentType === PAYMENT_TYPES.CASH) {
+      paymentInfo = {
+        id: uuidv4(),
+        amount:
+          cart.totalAfterDiscount > 0
+            ? cart.totalAfterDiscount * 100
+            : cart.cartTotal * 100,
+        currency: 'usd',
+        status: ORDER_STATUSES.CASH_ON_DELIVERY,
+        created: Date.now() / 1000,
+        payment_method_types: [PAYMENT_TYPES.CASH],
+      };
+    }
 
     await new Order({
-      products,
-      paymentIntent: req.body,
+      products: cart.products,
+      paymentIntent: paymentInfo,
       orderedBy: user._id,
+      orderStatus:
+        paymentType === PAYMENT_TYPES.CASH
+          ? ORDER_STATUSES.CASH_ON_DELIVERY
+          : ORDER_STATUSES.NOT_PROCESSED,
     }).save();
 
-    const bulkOption = products.map((item) => {
+    // update quantity and sold values for each product in the cart so the other users can see correct values
+    const bulkOption = cart.products.map((item) => {
       return {
         updateOne: {
           filter: { _id: item.product._id },
@@ -43,7 +66,6 @@ exports.createOrder = async (req, res) => {
         },
       };
     });
-
     await Product.bulkWrite(bulkOption, {});
 
     res.status(status.CREATED).json({ success: true });
