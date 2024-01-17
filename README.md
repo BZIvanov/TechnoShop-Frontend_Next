@@ -15,16 +15,20 @@ This is a demo Next.js app
 
 ## Dependencies
 
-- `@radix-ui/react-slot` - default shadcn setup
+- `@hookform/resolvers` - resolver for react-hook-form
+- `@radix-ui/react-label` - default shadcn components setup
+- `@radix-ui/react-slot` - default shadcn components setup
 - `class-variance-authority` - default shadcn setup
 - `clsx` - default shadcn setup
 - `lucide-react` - default shadcn setup
 - `next` - default Next setup
 - `react` - default Next setup
 - `react-dom` - default Next setup
+- `react-hook-form` - for handling forms
 - `react-icons` - icons package
 - `tailwind-merge` - default shadcn setup
 - `tailwindcss-animate` - default shadcn setup
+- `zod` - form schema validations
 
 ## DevDependencies
 
