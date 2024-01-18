@@ -13,6 +13,11 @@ This is a demo Next.js app
 
 `Next.js`, `Tailwind`, `Shadcn`
 
+## Scripts
+
+- `start-db` - start the docker container for the PostgreSQL database
+- `stop-db` - start the docker container for the PostgreSQL database
+
 ## Dependencies
 
 - `@hookform/resolvers` - resolver for react-hook-form
