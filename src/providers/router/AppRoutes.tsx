@@ -1,21 +1,21 @@
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router';
+import { createBrowserRouter, Navigate, RouteObject } from "react-router";
 
-import App from '@/App';
-import ShopLayout from '@/components/layouts/ShopLayout';
-import ManagementLayout from '@/components/layouts/ManagementLayout';
-import UserRegister from '@/components/auth/register/UserRegister';
-import UserLogin from '@/components/auth/login/UserLogin';
-import PasswordReset from '@/components/auth/reset-password/PasswordReset';
-import Home from '@/components/home/Home';
-import Shop from '@/components/shop/Shop';
-import ProductDetailed from '@/components/products/detailed/ProductDetailed';
-import Cart from '@/components/cart/Cart';
-import CategoryProducts from '@/components/products/CategoryProducts';
-import SubcategoryProducts from '@/components/products/SubcategoryProducts';
-import NotFound from './feedback/NotFound';
-import ErrorBoundary from './feedback/ErrorBoundary';
-import NonUserRoute from './auth/NonUserRoute';
-import ProtectedRoute from './auth/ProtectedRoute';
+import App from "@/App";
+import ShopLayout from "@/components/layouts/ShopLayout";
+import ManagementLayout from "@/components/layouts/ManagementLayout";
+import UserRegister from "@/components/auth/register/UserRegister";
+import UserLogin from "@/components/auth/login/UserLogin";
+import PasswordReset from "@/components/auth/reset-password/PasswordReset";
+import Home from "@/components/home/Home";
+import Shop from "@/components/shop/Shop";
+import ProductDetailed from "@/components/products/detailed/ProductDetailed";
+import Cart from "@/components/cart/Cart";
+import CategoryProducts from "@/components/products/CategoryProducts";
+import SubcategoryProducts from "@/components/products/SubcategoryProducts";
+import NotFound from "./feedback/NotFound";
+import ErrorBoundary from "./feedback/ErrorBoundary";
+import NonUserRoute from "./auth/NonUserRoute";
+import ProtectedRoute from "./auth/ProtectedRoute";
 import {
   AdminDashboard,
   AdminOrders,
@@ -23,50 +23,51 @@ import {
   ShopDetails,
   ManageCategory,
   ManageSubcategory,
+  ManageCoupons,
   SellerDashboard,
   BuyerDashboard,
   ManageWishList,
   UserProfile,
-} from './lazy-routes';
+} from "./lazy-routes";
 
 const routes: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: <App />,
     errorElement: <ErrorBoundary />,
     children: [
       {
-        path: '',
+        path: "",
         element: <ShopLayout />,
-        children: [{ path: '', element: <Home /> }],
+        children: [{ path: "", element: <Home /> }],
       },
       {
-        path: 'shop',
+        path: "shop",
         element: <ShopLayout />,
-        children: [{ path: '', element: <Shop /> }],
+        children: [{ path: "", element: <Shop /> }],
       },
       {
-        path: 'products/:productId',
+        path: "products/:productId",
         element: <ShopLayout />,
-        children: [{ path: '', element: <ProductDetailed /> }],
+        children: [{ path: "", element: <ProductDetailed /> }],
       },
       {
-        path: 'cart',
+        path: "cart",
         element: <ShopLayout />,
-        children: [{ path: '', element: <Cart /> }],
+        children: [{ path: "", element: <Cart /> }],
       },
       {
-        path: 'category/:categoryId',
+        path: "category/:categoryId",
         element: <ShopLayout />,
-        children: [{ path: '', element: <CategoryProducts /> }],
+        children: [{ path: "", element: <CategoryProducts /> }],
       },
       {
-        path: 'subcategory/:subcategoryId',
+        path: "subcategory/:subcategoryId",
         element: <ShopLayout />,
-        children: [{ path: '', element: <SubcategoryProducts /> }],
+        children: [{ path: "", element: <SubcategoryProducts /> }],
       },
       {
-        path: 'auth',
+        path: "auth",
         element: (
           <NonUserRoute>
             <ShopLayout />
@@ -74,121 +75,125 @@ const routes: RouteObject[] = [
         ),
         children: [
           {
-            path: '',
-            element: <Navigate to='login' replace={true} />, // Default redirect to /auth/login
+            path: "",
+            element: <Navigate to="login" replace={true} />, // Default redirect to /auth/login
           },
           {
-            path: 'register',
+            path: "register",
             element: <UserRegister />,
           },
           {
-            path: 'login',
+            path: "login",
             element: <UserLogin />,
           },
           {
-            path: 'reset-password/:token',
+            path: "reset-password/:token",
             element: <PasswordReset />,
           },
         ],
       },
       {
-        path: 'admin',
+        path: "admin",
         element: (
           <ProtectedRoute
-            authRedirectTo='/auth/login'
-            roleRedirectTo='/'
-            roles={['admin']}
+            authRedirectTo="/auth/login"
+            roleRedirectTo="/"
+            roles={["admin"]}
           >
             <ManagementLayout />
           </ProtectedRoute>
         ),
         children: [
           {
-            path: '',
-            element: <Navigate to='dashboard' replace={true} />,
+            path: "",
+            element: <Navigate to="dashboard" replace={true} />,
           },
           {
-            path: 'dashboard',
+            path: "dashboard",
             element: <AdminDashboard />,
           },
           {
-            path: 'orders',
+            path: "orders",
             element: <AdminOrders />,
           },
           {
-            path: 'shops',
+            path: "shops",
             element: <ManageShops />,
           },
           {
-            path: 'shops/:shopId',
+            path: "shops/:shopId",
             element: <ShopDetails />,
           },
           {
-            path: 'category',
+            path: "category",
             element: <ManageCategory />,
           },
           {
-            path: 'subcategory',
+            path: "subcategory",
             element: <ManageSubcategory />,
           },
           {
-            path: 'profile',
+            path: "coupon",
+            element: <ManageCoupons />,
+          },
+          {
+            path: "profile",
             element: <UserProfile />,
           },
         ],
       },
       {
-        path: 'seller',
+        path: "seller",
         element: (
           <ProtectedRoute
-            authRedirectTo='/auth/login'
-            roleRedirectTo='/'
-            roles={['seller']}
+            authRedirectTo="/auth/login"
+            roleRedirectTo="/"
+            roles={["seller"]}
           >
             <ManagementLayout />
           </ProtectedRoute>
         ),
         children: [
           {
-            path: '',
-            element: <Navigate to='dashboard' replace={true} />,
+            path: "",
+            element: <Navigate to="dashboard" replace={true} />,
           },
           {
-            path: 'dashboard',
+            path: "dashboard",
             element: <SellerDashboard />,
           },
           {
-            path: 'profile',
+            path: "profile",
             element: <UserProfile />,
           },
         ],
       },
       {
-        path: 'buyer',
+        path: "buyer",
         element: (
           <ProtectedRoute
-            authRedirectTo='/auth/login'
-            roleRedirectTo='/'
-            roles={['buyer']}
+            authRedirectTo="/auth/login"
+            roleRedirectTo="/"
+            roles={["buyer"]}
           >
             <ManagementLayout />
           </ProtectedRoute>
         ),
         children: [
           {
-            path: '',
-            element: <Navigate to='dashboard' replace={true} />,
+            path: "",
+            element: <Navigate to="dashboard" replace={true} />,
           },
           {
-            path: 'dashboard',
+            path: "dashboard",
             element: <BuyerDashboard />,
           },
           {
-            path: 'wishlist',
+            path: "wishlist",
             element: <ManageWishList />,
           },
           {
-            path: 'profile',
+            path: "profile",
             element: <UserProfile />,
           },
         ],
@@ -196,7 +201,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: '*',
+    path: "*",
     element: <NotFound />,
   },
 ];
