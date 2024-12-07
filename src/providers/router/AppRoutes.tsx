@@ -24,6 +24,7 @@ import {
   ManageCategory,
   ManageSubcategory,
   ManageCoupons,
+  AdminSellerChat,
   SellerDashboard,
   BuyerDashboard,
   ManageWishList,
@@ -135,6 +136,14 @@ const routes: RouteObject[] = [
           {
             path: "coupon",
             element: <ManageCoupons />,
+          },
+          {
+            path: "chat",
+            element: <AdminSellerChat />,
+          },
+          {
+            path: "chat/:receiverId",
+            element: <AdminSellerChat />,
           },
           {
             path: "profile",

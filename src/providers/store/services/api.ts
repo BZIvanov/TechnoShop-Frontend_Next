@@ -20,5 +20,6 @@ export const api = createApi({
     "ReviewsSummary",
     "AdminOrders",
     "Coupons",
+    "Chats",
   ],
 });
