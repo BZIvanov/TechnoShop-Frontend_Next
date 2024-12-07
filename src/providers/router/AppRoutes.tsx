@@ -27,7 +27,9 @@ import {
   AdminSellerChat,
   SellerDashboard,
   BuyerDashboard,
+  BuyerOrders,
   ManageWishList,
+  BuyerSellerChat,
   UserProfile,
 } from "./lazy-routes";
 
@@ -198,8 +200,20 @@ const routes: RouteObject[] = [
             element: <BuyerDashboard />,
           },
           {
+            path: "orders",
+            element: <BuyerOrders />,
+          },
+          {
             path: "wishlist",
             element: <ManageWishList />,
+          },
+          {
+            path: "chat",
+            element: <BuyerSellerChat />,
+          },
+          {
+            path: "chat/:receiverId",
+            element: <BuyerSellerChat />,
           },
           {
             path: "profile",

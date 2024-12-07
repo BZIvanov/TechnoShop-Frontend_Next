@@ -8,9 +8,9 @@ import {
   useDeleteCouponMutation,
   useGetCouponsQuery,
 } from "@/providers/store/services/coupons";
-import CouponsList from "./CouponsList";
-import CouponsPagination from "./CouponsPagination";
 import { useForm } from "@/components/form/hooks/useForm";
+import TablePagination from "@/components/manage/common/tables/TablePagination";
+import CouponsList from "./CouponsList";
 import CouponForm from "./CouponForm";
 import { schema, CouponFormData } from "./couponForm.schema";
 
@@ -66,9 +66,9 @@ const ManageCoupons: FC = () => {
         coupons={data?.coupons || []}
         deleteCoupon={handleDeleteCoupon}
         paginationComponent={
-          <CouponsPagination
+          <TablePagination
             rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-            totalCount={data?.totalCount}
+            count={data?.totalCount || 0}
             page={page}
             setPage={setPage}
             rowsPerPage={rowsPerPage}

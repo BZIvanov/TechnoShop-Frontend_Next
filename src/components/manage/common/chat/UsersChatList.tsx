@@ -92,6 +92,18 @@ const UsersChatList: FC<UsersChatListProps> = ({
             </ListItem>
           );
         })}
+
+        {chats.length === 0 && (
+          <ListItem>
+            <ListItemText
+              primary={
+                <Typography variant="body1" fontWeight="bold">
+                  No chats
+                </Typography>
+              }
+            />
+          </ListItem>
+        )}
       </List>
     </Paper>
   );

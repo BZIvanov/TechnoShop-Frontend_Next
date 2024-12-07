@@ -1,22 +1,22 @@
-import { FC, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import { FC, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
-import { useGetShopsQuery } from '@/providers/store/services/shops';
-import { ShopActivityStatus } from '@/providers/store/services/types/shops';
-import ShopsList from './ShopsList';
-import ShopsPagination from './ShopsPagination';
+import { useGetShopsQuery } from "@/providers/store/services/shops";
+import { ShopActivityStatus } from "@/providers/store/services/types/shops";
+import TablePagination from "@/components/manage/common/tables/TablePagination";
+import ShopsList from "./ShopsList";
 
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50];
 
 const shopActivityStatuses: Record<ShopActivityStatus, ShopActivityStatus> = {
-  active: 'active',
-  deactive: 'deactive',
+  active: "active",
+  deactive: "deactive",
 };
 
 const ManageShops: FC = () => {
@@ -36,18 +36,18 @@ const ManageShops: FC = () => {
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-      <Typography variant='h5'>Manage Shops</Typography>
+      <Typography variant="h5">Manage Shops</Typography>
 
       <Divider sx={{ marginBlock: 2 }} />
 
       <Box sx={{ marginBlock: 2 }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-          <InputLabel id='activity-status-label'>Activity Status</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <InputLabel id="activity-status-label">Activity Status</InputLabel>
           <Select
-            labelId='activity-status-label'
-            id='activity-status'
+            labelId="activity-status-label"
+            id="activity-status"
             value={activityStatus}
-            label='Activity Status'
+            label="Activity Status"
             onChange={(event) => {
               setActivityStatus(event.target.value as ShopActivityStatus);
             }}
@@ -67,9 +67,9 @@ const ManageShops: FC = () => {
       <ShopsList
         shops={data?.shops || []}
         paginationComponent={
-          <ShopsPagination
+          <TablePagination
             rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-            totalCount={data?.totalCount}
+            count={data?.totalCount || 0}
             page={page}
             setPage={setPage}
             rowsPerPage={rowsPerPage}

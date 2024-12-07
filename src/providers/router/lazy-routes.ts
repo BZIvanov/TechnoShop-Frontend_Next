@@ -37,8 +37,14 @@ export const SellerDashboard = lazy(
 export const BuyerDashboard = lazy(
   () => import("@/components/manage/buyer/dashboard/BuyerDashboard")
 );
+export const BuyerOrders = lazy(
+  () => import("@/components/manage/buyer/orders/BuyerOrders")
+);
 export const ManageWishList = lazy(
   () => import("@/components/manage/buyer/wishlist/ManageWishList")
+);
+export const BuyerSellerChat = lazy(
+  () => import("@/components/manage/buyer/chat/BuyerSellerChat")
 );
 
 // common routes
