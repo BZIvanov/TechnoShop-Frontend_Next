@@ -28,6 +28,8 @@ import {
   SellerDashboard,
   SellerOrders,
   ManageShop,
+  SellerAdminChat,
+  SellerBuyerChat,
   BuyerDashboard,
   BuyerOrders,
   ManageWishList,
@@ -182,6 +184,18 @@ const routes: RouteObject[] = [
           {
             path: "shop",
             element: <ManageShop />,
+          },
+          {
+            path: "chat-admin",
+            element: <SellerAdminChat />,
+          },
+          {
+            path: "chat",
+            element: <SellerBuyerChat />,
+          },
+          {
+            path: "chat/:receiverId",
+            element: <SellerBuyerChat />,
           },
           {
             path: "profile",

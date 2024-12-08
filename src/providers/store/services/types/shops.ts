@@ -1,6 +1,6 @@
-export type ShopActivityStatus = 'active' | 'deactive';
+export type ShopActivityStatus = "active" | "deactive";
 
-export type ShopPaymentStatus = 'paid' | 'unpaid';
+export type ShopPaymentStatus = "paid" | "unpaid";
 
 export interface Shop {
   _id: string;
@@ -33,4 +33,14 @@ export interface ShopsResponse {
 export interface ShopResponse {
   success: boolean;
   shop: Shop;
+}
+
+export interface UpdateShopInfoInput {
+  shopName: string;
+  country?: string;
+  city?: string;
+}
+
+export interface UpdatePaymentInput {
+  paymentStatus: ShopPaymentStatus;
 }
