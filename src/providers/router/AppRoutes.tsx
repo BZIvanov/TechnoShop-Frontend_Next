@@ -26,6 +26,8 @@ import {
   ManageCoupons,
   AdminSellerChat,
   SellerDashboard,
+  SellerOrders,
+  ManageShop,
   BuyerDashboard,
   BuyerOrders,
   ManageWishList,
@@ -172,6 +174,14 @@ const routes: RouteObject[] = [
           {
             path: "dashboard",
             element: <SellerDashboard />,
+          },
+          {
+            path: "orders",
+            element: <SellerOrders />,
+          },
+          {
+            path: "shop",
+            element: <ManageShop />,
           },
           {
             path: "profile",

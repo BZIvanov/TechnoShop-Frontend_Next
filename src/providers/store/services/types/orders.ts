@@ -1,10 +1,10 @@
-import { Coupon } from './coupons';
-import { Product } from './products';
-import { Shop } from './shops';
+import { Coupon } from "./coupons";
+import { Product } from "./products";
+import { Shop } from "./shops";
 
-export type DeliveryStatus = 'pending' | 'delivered' | 'canceled';
+export type DeliveryStatus = "pending" | "delivered" | "canceled";
 
-export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
 
 export interface BuyerOrder {
   _id: string;
@@ -12,10 +12,13 @@ export interface BuyerOrder {
     _id: string;
     username: string;
   };
-  coupon?: {
-    name: string;
-    discount: number;
-  };
+  coupon?: Coupon;
+  products: {
+    _id: string;
+    count: number;
+    shop: Shop;
+    product: Product;
+  }[];
   deliveryStatus: DeliveryStatus;
   paymentStatus: PaymentStatus;
   deliveryAddress: string;
@@ -41,13 +44,41 @@ interface AdminOrderItemField {
 }
 
 export interface AdminOrder extends BuyerOrder {
-  orderItems: AdminOrderItemField['orderItems'];
-  couponDetails: AdminOrderItemField['couponDetails'];
+  orderItems: AdminOrderItemField["orderItems"];
+  couponDetails: AdminOrderItemField["couponDetails"];
+}
+
+export interface SellerOrder {
+  _id: string;
+  parentOrder: string;
+  coupon?: Coupon;
+  products: {
+    _id: string;
+    count: number;
+    product: Product;
+  }[];
+  deliveryStatus: DeliveryStatus;
+  paymentStatus: PaymentStatus;
+  deliveryAddress: string;
+  totalPrice: number;
+  createdAt: string;
 }
 
 export interface AdminOrdersResponse {
   success: boolean;
   orders: AdminOrder[];
+  totalCount: number;
+}
+
+export interface BuyerOrdersResponse {
+  success: boolean;
+  orders: BuyerOrder[];
+  totalCount: number;
+}
+
+export interface SellerOrdersResponse {
+  success: boolean;
+  orders: SellerOrder[];
   totalCount: number;
 }
 
@@ -63,4 +94,14 @@ export interface OrdersStatsResponse {
   pendingOrders: number;
   canceledOrders: number;
   totalPrice: number;
+}
+
+export interface UpdateOrderDeliveryStatusInput {
+  id: string;
+  deliveryStatus: DeliveryStatus;
+}
+
+export interface UpdateOrderDeliveryStatusResponse {
+  success: boolean;
+  order: SellerOrder;
 }

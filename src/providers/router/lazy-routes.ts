@@ -32,6 +32,12 @@ export const AdminSellerChat = lazy(
 export const SellerDashboard = lazy(
   () => import("@/components/manage/seller/dashboard/SellerDashboard")
 );
+export const SellerOrders = lazy(
+  () => import("@/components/manage/seller/orders/SellerOrders")
+);
+export const ManageShop = lazy(
+  () => import("@/components/manage/seller/shop/ManageShop")
+);
 
 // buyer routes
 export const BuyerDashboard = lazy(

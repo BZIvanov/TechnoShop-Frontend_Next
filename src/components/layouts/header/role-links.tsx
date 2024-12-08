@@ -58,6 +58,26 @@ const sellerLinks = [
     linkText: "Dashboard",
   },
   {
+    toLink: "orders",
+    icon: <ArticleIcon fontSize="small" />,
+    linkText: "Orders",
+  },
+  {
+    toLink: "shop",
+    icon: <ListAltIcon fontSize="small" />,
+    linkText: "Shop",
+  },
+  {
+    toLink: "chat-admin",
+    icon: <ChatIcon fontSize="small" />,
+    linkText: "Admin Chat",
+  },
+  {
+    toLink: "chat",
+    icon: <ChatIcon fontSize="small" />,
+    linkText: "Buyers Chat",
+  },
+  {
     toLink: "profile",
     icon: <PasswordIcon fontSize="small" />,
     linkText: "Manage Profile",
