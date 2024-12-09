@@ -1,4 +1,4 @@
-import { Image } from "./common";
+import { AppImage } from "./common";
 
 export interface Chat {
   _id: string;
@@ -6,7 +6,7 @@ export interface Chat {
     user: {
       _id: string;
       username: string;
-      avatar: Image;
+      avatar: AppImage;
     };
     role: "admin" | "seller" | "buyer";
   }[];
@@ -19,7 +19,7 @@ export interface Message {
   chat: string;
   sender: {
     _id: string;
-    avatar: Image;
+    avatar: AppImage;
   };
   content: string;
   createdAt: string;

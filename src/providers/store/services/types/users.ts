@@ -1,10 +1,10 @@
-import { Image } from './common';
+import { AppImage } from "./common";
 
 export interface RegisterInput {
   username: string;
   email: string;
   password: string;
-  role: 'buyer' | 'seller';
+  role: "buyer" | "seller";
 }
 
 export interface LoginInput {
@@ -15,8 +15,8 @@ export interface LoginInput {
 export interface User {
   _id: string;
   username: string;
-  role: 'admin' | 'buyer' | 'seller';
-  avatar?: Image;
+  role: "admin" | "buyer" | "seller";
+  avatar?: AppImage;
 }
 
 export interface AuthResponse {

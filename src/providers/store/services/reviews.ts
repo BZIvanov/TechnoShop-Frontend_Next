@@ -1,11 +1,11 @@
-import { api } from './api';
+import { api } from "./api";
 import {
   ReviewInput,
   ReviewResponse,
   ReviewsParams,
   ReviewsResponse,
   ReviewsSummaryResponse,
-} from './types/reviews';
+} from "./types/reviews";
 
 export const reviewsApi = api.injectEndpoints({
   endpoints: (build) => {
@@ -16,7 +16,7 @@ export const reviewsApi = api.injectEndpoints({
 
           return {
             url: `/reviews/${productId}`,
-            method: 'GET',
+            method: "GET",
             params: rest,
           };
         },
@@ -24,24 +24,24 @@ export const reviewsApi = api.injectEndpoints({
           return result
             ? [
                 ...result.reviews.map(({ _id }) => ({
-                  type: 'Reviews' as const,
+                  type: "Reviews" as const,
                   id: _id,
                 })),
-                { type: 'Reviews' as const, id: 'PARTIAL-LIST' },
+                { type: "Reviews" as const, id: "PARTIAL-LIST" },
               ]
-            : [{ type: 'Reviews' as const, id: 'PARTIAL-LIST' }];
+            : [{ type: "Reviews" as const, id: "PARTIAL-LIST" }];
         },
       }),
       getMyProductReview: build.query<ReviewResponse, string>({
         query: (productId) => {
           return {
             url: `/reviews/${productId}/my-review`,
-            method: 'GET',
-            credentials: 'include',
+            method: "GET",
+            credentials: "include",
           };
         },
         providesTags: (_result, _error, payload) => {
-          return [{ type: 'Reviews' as const, id: payload }];
+          return [{ type: "Reviews" as const, id: payload }];
         },
       }),
       reviewProduct: build.mutation<ReviewResponse, ReviewInput>({
@@ -50,23 +50,22 @@ export const reviewsApi = api.injectEndpoints({
 
           return {
             url: `/reviews/${id}`,
-            method: 'POST',
+            method: "POST",
             body,
-            credentials: 'include',
+            credentials: "include",
           };
         },
         invalidatesTags: (result) => {
-          console.log(result);
           return result
             ? [
-                { type: 'Reviews' as const, id: result.review._id },
-                { type: 'Reviews' as const, id: 'PARTIAL-LIST' },
-                { type: 'ReviewsSummary' as const },
-                { type: 'Products' as const, id: result.review.product },
+                { type: "Reviews" as const, id: result.review._id },
+                { type: "Reviews" as const, id: "PARTIAL-LIST" },
+                { type: "ReviewsSummary" as const },
+                { type: "Products" as const, id: result.review.product },
               ]
             : [
-                { type: 'Reviews' as const, id: 'PARTIAL-LIST' },
-                { type: 'ReviewsSummary' as const },
+                { type: "Reviews" as const, id: "PARTIAL-LIST" },
+                { type: "ReviewsSummary" as const },
               ];
         },
       }),
@@ -74,11 +73,11 @@ export const reviewsApi = api.injectEndpoints({
         query: (productId) => {
           return {
             url: `/reviews/${productId}/summary`,
-            method: 'GET',
+            method: "GET",
           };
         },
         providesTags: () => {
-          return [{ type: 'ReviewsSummary' }];
+          return [{ type: "ReviewsSummary" }];
         },
       }),
     };

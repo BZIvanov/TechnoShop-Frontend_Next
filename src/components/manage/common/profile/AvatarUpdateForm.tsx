@@ -1,14 +1,15 @@
-import { FC } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { FC } from "react";
+import { SubmitHandler } from "react-hook-form";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
-import { useForm } from '@/components/form/hooks/useForm';
-import ImagesFieldAdapter from '@/components/form/fields/ImagesFieldAdapter';
-import PreviewImageAvatar from '@/components/common/images/PreviewImageAvatar';
-import { resizeImage } from '@/utils/resizeImage';
-import { schema, AvatarUpdateFormData } from './avatarUpdateForm.schema';
+import { useForm } from "@/components/form/hooks/useForm";
+import ImagesFieldAdapter from "@/components/form/fields/ImagesFieldAdapter";
+import PreviewImageAvatar from "@/components/common/images/PreviewImageAvatar";
+import { AppImage } from "@/providers/store/services/types/common";
+import { resizeImage } from "@/utils/resizeImage";
+import { schema, AvatarUpdateFormData } from "./avatarUpdateForm.schema";
 
 interface AvatarUpdateFormProps {
   updateAvatar: (formData: FormData, successCb: () => void) => void;
@@ -26,13 +27,13 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
 
   const onSubmit: SubmitHandler<AvatarUpdateFormData> = async (values) => {
     if (!values.avatarImage || values.avatarImage.length === 0) {
-      throw new Error('No image provided');
+      throw new Error("No image provided");
     }
 
     const file = values.avatarImage[0];
 
     if (!(file instanceof File)) {
-      throw new Error('Invalid file type');
+      throw new Error("Invalid file type");
     }
 
     const formData = new FormData();
@@ -40,11 +41,11 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
     const resizedImage = await resizeImage(file, {
       maxWidth: 300,
       maxHeight: 300,
-      compressFormat: 'png',
-      outputType: 'file',
+      compressFormat: "png",
+      outputType: "file",
     });
 
-    formData.append('avatarImage', resizedImage);
+    formData.append("avatarImage", resizedImage);
 
     const formSuccessCb = (): void => {
       form.reset();
@@ -53,7 +54,7 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
     updateAvatar(formData, formSuccessCb);
   };
 
-  const selectedFormImage = form.watch('avatarImage');
+  const selectedFormImage = form.watch("avatarImage") as Array<File | AppImage>;
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -61,15 +62,15 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
         control={form.control}
         setError={form.setError}
         clearErrors={form.clearErrors}
-        name='avatarImage'
+        name="avatarImage"
         maxFiles={1}
       />
 
       <Stack
         sx={{ marginTop: 3 }}
         spacing={2}
-        direction='row'
-        justifyContent='center'
+        direction="row"
+        justifyContent="center"
       >
         {selectedFormImage.map((formImage, index) => {
           if (!formImage) {
@@ -77,7 +78,7 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
           }
 
           const imageKey =
-            'imageUrl' in formImage ? formImage.imageUrl : `file-${index}`;
+            "imageUrl" in formImage ? formImage.imageUrl : `file-${index}`;
 
           return (
             <PreviewImageAvatar key={imageKey as string} image={formImage} />
@@ -87,39 +88,39 @@ const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
 
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
           mt: 2,
         }}
       >
         <Button
-          variant='outlined'
-          color='secondary'
-          type='button'
+          variant="outlined"
+          color="secondary"
+          type="button"
           disabled={isSubmitting}
           onClick={() => form.reset()}
           sx={{
-            width: '40%',
-            backgroundColor: 'grey.100',
-            color: 'secondary.main',
-            '&:hover': {
-              backgroundColor: 'grey.300',
-              color: 'secondary.dark',
+            width: "40%",
+            backgroundColor: "grey.100",
+            color: "secondary.main",
+            "&:hover": {
+              backgroundColor: "grey.300",
+              color: "secondary.dark",
             },
           }}
         >
           Reset
         </Button>
         <Button
-          variant='contained'
-          type='submit'
-          color='primary'
+          variant="contained"
+          type="submit"
+          color="primary"
           disabled={isSubmitting}
           sx={{
-            width: '50%',
-            backgroundColor: 'primary.main',
-            '&:hover': {
-              backgroundColor: 'primary.dark',
+            width: "50%",
+            backgroundColor: "primary.main",
+            "&:hover": {
+              backgroundColor: "primary.dark",
             },
           }}
         >

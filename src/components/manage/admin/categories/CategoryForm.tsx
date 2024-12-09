@@ -1,14 +1,15 @@
-import { FC } from 'react';
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { FC } from "react";
+import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
-import TextFieldAdapter from '@/components/form/fields/TextFieldAdapter';
-import ImagesFieldAdapter from '@/components/form/fields/ImagesFieldAdapter';
-import PreviewImageAvatar from '@/components/common/images/PreviewImageAvatar';
-import { resizeImage } from '@/utils/resizeImage';
-import { CategoryFormData } from './categoryForm.schema';
+import TextFieldAdapter from "@/components/form/fields/TextFieldAdapter";
+import ImagesFieldAdapter from "@/components/form/fields/ImagesFieldAdapter";
+import PreviewImageAvatar from "@/components/common/images/PreviewImageAvatar";
+import { resizeImage } from "@/utils/resizeImage";
+import { CategoryFormData } from "./categoryForm.schema";
+import { AppImage } from "@/providers/store/services/types/common";
 
 interface CategoryFormProps {
   form: UseFormReturn<CategoryFormData>;
@@ -27,56 +28,57 @@ const CategoryForm: FC<CategoryFormProps> = ({
 }) => {
   const onSubmit: SubmitHandler<CategoryFormData> = async (values) => {
     if (!values.categoryImage || values.categoryImage.length === 0) {
-      throw new Error('No image provided');
+      throw new Error("No image provided");
     }
 
     const formData = new FormData();
-    formData.append('categoryName', values.categoryName);
+    formData.append("categoryName", values.categoryName);
 
     const file = values.categoryImage[0];
     if (file instanceof File) {
-      console.log('isFile');
       const resizedImage = await resizeImage(file, {
         maxWidth: 300,
         maxHeight: 300,
-        compressFormat: 'png',
-        outputType: 'file',
+        compressFormat: "png",
+        outputType: "file",
       });
 
-      formData.append('categoryImage', resizedImage);
+      formData.append("categoryImage", resizedImage);
     }
 
     upsertCategory(formData);
   };
 
   const removeImage = () => {
-    form.setValue('categoryImage', []);
+    form.setValue("categoryImage", []);
   };
 
-  const selectedFormImage = form.watch('categoryImage');
+  const selectedFormImage = form.watch("categoryImage") as Array<
+    File | AppImage
+  >;
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <Box my={1}>
         <TextFieldAdapter
           control={form.control}
-          name='categoryName'
-          label='Category Name'
+          name="categoryName"
+          label="Category Name"
         />
 
         <ImagesFieldAdapter
           control={form.control}
           setError={form.setError}
           clearErrors={form.clearErrors}
-          name='categoryImage'
+          name="categoryImage"
           maxFiles={1}
         />
 
         <Stack
           sx={{ marginTop: 3 }}
           spacing={2}
-          direction='row'
-          justifyContent='center'
+          direction="row"
+          justifyContent="center"
         >
           {selectedFormImage.map((formImage, index) => {
             if (!formImage) {
@@ -84,7 +86,7 @@ const CategoryForm: FC<CategoryFormProps> = ({
             }
 
             const imageKey =
-              'imageUrl' in formImage ? formImage.imageUrl : `file-${index}`;
+              "imageUrl" in formImage ? formImage.imageUrl : `file-${index}`;
 
             return (
               <PreviewImageAvatar
@@ -99,18 +101,18 @@ const CategoryForm: FC<CategoryFormProps> = ({
 
       <Box mt={2} ml={1}>
         <Button
-          variant='contained'
-          color='secondary'
-          type='button'
+          variant="contained"
+          color="secondary"
+          type="button"
           onClick={resetForm}
           disabled={isSubmitting}
         >
           Reset
         </Button>
         <Button
-          sx={{ marginLeft: '5px' }}
-          variant='contained'
-          type='submit'
+          sx={{ marginLeft: "5px" }}
+          variant="contained"
+          type="submit"
           disabled={isSubmitting}
         >
           {buttonLabel}

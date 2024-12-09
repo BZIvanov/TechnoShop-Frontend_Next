@@ -1,4 +1,4 @@
-import { Image } from "./common";
+import { AppImage } from "./common";
 import { Category } from "./categories";
 import { Subcategory } from "./subcategories";
 import { Shop } from "./shops";
@@ -15,7 +15,7 @@ export interface Product {
   subcategories: Subcategory[];
   quantity: number;
   sold: number;
-  images: Image[];
+  images: AppImage[];
   shipping: string;
   color: string;
   brand: string;

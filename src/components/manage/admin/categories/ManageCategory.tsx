@@ -1,29 +1,29 @@
-import { FC, useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { FC, useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
-import { useDispatch } from '@/providers/store/hooks';
+import { useDispatch } from "@/providers/store/hooks";
 import {
   useCreateCategoryMutation,
   useDeleteCategoryMutation,
   useGetCategoriesQuery,
   useUpdateCategoryMutation,
-} from '@/providers/store/services/categories';
-import { showNotification } from '@/providers/store/features/notification/notificationSlice';
-import { useForm } from '@/components/form/hooks/useForm';
-import { Image } from '@/providers/store/services/types/common';
-import CategoryForm from './CategoryForm';
-import CategoriesList from './CategoriesList';
-import { schema, CategoryFormData } from './categoryForm.schema';
+} from "@/providers/store/services/categories";
+import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import { useForm } from "@/components/form/hooks/useForm";
+import { AppImage } from "@/providers/store/services/types/common";
+import CategoryForm from "./CategoryForm";
+import CategoriesList from "./CategoriesList";
+import { schema, CategoryFormData } from "./categoryForm.schema";
 
 export type SelectedCategory = {
   _id: string;
   name: string;
-  image: Image;
+  image: AppImage;
 };
 
-const defaultValues = { categoryName: '', categoryImage: [] };
+const defaultValues = { categoryName: "", categoryImage: [] };
 
 const ManageCategory: FC = () => {
   const dispatch = useDispatch();
@@ -72,12 +72,12 @@ const ManageCategory: FC = () => {
       result = await createCategory(formData);
     }
 
-    if (!('error' in result)) {
+    if (!("error" in result)) {
       dispatch(
         showNotification({
-          type: 'success',
+          type: "success",
           message: `Category ${
-            selectedCategory ? 'updated' : 'created'
+            selectedCategory ? "updated" : "created"
           } successfully`,
         })
       );
@@ -93,17 +93,17 @@ const ManageCategory: FC = () => {
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-      <Typography variant='h5'>Manage Categories</Typography>
+      <Typography variant="h5">Manage Categories</Typography>
 
       <CategoryForm
         form={form}
         resetForm={resetForm}
         upsertCategory={handleUpsertCategory}
         isSubmitting={isLoading || isCreating || isUpdating || isDeleting}
-        buttonLabel={selectedCategory ? 'Update category' : 'Create category'}
+        buttonLabel={selectedCategory ? "Update category" : "Create category"}
       />
 
-      <Divider style={{ margin: '20px 0' }} />
+      <Divider style={{ margin: "20px 0" }} />
 
       <CategoriesList
         categories={data?.categories || []}

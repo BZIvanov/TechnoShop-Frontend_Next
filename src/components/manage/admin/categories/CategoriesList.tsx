@@ -1,14 +1,14 @@
-import { FC, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Chip from '@mui/material/Chip';
-import Avatar from '@mui/material/Avatar';
+import { FC, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
 
-import { useConfirmDialog } from '@/providers/custom-providers/confirm-dialog/useConfirmDialog';
-import { Category } from '@/providers/store/services/types/categories';
-import CategorySearch from './CategorySearch';
-import { SelectedCategory } from './ManageCategory';
+import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/useConfirmDialog";
+import { Category } from "@/providers/store/services/types/categories";
+import CategorySearch from "./CategorySearch";
+import { SelectedCategory } from "./ManageCategory";
 
 interface CategoriesListProps {
   categories: Category[];
@@ -21,7 +21,7 @@ const CategoriesList: FC<CategoriesListProps> = ({
   selectCategory,
   deleteCategory,
 }) => {
-  const [filterCategoryText, setFilterCategoryText] = useState<string>('');
+  const [filterCategoryText, setFilterCategoryText] = useState<string>("");
   const handleFilterCategoryText = (filterValue: string) => {
     setFilterCategoryText(filterValue);
   };
@@ -36,14 +36,14 @@ const CategoriesList: FC<CategoriesListProps> = ({
 
   return (
     <Box>
-      <Typography variant='h5'>Categories List</Typography>
+      <Typography variant="h5">Categories List</Typography>
 
       <CategorySearch
         filterCategoryText={filterCategoryText}
         handleFilterCategoryText={handleFilterCategoryText}
       />
 
-      <Paper sx={{ display: 'flex', flexWrap: 'wrap', padding: 1 }}>
+      <Paper sx={{ display: "flex", flexWrap: "wrap", padding: 1 }}>
         {categories.length > 0 ? (
           categories
             .filter(({ name }) =>
@@ -55,15 +55,15 @@ const CategoriesList: FC<CategoriesListProps> = ({
                   key={_id}
                   label={name}
                   avatar={
-                    <Avatar alt='Category preview' src={image.imageUrl} />
+                    <Avatar alt="Category preview" src={image.imageUrl} />
                   }
-                  sx={{ margin: '4px' }}
+                  sx={{ margin: "4px" }}
                   onClick={() => {
                     selectCategory({ _id, name, image });
                   }}
                   onDelete={() => {
                     openDialog({
-                      text: 'Are you sure you want to delete this category?',
+                      text: "Are you sure you want to delete this category?",
                       onConfirm: handleCategoryDelete(_id),
                     });
                   }}
@@ -71,7 +71,7 @@ const CategoriesList: FC<CategoriesListProps> = ({
               );
             })
         ) : (
-          <Typography variant='subtitle2'>
+          <Typography variant="subtitle2">
             No categories. Use the form above to create some.
           </Typography>
         )}

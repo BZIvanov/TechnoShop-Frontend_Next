@@ -1,10 +1,10 @@
-import { Image } from './common';
+import { AppImage } from "./common";
 
 export interface Category {
   _id: string;
   name: string;
   slug: string;
-  image: Image;
+  image: AppImage;
 }
 
 export interface UpdateCategoryInput {

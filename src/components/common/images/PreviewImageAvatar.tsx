@@ -1,13 +1,11 @@
-import { useState, useEffect, FC } from 'react';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { useState, useEffect, FC } from "react";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-interface ImageFile {
-  imageUrl?: string;
-}
+import { AppImage } from "@/providers/store/services/types/common";
 
-type ImageProp = File | ImageFile;
+type ImageProp = File | AppImage;
 
 interface PreviewImageAvatarProps {
   image: ImageProp; // Image can either be a File or an object with `imageUrl`
@@ -23,7 +21,7 @@ const PreviewImageAvatar: FC<PreviewImageAvatarProps> = ({
   useEffect(() => {
     let filePreviewUrl: string | undefined;
 
-    if ('imageUrl' in image && image.imageUrl) {
+    if ("imageUrl" in image && image.imageUrl) {
       // for exisiting images, we will have string url
       setPreview(image.imageUrl);
     } else if (image instanceof File) {
@@ -50,15 +48,15 @@ const PreviewImageAvatar: FC<PreviewImageAvatarProps> = ({
       badgeContent={
         removeImage && (
           <CloseOutlinedIcon
-            sx={{ cursor: 'pointer' }}
-            htmlColor={'red'}
+            sx={{ cursor: "pointer" }}
+            htmlColor={"red"}
             onClick={handleRemoveImage}
           />
         )
       }
     >
       <Avatar
-        alt='Product preview'
+        alt="Product preview"
         src={preview}
         sx={{ width: 90, height: 90 }}
       />
