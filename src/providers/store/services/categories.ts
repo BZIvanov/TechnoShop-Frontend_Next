@@ -1,9 +1,10 @@
-import { api } from './api';
+import { api } from "./api";
 import {
   CategoriesResponse,
   CategoryResponse,
   UpdateCategoryInput,
-} from './types/categories';
+} from "./types/categories";
+import { SubcategoriesResponse } from "./types/subcategories";
 
 export const categoriesApi = api.injectEndpoints({
   endpoints: (build) => {
@@ -11,44 +12,44 @@ export const categoriesApi = api.injectEndpoints({
       getCategories: build.query<CategoriesResponse, void>({
         query: () => {
           return {
-            url: '/categories',
-            method: 'GET',
+            url: "/categories",
+            method: "GET",
           };
         },
         providesTags: (result) => {
           return result
             ? [
                 ...result.categories.map(({ _id }) => ({
-                  type: 'Categories' as const,
+                  type: "Categories" as const,
                   id: _id,
                 })),
-                { type: 'Categories' as const, id: 'LIST' },
+                { type: "Categories" as const, id: "LIST" },
               ]
-            : [{ type: 'Categories' as const, id: 'LIST' }];
+            : [{ type: "Categories" as const, id: "LIST" }];
         },
       }),
       getCategory: build.query<CategoryResponse, string>({
         query: (id) => {
           return {
             url: `/categories/${id}`,
-            method: 'GET',
+            method: "GET",
           };
         },
         providesTags: (_result, _error, payload) => {
-          return [{ type: 'Categories' as const, id: payload }];
+          return [{ type: "Categories" as const, id: payload }];
         },
       }),
       createCategory: build.mutation<CategoryResponse, FormData>({
         query: (data) => {
           return {
-            url: '/categories',
-            method: 'POST',
+            url: "/categories",
+            method: "POST",
             body: data,
-            credentials: 'include',
+            credentials: "include",
           };
         },
         invalidatesTags: () => {
-          return [{ type: 'Categories' as const, id: 'LIST' }];
+          return [{ type: "Categories" as const, id: "LIST" }];
         },
       }),
       updateCategory: build.mutation<CategoryResponse, UpdateCategoryInput>({
@@ -57,28 +58,47 @@ export const categoriesApi = api.injectEndpoints({
 
           return {
             url: `/categories/${id}`,
-            method: 'PATCH',
+            method: "PATCH",
             body: formData,
-            credentials: 'include',
+            credentials: "include",
           };
         },
         invalidatesTags: (_result, _error, payload) => {
-          return [{ type: 'Categories', id: payload.id }];
+          return [{ type: "Categories", id: payload.id }];
         },
       }),
       deleteCategory: build.mutation<void, string>({
         query: (id) => {
           return {
             url: `/categories/${id}`,
-            method: 'DELETE',
-            credentials: 'include',
+            method: "DELETE",
+            credentials: "include",
           };
         },
         invalidatesTags: (_result, _error, payload) => {
           return [
-            { type: 'Categories', id: payload },
-            { type: 'Subcategories', id: 'LIST' },
+            { type: "Categories", id: payload },
+            { type: "Subcategories", id: "LIST" },
           ];
+        },
+      }),
+      getCategorySubcategories: build.query<SubcategoriesResponse, string>({
+        query: (id) => {
+          return {
+            url: `/categories/${id}/subcategories`,
+            method: "GET",
+          };
+        },
+        providesTags: (result) => {
+          return result
+            ? [
+                ...result.subcategories.map(({ _id }) => ({
+                  type: "CategorySubcategories" as const,
+                  id: _id,
+                })),
+                { type: "CategorySubcategories" as const, id: "LIST" },
+              ]
+            : [{ type: "CategorySubcategories" as const, id: "LIST" }];
         },
       }),
     };
@@ -91,4 +111,5 @@ export const {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useGetCategorySubcategoriesQuery,
 } = categoriesApi;

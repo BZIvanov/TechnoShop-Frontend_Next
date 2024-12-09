@@ -12,6 +12,7 @@ export const api = createApi({
     "Shops",
     "SellerShop",
     "Categories",
+    "CategorySubcategories",
     "Subcategories",
     "GroupedSubcategories",
     "Products",
