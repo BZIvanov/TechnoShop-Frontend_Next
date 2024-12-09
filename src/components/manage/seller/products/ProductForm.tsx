@@ -15,6 +15,7 @@ interface ProductFormProps {
   categorySubcategories: { _id: string; name: string }[];
   buttonLabel: string;
   isSubmitting: boolean;
+  upsertProduct: (formData: FormData) => void;
 }
 
 const ProductForm: FC<ProductFormProps> = ({
@@ -23,6 +24,7 @@ const ProductForm: FC<ProductFormProps> = ({
   categorySubcategories = [],
   buttonLabel,
   isSubmitting,
+  upsertProduct,
 }) => {
   const onSubmit: SubmitHandler<ProductFormData> = async (values) => {
     const formData = new FormData();
@@ -39,6 +41,8 @@ const ProductForm: FC<ProductFormProps> = ({
     values.subcategories.forEach((subcategory) =>
       formData.append("subcategories", subcategory as string)
     );
+
+    upsertProduct(formData);
   };
 
   return (

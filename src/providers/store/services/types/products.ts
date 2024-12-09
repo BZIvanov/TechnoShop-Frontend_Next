@@ -1,7 +1,7 @@
-import { Image } from './common';
-import { Category } from './categories';
-import { Subcategory } from './subcategories';
-import { Shop } from './shops';
+import { Image } from "./common";
+import { Category } from "./categories";
+import { Subcategory } from "./subcategories";
+import { Shop } from "./shops";
 
 export interface Product {
   _id: string;
@@ -46,4 +46,9 @@ export interface ProductsResponse {
 export interface ProductResponse {
   success: boolean;
   product: Product;
+}
+
+export interface UpdateProductInput {
+  id: string;
+  formData: FormData;
 }

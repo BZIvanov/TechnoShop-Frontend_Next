@@ -3,6 +3,7 @@ import {
   ProductResponse,
   ProductsParams,
   ProductsResponse,
+  UpdateProductInput,
 } from "./types/products";
 
 export const productsApi = api.injectEndpoints({
@@ -23,9 +24,9 @@ export const productsApi = api.injectEndpoints({
                   type: "Products" as const,
                   id: _id,
                 })),
-                { type: "Products" as const, id: "LIST" },
+                { type: "Products" as const, id: "PARTIAL-LIST" },
               ]
-            : [{ type: "Products" as const, id: "LIST" }];
+            : [{ type: "Products" as const, id: "PARTIAL-LIST" }];
         },
       }),
       getProduct: build.query<ProductResponse, string>({
@@ -35,6 +36,34 @@ export const productsApi = api.injectEndpoints({
         }),
         providesTags: (_result, _error, payload) => {
           return [{ type: "Products" as const, id: payload }];
+        },
+      }),
+      createProduct: build.mutation<ProductResponse, FormData>({
+        query: (data) => {
+          return {
+            url: "/products",
+            method: "POST",
+            body: data,
+            credentials: "include",
+          };
+        },
+        invalidatesTags: () => {
+          return [{ type: "Products" as const, id: "PARTIAL-LIST" }];
+        },
+      }),
+      updateProduct: build.mutation<ProductResponse, UpdateProductInput>({
+        query: (data) => {
+          const { id, formData } = data;
+
+          return {
+            url: `/products/${id}`,
+            method: "PATCH",
+            body: formData,
+            credentials: "include",
+          };
+        },
+        invalidatesTags: (_result, _error, payload) => {
+          return [{ type: "Products" as const, id: payload.id }];
         },
       }),
       deleteProduct: build.mutation<void, string>({
@@ -56,5 +85,7 @@ export const productsApi = api.injectEndpoints({
 export const {
   useGetProductsQuery,
   useGetProductQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
   useDeleteProductMutation,
 } = productsApi;
