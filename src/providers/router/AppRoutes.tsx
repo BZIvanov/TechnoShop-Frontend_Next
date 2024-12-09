@@ -16,6 +16,7 @@ import NotFound from "./feedback/NotFound";
 import ErrorBoundary from "./feedback/ErrorBoundary";
 import NonUserRoute from "./auth/NonUserRoute";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import ShopStatus from "./auth/ShopStatus";
 import {
   AdminDashboard,
   AdminOrders,
@@ -28,6 +29,8 @@ import {
   SellerDashboard,
   SellerOrders,
   ManageShop,
+  ManageProduct,
+  ManageProducts,
   SellerAdminChat,
   SellerBuyerChat,
   BuyerDashboard,
@@ -184,6 +187,36 @@ const routes: RouteObject[] = [
           {
             path: "shop",
             element: <ManageShop />,
+          },
+          {
+            // singular product for add/edit
+            path: "product",
+            element: (
+              <ShopStatus
+                statusRedirectTo="/seller/shop"
+                activityStatuses={["active"]}
+                paymentStatuses={["paid"]}
+              >
+                <ManageProduct />
+              </ShopStatus>
+            ),
+          },
+          {
+            path: "product/:productId",
+            element: (
+              <ShopStatus
+                statusRedirectTo="/seller/shop"
+                activityStatuses={["active"]}
+                paymentStatuses={["paid"]}
+              >
+                <ManageProduct />
+              </ShopStatus>
+            ),
+          },
+          // plural products for listing and details
+          {
+            path: "products",
+            element: <ManageProducts />,
           },
           {
             path: "chat-admin",

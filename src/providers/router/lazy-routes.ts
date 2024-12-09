@@ -38,6 +38,12 @@ export const SellerOrders = lazy(
 export const ManageShop = lazy(
   () => import("@/components/manage/seller/shop/ManageShop")
 );
+export const ManageProduct = lazy(
+  () => import("@/components/manage/seller/products/ManageProduct")
+);
+export const ManageProducts = lazy(
+  () => import("@/components/manage/seller/products/ManageProducts")
+);
 export const SellerAdminChat = lazy(
   () => import("@/components/manage/seller/chat/SellerAdminChat")
 );

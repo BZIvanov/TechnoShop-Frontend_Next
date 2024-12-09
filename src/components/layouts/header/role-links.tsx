@@ -5,6 +5,8 @@ import CategoryIcon from "@mui/icons-material/Category";
 import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import DiscountIcon from "@mui/icons-material/Discount";
+import GradientIcon from "@mui/icons-material/Gradient";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import ChatIcon from "@mui/icons-material/Chat";
 import PasswordIcon from "@mui/icons-material/Password";
 
@@ -66,6 +68,16 @@ const sellerLinks = [
     toLink: "shop",
     icon: <ListAltIcon fontSize="small" />,
     linkText: "Shop",
+  },
+  {
+    toLink: "product",
+    icon: <GradientIcon fontSize="small" />,
+    linkText: "Manage Product",
+  },
+  {
+    toLink: "products",
+    icon: <PhoneAndroidIcon fontSize="small" />,
+    linkText: "Manage Products",
   },
   {
     toLink: "chat-admin",
