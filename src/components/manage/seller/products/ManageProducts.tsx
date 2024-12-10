@@ -1,8 +1,10 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
 
 import {
   useDeleteProductMutation,
@@ -14,6 +16,8 @@ import ProductsTable from "./ProductsTable";
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50];
 
 const ManageProducts: FC = () => {
+  const navigate = useNavigate();
+
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(
     ROWS_PER_PAGE_OPTIONS[0]
@@ -30,7 +34,12 @@ const ManageProducts: FC = () => {
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-      <Typography variant="h5">Your products</Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h5">Your products</Typography>
+        <Button onClick={() => navigate("/seller/product")} variant="contained">
+          Create
+        </Button>
+      </Box>
 
       <Divider sx={{ marginBlock: 2 }} />
 

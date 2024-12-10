@@ -1,12 +1,12 @@
-import { useState, FC, ChangeEvent } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Pagination from '@mui/material/Pagination';
+import { useState, FC, ChangeEvent } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Pagination from "@mui/material/Pagination";
 
-import { useGetProductsQuery } from '@/providers/store/services/products';
-import ProductsList from '@/components/products/ProductsList';
-import { PRODUCTS_PER_PAGE } from './constants';
+import { useGetProductsQuery } from "@/providers/store/services/products";
+import ProductsList from "@/components/products/ProductsList";
+import { PRODUCTS_PER_PAGE } from "./constants";
 
 interface ProductsSectionProps {
   header: string;
@@ -17,7 +17,7 @@ const ProductsSection: FC<ProductsSectionProps> = ({ header, sortColumn }) => {
   const [page, setPage] = useState(1);
 
   const { data } = useGetProductsQuery({
-    page,
+    page: page - 1,
     perPage: PRODUCTS_PER_PAGE,
     sortColumn,
   });
@@ -33,18 +33,18 @@ const ProductsSection: FC<ProductsSectionProps> = ({ header, sortColumn }) => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         mt: { xs: 2, sm: 4 },
       }}
     >
       <Typography
-        variant='h5'
+        variant="h5"
         sx={{
-          width: '100%',
-          textAlign: 'center',
+          width: "100%",
+          textAlign: "center",
           backgroundColor: (theme) => theme.palette.grey[300],
           p: 2,
           borderRadius: 1,
@@ -57,7 +57,7 @@ const ProductsSection: FC<ProductsSectionProps> = ({ header, sortColumn }) => {
         products={products}
         paginationComponent={
           shouldShowPagination ? (
-            <Stack sx={{ margin: 2, display: 'flex', alignItems: 'center' }}>
+            <Stack sx={{ margin: 2, display: "flex", alignItems: "center" }}>
               <Pagination
                 page={page}
                 onChange={handlePageChange}

@@ -1,28 +1,28 @@
-import { useEffect, useState, FC } from 'react';
-import { Outlet } from 'react-router';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import IconButton from '@mui/material/IconButton';
-import ListIcon from '@mui/icons-material/List';
-import { styled, useTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
+import { useEffect, useState, FC } from "react";
+import { Outlet } from "react-router";
+import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import IconButton from "@mui/material/IconButton";
+import ListIcon from "@mui/icons-material/List";
+import { styled, useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 
-import HeaderLeftNav from './HeaderLeftNav';
-import HeaderSearch from './HeaderSearch';
-import HeaderRightNav from './HeaderRightNav';
-import ManagementSidebarDrawer from './ManagementSidebarDrawer';
-import { DRAWER_WIDTH } from './constants';
+import HeaderLeftNav from "./HeaderLeftNav";
+import HeaderSearch from "./HeaderSearch";
+import HeaderRightNav from "./HeaderRightNav";
+import ManagementSidebarDrawer from "./ManagementSidebarDrawer";
+import { DRAWER_WIDTH } from "./constants";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
@@ -32,7 +32,7 @@ const AppBar = styled(MuiAppBar, {
       style: {
         marginLeft: DRAWER_WIDTH,
         width: `calc(100% - ${DRAWER_WIDTH}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
+        transition: theme.transitions.create(["width", "margin"], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
         }),
@@ -47,7 +47,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ shouldRenderSidebar = false }) => {
   const theme = useTheme();
-  const isBelowMd = useMediaQuery(theme.breakpoints.down('md'));
+  const isBelowMd = useMediaQuery(theme.breakpoints.down("md"));
 
   const [isSidebarDrawerOpen, setIsSidebarDrawerOpen] = useState(false);
 
@@ -69,17 +69,17 @@ const Header: FC<HeaderProps> = ({ shouldRenderSidebar = false }) => {
 
   return (
     <>
-      <AppBarToRender position='fixed' open={isSidebarDrawerOpen}>
+      <AppBarToRender position="fixed" open={isSidebarDrawerOpen}>
         <Toolbar>
           {shouldRenderSidebar && !isBelowMd && (
             <IconButton
-              size='large'
-              color='inherit'
+              size="large"
+              color="inherit"
               onClick={handleSidebarDrawerOpen}
-              edge='start'
+              edge="start"
               sx={[
                 { marginRight: 1 },
-                isSidebarDrawerOpen && { display: 'none' },
+                isSidebarDrawerOpen && { display: "none" },
               ]}
             >
               <ListIcon />
@@ -98,7 +98,7 @@ const Header: FC<HeaderProps> = ({ shouldRenderSidebar = false }) => {
       {/* Render second toolbar so the page content won't hide behind the first ttolbar  */}
       <Toolbar />
 
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         {shouldRenderSidebar && (
           <ManagementSidebarDrawer
             isSidebarDrawerOpen={isSidebarDrawerOpen}
@@ -106,7 +106,7 @@ const Header: FC<HeaderProps> = ({ shouldRenderSidebar = false }) => {
           />
         )}
 
-        <Box component='main' sx={{ flexGrow: 1, p: 1 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
           {/* Here is the page content */}
           <Outlet />
         </Box>

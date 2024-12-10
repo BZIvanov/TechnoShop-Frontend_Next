@@ -2,6 +2,7 @@ import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 import { useDispatch } from "@/providers/store/hooks";
 import {
@@ -21,14 +22,15 @@ import { schema, ProductFormData } from "./productForm.schema";
 const defaultValues = {
   title: "",
   description: "",
-  price: 0,
-  discount: 0,
+  price: "",
+  discount: "",
   shipping: "Yes",
-  quantity: 0,
+  quantity: "",
   color: "",
   brand: "",
   category: "",
   subcategories: [],
+  images: [],
 };
 
 const ManageProduct: FC = () => {
@@ -67,16 +69,17 @@ const ManageProduct: FC = () => {
       form.reset({
         title: product.title,
         description: product.description,
-        price: product.price,
-        discount: product.discount,
+        price: product.price.toString(),
+        discount: product.discount.toString(),
         shipping: product.shipping,
-        quantity: product.quantity,
+        quantity: product.quantity.toString(),
         color: product.color,
         brand: product.brand,
         category: product.category._id,
         subcategories: product.subcategories.map(
           (subcategory) => subcategory._id
         ),
+        images: product.images,
       });
     }
   }, [form, productId, productData]);
@@ -104,7 +107,21 @@ const ManageProduct: FC = () => {
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-      <Typography variant="h5">Manage Product</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        <Typography variant="h5">Manage Product</Typography>
+        <Button
+          onClick={() => navigate("/seller/products")}
+          variant="contained"
+        >
+          All Products
+        </Button>
+      </Box>
 
       <ProductForm
         form={form}

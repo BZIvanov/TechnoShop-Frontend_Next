@@ -1,13 +1,13 @@
-import { useState, ChangeEvent } from 'react';
-import { useParams } from 'react-router';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Pagination from '@mui/material/Pagination';
+import { useState, ChangeEvent } from "react";
+import { useParams } from "react-router";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Pagination from "@mui/material/Pagination";
 
-import { useGetCategoryQuery } from '@/providers/store/services/categories';
-import { useGetProductsQuery } from '@/providers/store/services/products';
-import ProductsList from './ProductsList';
+import { useGetCategoryQuery } from "@/providers/store/services/categories";
+import { useGetProductsQuery } from "@/providers/store/services/products";
+import ProductsList from "./ProductsList";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -16,14 +16,14 @@ const CategoryProducts = () => {
 
   const { categoryId } = useParams();
 
-  const { data: categoryData } = useGetCategoryQuery(categoryId || '', {
+  const { data: categoryData } = useGetCategoryQuery(categoryId || "", {
     skip: !categoryId,
   });
   const category = categoryData?.category;
 
   const { data: categoryProductsData } = useGetProductsQuery({
     categories: categoryId,
-    page,
+    page: page - 1,
   });
   const categoryProducts = categoryProductsData?.products || [];
   const categoryProductsTotalCount = categoryProductsData?.totalCount || 0;
@@ -36,18 +36,18 @@ const CategoryProducts = () => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         mt: { xs: 2, sm: 4 },
       }}
     >
       <Typography
-        variant='h5'
+        variant="h5"
         sx={{
-          width: '100%',
-          textAlign: 'center',
+          width: "100%",
+          textAlign: "center",
           backgroundColor: (theme) => theme.palette.grey[300],
           p: 2,
           borderRadius: 1,
@@ -61,7 +61,7 @@ const CategoryProducts = () => {
           products={categoryProducts}
           paginationComponent={
             shouldShowPagination ? (
-              <Stack sx={{ margin: 2, display: 'flex', alignItems: 'center' }}>
+              <Stack sx={{ margin: 2, display: "flex", alignItems: "center" }}>
                 <Pagination
                   page={page}
                   onChange={handlePageChange}
