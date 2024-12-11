@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -63,7 +63,9 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, deleteProduct }) => {
                     />
                   )}
                 </TableCell>
-                <TableCell align="center">{product.title}</TableCell>
+                <TableCell align="center">
+                  <Link to={`/products/${product._id}`}>{product.title}</Link>
+                </TableCell>
                 <TableCell align="center">
                   {currencyFormatter(product.price)}
                 </TableCell>
