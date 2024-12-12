@@ -1,15 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { RootState } from '../../store';
-import { Product } from '../../services/types/products';
+import { RootState } from "../../store";
+import { Product } from "../../services/types/products";
 
 interface CartItem {
   product: Product;
   count: number;
 }
 
-interface CartState {
-  cart: Record<string, CartItem>;
+interface Cart {
+  cart: Record<Product["_id"], CartItem>;
+}
+
+interface CartState extends Cart {
   isDrawerOpen: boolean;
 }
 
@@ -19,7 +22,7 @@ const initialState: CartState = {
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addToCart: (

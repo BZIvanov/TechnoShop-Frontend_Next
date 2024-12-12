@@ -7,6 +7,8 @@ import {
   SellerOrdersResponse,
   UpdateOrderDeliveryStatusResponse,
   UpdateOrderDeliveryStatusInput,
+  CreateOrderInput,
+  BuyerOrderResponse,
 } from "./types/orders";
 
 export const ordersApi = api.injectEndpoints({
@@ -75,6 +77,17 @@ export const ordersApi = api.injectEndpoints({
             : [{ type: "SellerOrders" as const, id: "PARTIAL-LIST" }];
         },
       }),
+      createOrder: build.mutation<BuyerOrderResponse, CreateOrderInput>({
+        query: (data) => ({
+          url: "/orders",
+          method: "POST",
+          body: data,
+          credentials: "include",
+        }),
+        invalidatesTags: () => {
+          return [{ type: "BuyerOrders", id: "PARTIAL-LIST" }];
+        },
+      }),
       updateOrderDeliveryStatus: build.mutation<
         UpdateOrderDeliveryStatusResponse,
         UpdateOrderDeliveryStatusInput
@@ -119,6 +132,7 @@ export const {
   useGetBuyerOrdersQuery,
   useGetAdminOrdersQuery,
   useGetSellerOrdersQuery,
+  useCreateOrderMutation,
   useUpdateOrderDeliveryStatusMutation,
   useGetBuyerOrdersStatsQuery,
   useGetSellerOrdersStatsQuery,

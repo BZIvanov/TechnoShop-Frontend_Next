@@ -10,6 +10,7 @@ import Home from "@/components/home/Home";
 import Shop from "@/components/shop/Shop";
 import ProductDetailed from "@/components/products/detailed/ProductDetailed";
 import Cart from "@/components/cart/Cart";
+import Checkout from "@/components/payment/Checkout";
 import CategoryProducts from "@/components/products/CategoryProducts";
 import SubcategoryProducts from "@/components/products/SubcategoryProducts";
 import NotFound from "./feedback/NotFound";
@@ -62,11 +63,6 @@ const routes: RouteObject[] = [
         children: [{ path: "", element: <ProductDetailed /> }],
       },
       {
-        path: "cart",
-        element: <ShopLayout />,
-        children: [{ path: "", element: <Cart /> }],
-      },
-      {
         path: "category/:categoryId",
         element: <ShopLayout />,
         children: [{ path: "", element: <CategoryProducts /> }],
@@ -75,6 +71,29 @@ const routes: RouteObject[] = [
         path: "subcategory/:subcategoryId",
         element: <ShopLayout />,
         children: [{ path: "", element: <SubcategoryProducts /> }],
+      },
+      {
+        path: "cart",
+        element: <ShopLayout />,
+        children: [{ path: "", element: <Cart /> }],
+      },
+      {
+        path: "checkout",
+        element: <ShopLayout />,
+        children: [
+          {
+            path: "",
+            element: (
+              <ProtectedRoute
+                authRedirectTo="/auth/login"
+                roleRedirectTo="/"
+                roles={["buyer"]}
+              >
+                <Checkout />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       {
         path: "auth",

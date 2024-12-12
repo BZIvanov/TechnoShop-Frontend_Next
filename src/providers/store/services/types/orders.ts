@@ -76,6 +76,12 @@ export interface BuyerOrdersResponse {
   totalCount: number;
 }
 
+export interface BuyerOrderResponse {
+  success: boolean;
+  order: BuyerOrder;
+  message: string;
+}
+
 export interface SellerOrdersResponse {
   success: boolean;
   orders: SellerOrder[];
@@ -94,6 +100,12 @@ export interface OrdersStatsResponse {
   pendingOrders: number;
   canceledOrders: number;
   totalPrice: number;
+}
+
+export interface CreateOrderInput {
+  address: string;
+  coupon?: string;
+  cart: { count: number; product: Product["_id"] }[];
 }
 
 export interface UpdateOrderDeliveryStatusInput {
