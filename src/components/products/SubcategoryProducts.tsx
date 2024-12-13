@@ -12,7 +12,7 @@ import ProductsList from "./ProductsList";
 const PRODUCTS_PER_PAGE = 12;
 
 const SubcategoryProducts = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
 
   const { subcategoryId } = useParams();
 

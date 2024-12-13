@@ -1,6 +1,7 @@
 import { api } from "./api";
 import {
   ProductResponse,
+  ProductsBrandsResponse,
   ProductsParams,
   ProductsResponse,
   UpdateProductInput,
@@ -78,6 +79,25 @@ export const productsApi = api.injectEndpoints({
           return [{ type: "Products" as const, id: payload }];
         },
       }),
+      getProductsBrands: build.query<ProductsBrandsResponse, void>({
+        query: () => {
+          return {
+            url: `/products/brands`,
+            method: "GET",
+          };
+        },
+        providesTags: (result) => {
+          return result
+            ? [
+                ...result.brands.map((brand) => ({
+                  type: "ProductsBrands" as const,
+                  id: brand,
+                })),
+                { type: "ProductsBrands" as const, id: "LIST" },
+              ]
+            : [{ type: "ProductsBrands" as const, id: "LIST" }];
+        },
+      }),
     };
   },
 });
@@ -88,4 +108,5 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetProductsBrandsQuery,
 } = productsApi;

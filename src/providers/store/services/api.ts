@@ -16,6 +16,7 @@ export const api = createApi({
     "Subcategories",
     "GroupedSubcategories",
     "Products",
+    "ProductsBrands",
     "Wishlist",
     "Reviews",
     "ReviewsSummary",

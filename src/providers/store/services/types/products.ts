@@ -33,7 +33,7 @@ export interface ProductsParams {
   shipping?: string;
   categories?: string;
   subcategories?: string;
-  rating?: string;
+  rating?: string | null;
   brands?: string;
 }
 
@@ -51,4 +51,9 @@ export interface ProductResponse {
 export interface UpdateProductInput {
   id: string;
   formData: FormData;
+}
+
+export interface ProductsBrandsResponse {
+  success: boolean;
+  brands: string[];
 }

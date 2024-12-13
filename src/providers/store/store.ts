@@ -1,14 +1,15 @@
-import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
+import { configureStore, ConfigureStoreOptions } from "@reduxjs/toolkit";
 
-import { api } from './services/api';
-import userSlice from './features/user/userSlice';
-import shopSlice from './features/shop/shopSlice';
-import notificationSlice from './features/notification/notificationSlice';
-import cartSlice from './features/cart/cartSlice';
-import { asyncErrorNotification } from './middlewares/asyncErrorNotification';
+import { api } from "./services/api";
+import userSlice from "./features/user/userSlice";
+import shopSlice from "./features/shop/shopSlice";
+import notificationSlice from "./features/notification/notificationSlice";
+import productsFiltersSlice from "./features/productsFilters/productsFiltersSlice";
+import cartSlice from "./features/cart/cartSlice";
+import { asyncErrorNotification } from "./middlewares/asyncErrorNotification";
 
 export const createStore = (
-  options?: ConfigureStoreOptions['preloadedState'] | undefined
+  options?: ConfigureStoreOptions["preloadedState"] | undefined
 ) =>
   configureStore({
     reducer: {
@@ -16,12 +17,13 @@ export const createStore = (
       user: userSlice,
       shop: shopSlice,
       notification: notificationSlice,
+      productsFilters: productsFiltersSlice,
       cart: cartSlice,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(api.middleware, asyncErrorNotification),
     // import.meta.env.MODE is provided by Vite
-    devTools: import.meta.env.MODE === 'development',
+    devTools: import.meta.env.MODE === "development",
     ...options,
   });
 
