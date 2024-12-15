@@ -30,6 +30,25 @@ export const productsApi = api.injectEndpoints({
             : [{ type: "Products" as const, id: "PARTIAL-LIST" }];
         },
       }),
+      getSimilarProducts: build.query<ProductsResponse, string>({
+        query: (id) => {
+          return {
+            url: `/products/${id}/similar`,
+            method: "GET",
+          };
+        },
+        providesTags: (result) => {
+          return result
+            ? [
+                ...result.products.map(({ _id }) => ({
+                  type: "SimilarProducts" as const,
+                  id: _id,
+                })),
+                { type: "SimilarProducts" as const, id: "LIST" },
+              ]
+            : [{ type: "SimilarProducts" as const, id: "LIST" }];
+        },
+      }),
       getProduct: build.query<ProductResponse, string>({
         query: (id) => ({
           url: `/products/${id}`,
@@ -104,6 +123,7 @@ export const productsApi = api.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetSimilarProductsQuery,
   useGetProductQuery,
   useCreateProductMutation,
   useUpdateProductMutation,

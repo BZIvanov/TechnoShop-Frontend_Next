@@ -10,7 +10,10 @@ import Divider from "@mui/material/Divider";
 
 import { useDispatch, useSelector } from "@/providers/store/hooks";
 import { selectUser } from "@/providers/store/features/user/userSlice";
-import { useGetProductQuery } from "@/providers/store/services/products";
+import {
+  useGetProductQuery,
+  useGetSimilarProductsQuery,
+} from "@/providers/store/services/products";
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
 import { useAddToWishlistMutation } from "@/providers/store/services/wishlist";
 import {
@@ -31,6 +34,7 @@ import AddToCart from "../actions/AddToCart";
 import AddToWishlist from "../actions/AddToWishlist";
 import RateProduct from "../actions/RateProduct";
 import ChatWithSeller from "../actions/ChatWithSeller";
+import ProductsList from "../ProductsList";
 
 const ProductDetailed: FC = () => {
   const navigate = useNavigate();
@@ -44,6 +48,10 @@ const ProductDetailed: FC = () => {
     skip: !productId,
   });
   const product = productData?.product;
+  const { data: similarProductsData } = useGetSimilarProductsQuery(
+    productId || "",
+    { skip: !productId }
+  );
   const { data: myReviewData } = useGetMyProductReviewQuery(productId || "", {
     skip: !user || user.role !== "buyer",
   });
@@ -208,6 +216,23 @@ const ProductDetailed: FC = () => {
       <Box sx={{ width: "100%", marginBlock: 3 }}>
         <Divider />
       </Box>
+
+      <Grid size={{ xs: 12 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            backgroundColor: (theme) => theme.palette.grey[300],
+            p: 2,
+            borderRadius: 1,
+          }}
+        >
+          Similar Products
+        </Typography>
+
+        <ProductsList products={similarProductsData?.products || []} />
+      </Grid>
     </Grid>
   );
 };

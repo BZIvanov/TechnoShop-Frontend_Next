@@ -6,7 +6,7 @@ This is a demo React app created using Vite + TypeScript.
 
 ## Backend
 
-This repository contains only the front-end code. Working back-end repository is named **TechnoShop-Backend_Express** and can be found on my profile.
+This repository contains only the front-end code. Working back-end repository is named **TechnoShop-Backend_EM** and can be found on my profile.
 
 ## Running the project
 
@@ -15,4 +15,4 @@ This repository contains only the front-end code. Working back-end repository is
 
 ## Tech Stack
 
-`React`, `Vite`, `TypeScript`, `ReduxToolkit`, `MaterialUI`, `ReactHookForm`, `ReactRouterDom`
+`React`, `Vite`, `TypeScript`, `ReduxToolkit`, `MaterialUI`, `ReactHookForm`, `ReactRouter`
