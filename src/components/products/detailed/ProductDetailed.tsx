@@ -1,30 +1,36 @@
-import { FC } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import Grid from '@mui/material/Grid2';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
+import { FC } from "react";
+import { useNavigate, useParams } from "react-router";
+import Grid from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 
-import { useDispatch, useSelector } from '@/providers/store/hooks';
-import { selectUser } from '@/providers/store/features/user/userSlice';
-import { useGetProductQuery } from '@/providers/store/services/products';
-import { showNotification } from '@/providers/store/features/notification/notificationSlice';
-import { useAddToWishlistMutation } from '@/providers/store/services/wishlist';
+import { useDispatch, useSelector } from "@/providers/store/hooks";
+import { selectUser } from "@/providers/store/features/user/userSlice";
+import { useGetProductQuery } from "@/providers/store/services/products";
+import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import { useAddToWishlistMutation } from "@/providers/store/services/wishlist";
+import {
+  useGetMyProductReviewQuery,
+  useReviewProductMutation,
+} from "@/providers/store/services/reviews";
 import {
   addToCart,
   setDrawerOpen,
-} from '@/providers/store/features/cart/cartSlice';
-import ImagesCarousel from '@/components/common/images/ImagesCarousel';
-import { currencyFormatter, percentFormatter } from '@/utils/formatting';
-import ProductRating from '../ProductRating';
-import InfoTextListItem from './InfoTextListItem';
-import InfoChipsListItem from './InfoChipsListItem';
-import InfoTabs from './InfoTabs';
-import AddToCart from '../actions/AddToCart';
-import AddToWishlist from '../actions/AddToWishlist';
+} from "@/providers/store/features/cart/cartSlice";
+import ImagesCarousel from "@/components/common/images/ImagesCarousel";
+import { currencyFormatter, percentFormatter } from "@/utils/formatting";
+import ProductRating from "../ProductRating";
+import InfoTextListItem from "./InfoTextListItem";
+import InfoChipsListItem from "./InfoChipsListItem";
+import InfoTabs from "./InfoTabs";
+import AddToCart from "../actions/AddToCart";
+import AddToWishlist from "../actions/AddToWishlist";
+import RateProduct from "../actions/RateProduct";
+import ChatWithSeller from "../actions/ChatWithSeller";
 
 const ProductDetailed: FC = () => {
   const navigate = useNavigate();
@@ -34,12 +40,16 @@ const ProductDetailed: FC = () => {
 
   const user = useSelector(selectUser);
 
-  const { data: productData } = useGetProductQuery(productId || '', {
+  const { data: productData } = useGetProductQuery(productId || "", {
     skip: !productId,
   });
   const product = productData?.product;
+  const { data: myReviewData } = useGetMyProductReviewQuery(productId || "", {
+    skip: !user || user.role !== "buyer",
+  });
 
   const [addToWishlist] = useAddToWishlistMutation();
+  const [reviewProduct] = useReviewProductMutation();
 
   if (!product) {
     return null;
@@ -53,11 +63,24 @@ const ProductDetailed: FC = () => {
   const handleAddToWishlist = async () => {
     const result = await addToWishlist(product._id);
 
-    if ('error' in result) {
-      navigate('/buyer/wishlist');
+    if ("error" in result) {
+      navigate("/buyer/wishlist");
     } else {
       dispatch(
-        showNotification({ type: 'success', message: 'Added to the wishlist' })
+        showNotification({ type: "success", message: "Added to the wishlist" })
+      );
+    }
+  };
+
+  const handleRateProduct = async (rating: number) => {
+    const result = await reviewProduct({ id: product._id, rating });
+
+    if (!("error" in result)) {
+      dispatch(
+        showNotification({
+          type: "success",
+          message: `Successfully rated with rating of ${rating} stars`,
+        })
       );
     }
   };
@@ -69,7 +92,7 @@ const ProductDetailed: FC = () => {
     <Grid container={true} columns={12} sx={{ padding: 2 }}>
       <Grid
         size={{ xs: 12, md: 6 }}
-        sx={{ '& .slide img': { maxHeight: '390px', objectFit: 'cover' } }}
+        sx={{ "& .slide img": { maxHeight: "390px", objectFit: "cover" } }}
       >
         <ImagesCarousel images={product.images} />
       </Grid>
@@ -77,7 +100,7 @@ const ProductDetailed: FC = () => {
       <Grid size={{ xs: 12, md: 6 }} sx={{ paddingLeft: 1 }}>
         <Typography
           gutterBottom={true}
-          variant='h5'
+          variant="h5"
           sx={{
             color: (theme) => theme.palette.common.white,
             backgroundColor: (theme) => theme.palette.primary.main,
@@ -92,16 +115,16 @@ const ProductDetailed: FC = () => {
           reviews={product.reviewCount}
         />
 
-        <Card sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <Card sx={{ width: "100%", bgcolor: "background.paper" }}>
           <CardContent>
-            <InfoTextListItem itemKey='Price'>
-              <Box display='flex' gap={3} alignItems='center'>
+            <InfoTextListItem itemKey="Price">
+              <Box display="flex" gap={3} alignItems="center">
                 {product?.discount !== 0 ? (
-                  <Typography variant='h6' color='error' fontWeight='bold'>
+                  <Typography variant="h6" color="error" fontWeight="bold">
                     <Typography
-                      component='span'
+                      component="span"
                       sx={{
-                        textDecoration: 'line-through',
+                        textDecoration: "line-through",
                         marginRight: 1,
                       }}
                     >
@@ -111,45 +134,45 @@ const ProductDetailed: FC = () => {
                     {percentFormatter(product.discount / 100)})
                   </Typography>
                 ) : (
-                  <Typography variant='h6' color='error' fontWeight='bold'>
+                  <Typography variant="h6" color="error" fontWeight="bold">
                     {currencyFormatter(product?.price)}
                   </Typography>
                 )}
               </Box>
             </InfoTextListItem>
             <InfoChipsListItem
-              linkType='category'
-              itemKey='Category'
+              linkType="category"
+              itemKey="Category"
               itemValues={product.category}
             />
             <InfoChipsListItem
-              linkType='subcategory'
-              itemKey='Subcategories'
+              linkType="subcategory"
+              itemKey="Subcategories"
               itemValues={product.subcategories}
             />
-            <InfoTextListItem itemKey='Shipping'>
-              <Typography variant='body1'>{product.shipping}</Typography>
+            <InfoTextListItem itemKey="Shipping">
+              <Typography variant="body1">{product.shipping}</Typography>
             </InfoTextListItem>
-            <InfoTextListItem itemKey='Color'>
-              <Typography variant='body1'>{product.color}</Typography>
+            <InfoTextListItem itemKey="Color">
+              <Typography variant="body1">{product.color}</Typography>
             </InfoTextListItem>
-            <InfoTextListItem itemKey='Brand'>
-              <Typography variant='body1'>{product.brand}</Typography>
+            <InfoTextListItem itemKey="Brand">
+              <Typography variant="body1">{product.brand}</Typography>
             </InfoTextListItem>
-            <InfoTextListItem itemKey='Quantity'>
-              <Typography variant='body1'>{product.quantity}</Typography>
+            <InfoTextListItem itemKey="Quantity">
+              <Typography variant="body1">{product.quantity}</Typography>
             </InfoTextListItem>
-            <InfoTextListItem itemKey='Sold'>
-              <Typography variant='body1'>{product.sold}</Typography>
+            <InfoTextListItem itemKey="Sold">
+              <Typography variant="body1">{product.sold}</Typography>
             </InfoTextListItem>
-            <InfoTextListItem itemKey='Shop'>
-              <Typography variant='body1'>
-                {product.shop?.shopInfo?.name || ''}
+            <InfoTextListItem itemKey="Shop">
+              <Typography variant="body1">
+                {product.shop?.shopInfo?.name || ""}
               </Typography>
             </InfoTextListItem>
           </CardContent>
 
-          {user && user.role === 'buyer' && (
+          {(!user || user.role === "buyer") && (
             <CardActions>
               <AddToCart
                 productId={product._id}
@@ -160,12 +183,21 @@ const ProductDetailed: FC = () => {
                 productId={product._id}
                 onAddToWishlist={handleAddToWishlist}
               />
+              <RateProduct
+                productId={product._id}
+                onRateProduct={handleRateProduct}
+                review={myReviewData?.review}
+              />
+              <ChatWithSeller
+                productId={product._id}
+                shopSellerId={product?.shop?.user.toString()}
+              />
             </CardActions>
           )}
         </Card>
       </Grid>
 
-      <Box sx={{ width: '100%', marginBlock: 3 }}>
+      <Box sx={{ width: "100%", marginBlock: 3 }}>
         <Divider />
       </Box>
 
@@ -173,7 +205,7 @@ const ProductDetailed: FC = () => {
         <InfoTabs productId={product._id} description={product.description} />
       </Grid>
 
-      <Box sx={{ width: '100%', marginBlock: 3 }}>
+      <Box sx={{ width: "100%", marginBlock: 3 }}>
         <Divider />
       </Box>
     </Grid>

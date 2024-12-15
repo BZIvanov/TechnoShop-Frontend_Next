@@ -40,7 +40,9 @@ export const chatApi = api.injectEndpoints({
           };
         },
         providesTags: (result) => {
-          return [{ type: "Chats" as const, id: result?.chat._id }];
+          return result?.chat
+            ? [{ type: "Chats" as const, id: result?.chat._id }]
+            : [{ type: "Chats" as const, id: "LIST" }];
         },
       }),
       getChatMessages: build.query<ChatMessagesResponse, ChatMessagesParams>({

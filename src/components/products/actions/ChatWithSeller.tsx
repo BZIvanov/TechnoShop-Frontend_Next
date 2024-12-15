@@ -1,20 +1,20 @@
+import { FC } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatIcon from "@mui/icons-material/Chat";
 
 import { useSelector } from "@/providers/store/hooks";
 import { selectUser } from "@/providers/store/features/user/userSlice";
-import { FC } from "react";
 
-interface AddToWishlistProps {
+interface ChatWithSellerProps {
   productId: string;
-  onAddToWishlist: () => void;
+  shopSellerId: string;
 }
 
-const AddToWishlist: FC<AddToWishlistProps> = ({
+const ChatWithSeller: FC<ChatWithSellerProps> = ({
   productId,
-  onAddToWishlist,
+  shopSellerId,
 }) => {
   const navigate = useNavigate();
 
@@ -24,21 +24,21 @@ const AddToWishlist: FC<AddToWishlistProps> = ({
     <Button
       onClick={() => {
         if (!user) {
-          return navigate("/auth/login", {
+          navigate("/auth/login", {
             state: {
               customNavigateTo: `/products/${productId}`,
             },
           });
+        } else {
+          navigate(`/buyer/chat/${shopSellerId}`);
         }
-
-        onAddToWishlist();
       }}
       sx={{ display: "flex", flexDirection: "column" }}
     >
-      <FavoriteBorderIcon />
-      <Typography variant="caption">Add to wishlist</Typography>
+      <ChatIcon />
+      <Typography variant="caption">Chat with Seller</Typography>
     </Button>
   );
 };
 
-export default AddToWishlist;
+export default ChatWithSeller;
