@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";

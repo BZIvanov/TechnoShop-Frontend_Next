@@ -1,20 +1,20 @@
-import { useState, FC, ChangeEvent } from 'react';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import ModalImage from 'react-modal-image';
-import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useState, type FC, type ChangeEvent } from "react";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import ModalImage from "react-modal-image";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import { useDispatch } from '@/providers/store/hooks';
+import { useDispatch } from "@/providers/store/hooks";
 import {
   addToCart,
   removeFromCart,
-} from '@/providers/store/features/cart/cartSlice';
-import { Product } from '@/providers/store/services/types/products';
-import { currencyFormatter } from '@/utils/formatting';
+} from "@/providers/store/features/cart/cartSlice";
+import { Product } from "@/providers/store/services/types/products";
+import { currencyFormatter } from "@/utils/formatting";
 
 interface CartProductRowProps {
   product: Product;
@@ -45,8 +45,8 @@ const CartProductRow: FC<CartProductRowProps> = ({ product, count }) => {
   return (
     <TableRow>
       <TableCell
-        align='center'
-        sx={{ '& > div > img': { height: '30px' } }} // only apply small height to the small image
+        align="center"
+        sx={{ "& > div > img": { height: "30px" } }} // only apply small height to the small image
       >
         {product.images.length > 0 ? (
           <ModalImage
@@ -56,17 +56,17 @@ const CartProductRow: FC<CartProductRowProps> = ({ product, count }) => {
           />
         ) : (
           <ModalImage
-            small='/images/product.png'
-            large='/images/product.png'
-            alt='Default preview'
+            small="/images/product.png"
+            large="/images/product.png"
+            alt="Default preview"
           />
         )}
       </TableCell>
-      <TableCell align='center'>{product.title}</TableCell>
-      <TableCell align='center'>{currencyFormatter(product.price)}</TableCell>
-      <TableCell align='center'>{product.brand}</TableCell>
-      <TableCell align='center'>{product.color}</TableCell>
-      <TableCell align='center'>
+      <TableCell align="center">{product.title}</TableCell>
+      <TableCell align="center">{currencyFormatter(product.price)}</TableCell>
+      <TableCell align="center">{product.brand}</TableCell>
+      <TableCell align="center">{product.color}</TableCell>
+      <TableCell align="center">
         <TextField
           slotProps={{
             htmlInput: {
@@ -75,29 +75,29 @@ const CartProductRow: FC<CartProductRowProps> = ({ product, count }) => {
             },
           }}
           sx={{ maxWidth: 50 }}
-          type='number'
-          variant='standard'
+          type="number"
+          variant="standard"
           value={tempCount}
           onChange={handleCountChange}
           onBlur={handleBlur}
         />
       </TableCell>
-      <TableCell align='center'>
-        {product.shipping === 'Yes' ? (
-          <CheckIcon color='success' />
+      <TableCell align="center">
+        {product.shipping === "Yes" ? (
+          <CheckIcon color="success" />
         ) : (
-          <ClearIcon color='warning' />
+          <ClearIcon color="warning" />
         )}
       </TableCell>
-      <TableCell align='center'>
+      <TableCell align="center">
         {currencyFormatter(count * product.price)}
       </TableCell>
-      <TableCell align='center'>
+      <TableCell align="center">
         <IconButton
-          size='small'
+          size="small"
           onClick={() => dispatch(removeFromCart(product._id))}
         >
-          <DeleteIcon fontSize='inherit' />
+          <DeleteIcon fontSize="inherit" />
         </IconButton>
       </TableCell>
     </TableRow>

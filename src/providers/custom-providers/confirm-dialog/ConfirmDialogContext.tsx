@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export interface DialogConfig {
   open: boolean;
@@ -8,7 +8,7 @@ export interface DialogConfig {
 
 interface ConfirmDialogContextType {
   dialogConfig: DialogConfig;
-  openDialog: (config: Omit<DialogConfig, 'open'>) => void;
+  openDialog: (config: Omit<DialogConfig, "open">) => void;
   closeDialog: () => void;
 }
 

@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -5,7 +6,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { useSelector } from "@/providers/store/hooks";
 import { selectUser } from "@/providers/store/features/user/userSlice";
-import { FC } from "react";
 
 interface AddToWishlistProps {
   productId: string;

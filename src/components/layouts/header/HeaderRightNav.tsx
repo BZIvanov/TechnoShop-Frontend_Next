@@ -1,33 +1,33 @@
-import { useState, FC, MouseEvent } from 'react';
-import { NavLink, useNavigate } from 'react-router';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import { useTheme } from '@mui/material/styles';
+import { useState, type FC, type MouseEvent } from "react";
+import { NavLink, useNavigate } from "react-router";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Tooltip from "@mui/material/Tooltip";
+import Avatar from "@mui/material/Avatar";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import LoginIcon from "@mui/icons-material/Login";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LogoutIcon from "@mui/icons-material/Logout";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import { useTheme } from "@mui/material/styles";
 
-import { useDispatch, useSelector } from '@/providers/store/hooks';
-import { selectUser } from '@/providers/store/features/user/userSlice';
+import { useDispatch, useSelector } from "@/providers/store/hooks";
+import { selectUser } from "@/providers/store/features/user/userSlice";
 import {
   clearCart,
   selectCart,
-} from '@/providers/store/features/cart/cartSlice';
-import { useLogoutMutation } from '@/providers/store/services/users';
-import MenuItemNavLink from './MenuItemNavLink';
+} from "@/providers/store/features/cart/cartSlice";
+import { useLogoutMutation } from "@/providers/store/services/users";
+import MenuItemNavLink from "./MenuItemNavLink";
 
-const menuId = 'primary-search-account-menu';
-const mobileMenuId = 'primary-search-account-menu-mobile';
+const menuId = "primary-search-account-menu";
+const mobileMenuId = "primary-search-account-menu-mobile";
 
 interface HeaderRightNavProps {
   shouldRenderSidebar: boolean;
@@ -68,7 +68,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
     await logout();
     handleMenuClose();
     dispatch(clearCart());
-    navigate('/auth/login');
+    navigate("/auth/login");
   };
 
   return (
@@ -76,20 +76,20 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
       {/* Full screen icons */}
       <Box
         sx={{
-          display: { xs: 'none', md: 'flex', gap: 5, alignItems: 'center' },
+          display: { xs: "none", md: "flex", gap: 5, alignItems: "center" },
         }}
       >
         {!shouldRenderSidebar && (
-          <Tooltip title='Cart'>
+          <Tooltip title="Cart">
             <NavLink
-              to='/cart'
+              to="/cart"
               style={({ isActive }) => ({
-                textDecoration: 'none',
-                color: isActive ? theme.palette.common.black : 'inherit',
+                textDecoration: "none",
+                color: isActive ? theme.palette.common.black : "inherit",
               })}
             >
-              <IconButton size='large' color='inherit'>
-                <Badge badgeContent={Object.keys(cart).length} color='error'>
+              <IconButton size="large" color="inherit">
+                <Badge badgeContent={Object.keys(cart).length} color="error">
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
@@ -100,15 +100,15 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
         {user ? (
           <Tooltip title={`${user.username} - ${user.role}`}>
             <IconButton onClick={handleProfileMenuOpen}>
-              <Avatar alt='User profile' src={user?.avatar?.imageUrl} />
+              <Avatar alt="User profile" src={user?.avatar?.imageUrl} />
             </IconButton>
           </Tooltip>
         ) : (
           <IconButton
-            size='large'
-            edge='end'
+            size="large"
+            edge="end"
             onClick={handleProfileMenuOpen}
-            color='inherit'
+            color="inherit"
           >
             <AccountCircleIcon />
           </IconButton>
@@ -116,8 +116,8 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
       </Box>
 
       {/* Mobile screen icon */}
-      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-        <IconButton size='large' onClick={handleMobileMenuOpen} color='inherit'>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <IconButton size="large" onClick={handleMobileMenuOpen} color="inherit">
           <MoreIcon />
         </IconButton>
       </Box>
@@ -125,10 +125,10 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
       {/* Mobile screen menu */}
       <Menu
         anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         id={mobileMenuId}
         keepMounted={true}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={Boolean(mobileMoreAnchorEl)}
         onClose={handleMobileMenuClose}
       >
@@ -136,10 +136,10 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
           <MenuItem
             onClick={handleMenuClose}
             component={MenuItemNavLink}
-            to='/cart'
+            to="/cart"
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
-              <Badge badgeContent={Object.keys(cart).length} color='error'>
+            <ListItemIcon sx={{ color: "inherit" }}>
+              <Badge badgeContent={Object.keys(cart).length} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </ListItemIcon>
@@ -149,7 +149,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
         {user && (
           <MenuItem onClick={handleProfileMenuOpen}>
             <Avatar
-              alt='User profile'
+              alt="User profile"
               src={user?.avatar?.imageUrl}
               sx={{ width: 24, height: 24, mr: 1 }}
             />
@@ -158,7 +158,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
         )}
         {user && (
           <MenuItem onClick={handleLogout}>
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <LogoutIcon />
             </ListItemIcon>
             Logout
@@ -166,7 +166,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
         )}
         {!user && (
           <MenuItem onClick={handleProfileMenuOpen}>
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <AccountCircleIcon />
             </ListItemIcon>
             Account
@@ -177,10 +177,10 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
       {/* Full screen menu. Keep this menu below mobile so the nested menu to be rendered above the other menu */}
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         id={menuId}
         keepMounted={true}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
@@ -190,7 +190,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
             component={MenuItemNavLink}
             to={`/${user.role}/dashboard`}
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <DashboardIcon />
             </ListItemIcon>
             Dashboard
@@ -198,7 +198,7 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
         )}
         {user && !mobileMoreAnchorEl && (
           <MenuItem onClick={handleLogout}>
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <LogoutIcon />
             </ListItemIcon>
             Logout
@@ -208,9 +208,9 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
           <MenuItem
             onClick={handleMenuClose}
             component={MenuItemNavLink}
-            to='/auth/login'
+            to="/auth/login"
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <LoginIcon />
             </ListItemIcon>
             Login
@@ -220,9 +220,9 @@ const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
           <MenuItem
             onClick={handleMenuClose}
             component={MenuItemNavLink}
-            to='/auth/register'
+            to="/auth/register"
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <AppRegistrationIcon />
             </ListItemIcon>
             Register

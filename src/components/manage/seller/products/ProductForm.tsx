@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

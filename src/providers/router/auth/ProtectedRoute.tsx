@@ -1,12 +1,12 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from "react";
 
-import { useSelector } from '@/providers/store/hooks';
+import { useSelector } from "@/providers/store/hooks";
 import {
   selectUser,
   selectUserInitialLoadingCompleted,
-} from '@/providers/store/features/user/userSlice';
-import CountdownProgress from '@/components/common/feedback/CountdownProgress';
-import LoadingFallback from '../feedback/LoadingFallback';
+} from "@/providers/store/features/user/userSlice";
+import CountdownProgress from "@/components/common/feedback/CountdownProgress";
+import LoadingFallback from "../feedback/LoadingFallback";
 
 interface ProtectedRouteProps {
   children: ReactNode;

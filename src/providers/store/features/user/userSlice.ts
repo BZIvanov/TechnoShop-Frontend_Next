@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../../store';
-import { usersApi } from '../../services/users';
-import { User } from '../../services/types/users';
+import { RootState } from "../../store";
+import { usersApi } from "../../services/users";
+import { User } from "../../services/types/users";
 
 interface UserState {
   user: User | null;
@@ -15,7 +15,7 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

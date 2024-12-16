@@ -1,7 +1,7 @@
-import { Middleware } from '@reduxjs/toolkit';
-import { isRejectedWithValue } from '@reduxjs/toolkit';
+import { Middleware } from "@reduxjs/toolkit";
+import { isRejectedWithValue } from "@reduxjs/toolkit";
 
-import { showNotification } from '../features/notification/notificationSlice';
+import { showNotification } from "../features/notification/notificationSlice";
 
 type ErrorPayload = {
   data: {
@@ -20,7 +20,7 @@ export const asyncErrorNotification: Middleware =
       if (errorPayload?.data?.error) {
         dispatch(
           showNotification({
-            type: 'error',
+            type: "error",
             message: errorPayload.data.error,
           })
         );

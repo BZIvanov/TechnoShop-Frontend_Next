@@ -1,14 +1,14 @@
-import { ReactNode, CSSProperties } from 'react';
+import { ReactNode, CSSProperties } from "react";
 import {
   Controller,
   FieldError,
   Control,
   FieldValues,
   Path,
-} from 'react-hook-form';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
+} from "react-hook-form";
+import FormControl from "@mui/material/FormControl";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 
 interface TextFieldAdapterProps<T extends FieldValues> {
   control: Control<T>;
@@ -28,7 +28,7 @@ const TextFieldAdapter = <T extends FieldValues>({
   control,
   name,
   label,
-  type = 'text',
+  type = "text",
   multiline = false,
   minRows,
   maxRows,
@@ -48,21 +48,21 @@ const TextFieldAdapter = <T extends FieldValues>({
         };
 
         return (
-          <FormControl sx={{ width: '100%', marginBlock: 1, ...styles }}>
+          <FormControl sx={{ width: "100%", marginBlock: 1, ...styles }}>
             <TextField
               slotProps={{
                 htmlInput: { ...field, type },
                 input: icon
                   ? {
                       endAdornment: (
-                        <InputAdornment position='end' sx={{ padding: '8px' }}>
+                        <InputAdornment position="end" sx={{ padding: "8px" }}>
                           {icon}
                         </InputAdornment>
                       ),
                     }
                   : {},
               }}
-              variant='standard'
+              variant="standard"
               label={label}
               error={isTouched && Boolean(error)}
               helperText={isTouched && error?.message}

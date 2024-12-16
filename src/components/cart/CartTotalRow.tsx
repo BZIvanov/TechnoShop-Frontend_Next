@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
+import { type FC } from "react";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
-import { useSelector } from '@/providers/store/hooks';
-import { selectCart } from '@/providers/store/features/cart/cartSlice';
+import { useSelector } from "@/providers/store/hooks";
+import { selectCart } from "@/providers/store/features/cart/cartSlice";
 
 const CartTotalRow: FC = () => {
   const cart = useSelector(selectCart);
@@ -12,12 +12,12 @@ const CartTotalRow: FC = () => {
   return (
     <TableRow>
       <TableCell colSpan={5} />
-      <TableCell colSpan={2} align='center'>
+      <TableCell colSpan={2} align="center">
         <strong>Total</strong>
       </TableCell>
-      <TableCell align='center'>
+      <TableCell align="center">
         <strong>
-          ${' '}
+          ${" "}
           {cartIds
             .map((cartProductId) => {
               const {

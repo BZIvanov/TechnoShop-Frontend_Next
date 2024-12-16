@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import {
   Controller,
   Control,
@@ -14,7 +15,7 @@ interface CheckboxAdapterProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
-  styles?: React.CSSProperties;
+  styles?: CSSProperties;
 }
 
 const CheckboxAdapter = <T extends FieldValues>({

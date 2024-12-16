@@ -1,6 +1,6 @@
-import { FC, ReactNode } from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { type FC, type ReactNode } from "react";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 interface InfoTextListItemProps {
   itemKey: string;
@@ -11,13 +11,13 @@ const InfoTextListItem: FC<InfoTextListItemProps> = ({ itemKey, children }) => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
+        display: "flex",
+        justifyContent: "space-between",
         padding: 1,
-        alignItems: 'center',
+        alignItems: "center",
       }}
     >
-      <Typography variant='body1'>{itemKey}:</Typography>
+      <Typography variant="body1">{itemKey}:</Typography>
       {children}
     </Box>
   );

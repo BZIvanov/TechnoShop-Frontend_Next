@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { useNavigate } from "react-router";
 import { SubmitHandler } from "react-hook-form";
 import Paper from "@mui/material/Paper";

@@ -1,11 +1,11 @@
-import { FC } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import { type FC } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 
-import { useConfirmDialog } from '@/providers/custom-providers/confirm-dialog/useConfirmDialog';
+import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/useConfirmDialog";
 
 const AppConfirmDialog: FC = () => {
   const { dialogConfig, closeDialog } = useConfirmDialog();

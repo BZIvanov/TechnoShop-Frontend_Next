@@ -1,17 +1,17 @@
-import { useState, CSSProperties } from 'react';
+import { useState, CSSProperties } from "react";
 import {
   Controller,
   FieldError,
   Control,
   FieldValues,
   Path,
-} from 'react-hook-form';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+} from "react-hook-form";
+import FormControl from "@mui/material/FormControl";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 interface PasswordTextFieldAdapterProps<T extends FieldValues> {
   control: Control<T>;
@@ -43,13 +43,13 @@ const PasswordTextFieldAdapter = <T extends FieldValues>({
         };
 
         return (
-          <FormControl sx={{ width: '100%', marginBlock: 1, ...styles }}>
+          <FormControl sx={{ width: "100%", marginBlock: 1, ...styles }}>
             <TextField
               slotProps={{
                 htmlInput: { ...field },
                 input: {
                   endAdornment: (
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton onClick={handleClickShowPassword}>
                         {showPassword ? (
                           <VisibilityIcon />
@@ -61,9 +61,9 @@ const PasswordTextFieldAdapter = <T extends FieldValues>({
                   ),
                 },
               }}
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               label={label}
-              variant='standard'
+              variant="standard"
               error={isTouched && Boolean(error)}
               helperText={isTouched && error?.message}
             />

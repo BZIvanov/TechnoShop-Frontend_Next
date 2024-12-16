@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 
 import { AppImage } from "@/providers/store/services/types/common";
 import Carousel from "./Carousel";

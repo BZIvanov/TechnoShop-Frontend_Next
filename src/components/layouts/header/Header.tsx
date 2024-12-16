@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { Outlet } from "react-router";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";

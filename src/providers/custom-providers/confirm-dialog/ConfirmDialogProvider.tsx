@@ -1,5 +1,5 @@
-import { FC, ReactNode, useState } from 'react';
-import ConfirmDialogContext, { DialogConfig } from './ConfirmDialogContext';
+import { type FC, type ReactNode, useState } from "react";
+import ConfirmDialogContext, { DialogConfig } from "./ConfirmDialogContext";
 
 interface ConfirmDialogProviderProps {
   children: ReactNode;
@@ -10,11 +10,11 @@ const ConfirmDialogProvider: FC<ConfirmDialogProviderProps> = ({
 }) => {
   const [dialogConfig, setDialogConfig] = useState<DialogConfig>({
     open: false,
-    text: '',
+    text: "",
     onConfirm: () => {},
   });
 
-  const openDialog = ({ text, onConfirm }: Omit<DialogConfig, 'open'>) => {
+  const openDialog = ({ text, onConfirm }: Omit<DialogConfig, "open">) => {
     setDialogConfig({
       open: true,
       text,
@@ -25,7 +25,7 @@ const ConfirmDialogProvider: FC<ConfirmDialogProviderProps> = ({
   const closeDialog = () => {
     setDialogConfig({
       open: false,
-      text: '',
+      text: "",
       onConfirm: () => {},
     });
   };

@@ -1,21 +1,21 @@
-import { FC, useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { type FC, useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
-import { useDispatch } from '@/providers/store/hooks';
-import { useGetCategoriesQuery } from '@/providers/store/services/categories';
+import { useDispatch } from "@/providers/store/hooks";
+import { useGetCategoriesQuery } from "@/providers/store/services/categories";
 import {
   useCreateSubcategoryMutation,
   useDeleteSubcategoryMutation,
   useGetGroupedSubcategoriesQuery,
   useUpdateSubcategoryMutation,
-} from '@/providers/store/services/subcategories';
-import { showNotification } from '@/providers/store/features/notification/notificationSlice';
-import { useForm } from '@/components/form/hooks/useForm';
-import SubcategoryForm from './SubcategoryForm';
-import SubcategoriesList from './SubcategoriesList';
-import { schema, SubcategoryFormData } from './subcategoryForm.schema';
+} from "@/providers/store/services/subcategories";
+import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import { useForm } from "@/components/form/hooks/useForm";
+import SubcategoryForm from "./SubcategoryForm";
+import SubcategoriesList from "./SubcategoriesList";
+import { schema, SubcategoryFormData } from "./subcategoryForm.schema";
 
 export type SelectedSubcategory = {
   _id: string;
@@ -23,7 +23,7 @@ export type SelectedSubcategory = {
   name: string;
 };
 
-const defaultValues = { categoryId: '', subcategoryName: '' };
+const defaultValues = { categoryId: "", subcategoryName: "" };
 
 const ManageSubcategory: FC = () => {
   const dispatch = useDispatch();
@@ -80,12 +80,12 @@ const ManageSubcategory: FC = () => {
       });
     }
 
-    if (!('error' in result)) {
+    if (!("error" in result)) {
       dispatch(
         showNotification({
-          type: 'success',
+          type: "success",
           message: `Subcategory ${
-            selectedSubcategory ? 'updated' : 'created'
+            selectedSubcategory ? "updated" : "created"
           } successfully`,
         })
       );
@@ -101,7 +101,7 @@ const ManageSubcategory: FC = () => {
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-      <Typography variant='h5'>Manage Subcategories</Typography>
+      <Typography variant="h5">Manage Subcategories</Typography>
 
       <SubcategoryForm
         form={form}
@@ -116,11 +116,11 @@ const ManageSubcategory: FC = () => {
           isDeleting
         }
         buttonLabel={
-          selectedSubcategory ? 'Update subcategory' : 'Create subcategory'
+          selectedSubcategory ? "Update subcategory" : "Create subcategory"
         }
       />
 
-      <Divider style={{ margin: '20px 0' }} />
+      <Divider style={{ margin: "20px 0" }} />
 
       <SubcategoriesList
         groupedSubcategories={groupedSubcategoriesData?.subcategories || []}

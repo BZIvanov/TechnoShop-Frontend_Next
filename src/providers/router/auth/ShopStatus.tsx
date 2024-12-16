@@ -1,12 +1,12 @@
-import { FC, ReactNode } from 'react';
-import { Navigate } from 'react-router';
+import { type FC, type ReactNode } from "react";
+import { Navigate } from "react-router";
 
-import { useSelector } from '@/providers/store/hooks';
+import { useSelector } from "@/providers/store/hooks";
 import {
   selectShop,
   selectShopInitialLoadingCompleted,
-} from '@/providers/store/features/shop/shopSlice';
-import LoadingFallback from '../feedback/LoadingFallback';
+} from "@/providers/store/features/shop/shopSlice";
+import LoadingFallback from "../feedback/LoadingFallback";
 
 interface ShopStatusProps {
   children: ReactNode;

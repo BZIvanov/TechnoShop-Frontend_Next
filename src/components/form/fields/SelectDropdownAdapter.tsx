@@ -1,9 +1,9 @@
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface Option {
   _id: string | number;
@@ -43,8 +43,8 @@ const SelectDropdownAdapter = <T extends FieldValues>({
 
         return (
           <FormControl
-            sx={{ width: '100%', marginBlock: 1 }}
-            variant='standard'
+            sx={{ width: "100%", marginBlock: 1 }}
+            variant="standard"
             error={Boolean(fieldState.error)}
             disabled={isDisabled}
           >
@@ -52,7 +52,7 @@ const SelectDropdownAdapter = <T extends FieldValues>({
 
             <Select data-testid={name} {...rest} onChange={handleOnChange}>
               {options.map((option) => {
-                if (typeof option === 'string') {
+                if (typeof option === "string") {
                   return (
                     <MenuItem key={option} value={option}>
                       {option}

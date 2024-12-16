@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { Socket } from "socket.io-client";
 import Box from "@mui/material/Box";

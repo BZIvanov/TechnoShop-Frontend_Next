@@ -1,11 +1,11 @@
-import { FC } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { type FC } from "react";
+import { SubmitHandler } from "react-hook-form";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-import { useForm } from '@/components/form/hooks/useForm';
-import PasswordTextFieldAdapter from '@/components/form/fields/PasswordTextFieldAdapter';
-import { schema, PasswordUpdateFormData } from './passwordUpdateForm.schema';
+import { useForm } from "@/components/form/hooks/useForm";
+import PasswordTextFieldAdapter from "@/components/form/fields/PasswordTextFieldAdapter";
+import { schema, PasswordUpdateFormData } from "./passwordUpdateForm.schema";
 
 interface PasswordUpdateFormProps {
   updatePassword: (
@@ -21,7 +21,7 @@ const PasswordUpdateForm: FC<PasswordUpdateFormProps> = ({
 }) => {
   const form = useForm<PasswordUpdateFormData>({
     schema,
-    defaultValues: { oldPassword: '', newPassword: '', confirmPassword: '' },
+    defaultValues: { oldPassword: "", newPassword: "", confirmPassword: "" },
   });
 
   const onSubmit: SubmitHandler<PasswordUpdateFormData> = async (values) => {
@@ -36,57 +36,57 @@ const PasswordUpdateForm: FC<PasswordUpdateFormProps> = ({
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <PasswordTextFieldAdapter
         control={form.control}
-        name='oldPassword'
-        label='Old Password'
+        name="oldPassword"
+        label="Old Password"
       />
 
       <PasswordTextFieldAdapter
         control={form.control}
-        name='newPassword'
-        label='New Password'
+        name="newPassword"
+        label="New Password"
       />
 
       <PasswordTextFieldAdapter
         control={form.control}
-        name='confirmPassword'
-        label='Confirm New Password'
+        name="confirmPassword"
+        label="Confirm New Password"
       />
 
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
           mt: 2,
         }}
       >
         <Button
-          variant='outlined'
-          color='secondary'
-          type='button'
+          variant="outlined"
+          color="secondary"
+          type="button"
           disabled={isSubmitting}
           onClick={() => form.reset()}
           sx={{
-            width: '40%',
-            backgroundColor: 'grey.100',
-            color: 'secondary.main',
-            '&:hover': {
-              backgroundColor: 'grey.300',
-              color: 'secondary.dark',
+            width: "40%",
+            backgroundColor: "grey.100",
+            color: "secondary.main",
+            "&:hover": {
+              backgroundColor: "grey.300",
+              color: "secondary.dark",
             },
           }}
         >
           Reset
         </Button>
         <Button
-          variant='contained'
-          type='submit'
-          color='primary'
+          variant="contained"
+          type="submit"
+          color="primary"
           disabled={isSubmitting}
           sx={{
-            width: '50%',
-            backgroundColor: 'primary.main',
-            '&:hover': {
-              backgroundColor: 'primary.dark',
+            width: "50%",
+            backgroundColor: "primary.main",
+            "&:hover": {
+              backgroundColor: "primary.dark",
             },
           }}
         >

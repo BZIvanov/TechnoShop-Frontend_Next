@@ -1,11 +1,11 @@
-import { api } from './api';
+import { api } from "./api";
 import {
   CreateSubcategoryInput,
   UpdateSubcategoryInput,
   SubcategoriesResponse,
   GroupedSubcategoriesResponse,
   SubcategoryResponse,
-} from './types/subcategories';
+} from "./types/subcategories";
 
 export const subcategoriesApi = api.injectEndpoints({
   endpoints: (build) => {
@@ -13,50 +13,50 @@ export const subcategoriesApi = api.injectEndpoints({
       getSubcategories: build.query<SubcategoriesResponse, void>({
         query: () => {
           return {
-            url: '/subcategories',
-            method: 'GET',
+            url: "/subcategories",
+            method: "GET",
           };
         },
         providesTags: (result) => {
           return result
             ? [
                 ...result.subcategories.map(({ _id }) => ({
-                  type: 'Subcategories' as const,
+                  type: "Subcategories" as const,
                   id: _id,
                 })),
-                { type: 'Subcategories' as const, id: 'LIST' },
+                { type: "Subcategories" as const, id: "LIST" },
               ]
-            : [{ type: 'Subcategories' as const, id: 'LIST' }];
+            : [{ type: "Subcategories" as const, id: "LIST" }];
         },
       }),
       getGroupedSubcategories: build.query<GroupedSubcategoriesResponse, void>({
         query: () => {
           return {
-            url: '/subcategories/grouped',
-            method: 'GET',
+            url: "/subcategories/grouped",
+            method: "GET",
           };
         },
         providesTags: (result) => {
           return result
             ? [
                 ...result.subcategories.map(({ _id }) => ({
-                  type: 'GroupedSubcategories' as const,
+                  type: "GroupedSubcategories" as const,
                   id: _id,
                 })),
-                { type: 'GroupedSubcategories' as const, id: 'LIST' },
+                { type: "GroupedSubcategories" as const, id: "LIST" },
               ]
-            : [{ type: 'GroupedSubcategories' as const, id: 'LIST' }];
+            : [{ type: "GroupedSubcategories" as const, id: "LIST" }];
         },
       }),
       getSubcategory: build.query<SubcategoryResponse, string>({
         query: (id) => {
           return {
             url: `/subcategories/${id}`,
-            method: 'GET',
+            method: "GET",
           };
         },
         providesTags: (_result, _error, payload) => {
-          return [{ type: 'Subcategories' as const, id: payload }];
+          return [{ type: "Subcategories" as const, id: payload }];
         },
       }),
       createSubcategory: build.mutation<
@@ -65,16 +65,16 @@ export const subcategoriesApi = api.injectEndpoints({
       >({
         query: (data) => {
           return {
-            url: '/subcategories',
-            method: 'POST',
+            url: "/subcategories",
+            method: "POST",
             body: data,
-            credentials: 'include',
+            credentials: "include",
           };
         },
         invalidatesTags: () => {
           return [
-            { type: 'Subcategories' as const, id: 'LIST' },
-            { type: 'GroupedSubcategories' as const, id: 'LIST' },
+            { type: "Subcategories" as const, id: "LIST" },
+            { type: "GroupedSubcategories" as const, id: "LIST" },
           ];
         },
       }),
@@ -87,15 +87,15 @@ export const subcategoriesApi = api.injectEndpoints({
 
           return {
             url: `/subcategories/${id}`,
-            method: 'PATCH',
+            method: "PATCH",
             body,
-            credentials: 'include',
+            credentials: "include",
           };
         },
         invalidatesTags: (_result, _error, payload) => {
           return [
-            { type: 'Subcategories' as const, id: payload.id },
-            { type: 'GroupedSubcategories' as const, id: 'LIST' },
+            { type: "Subcategories" as const, id: payload.id },
+            { type: "GroupedSubcategories" as const, id: "LIST" },
           ];
         },
       }),
@@ -103,14 +103,14 @@ export const subcategoriesApi = api.injectEndpoints({
         query: (id) => {
           return {
             url: `/subcategories/${id}`,
-            method: 'DELETE',
-            credentials: 'include',
+            method: "DELETE",
+            credentials: "include",
           };
         },
         invalidatesTags: (_result, _error, payload) => {
           return [
-            { type: 'Subcategories' as const, id: payload },
-            { type: 'GroupedSubcategories' as const, id: 'LIST' },
+            { type: "Subcategories" as const, id: payload },
+            { type: "GroupedSubcategories" as const, id: "LIST" },
           ];
         },
       }),

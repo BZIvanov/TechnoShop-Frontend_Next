@@ -1,11 +1,11 @@
-import { FC } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { type FC } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-import { useDispatch } from '@/providers/store/hooks';
-import { useUpdateAvatarMutation } from '@/providers/store/services/users';
-import { showNotification } from '@/providers/store/features/notification/notificationSlice';
-import AvatarUpdateForm from './AvatarUpdateForm';
+import { useDispatch } from "@/providers/store/hooks";
+import { useUpdateAvatarMutation } from "@/providers/store/services/users";
+import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import AvatarUpdateForm from "./AvatarUpdateForm";
 
 const AvatarUpdate: FC = () => {
   const dispatch = useDispatch();
@@ -18,11 +18,11 @@ const AvatarUpdate: FC = () => {
   ): Promise<void> => {
     const result = await updateAvatar(formData);
 
-    if (!('error' in result)) {
+    if (!("error" in result)) {
       dispatch(
         showNotification({
-          type: 'success',
-          message: 'Avatar updated successfully',
+          type: "success",
+          message: "Avatar updated successfully",
         })
       );
 
@@ -33,22 +33,22 @@ const AvatarUpdate: FC = () => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        bgcolor: 'background.paper',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "background.paper",
         py: 4,
         px: 2,
       }}
     >
       <Typography
-        variant='h4'
-        component='h1'
+        variant="h4"
+        component="h1"
         sx={{
-          fontWeight: 'bold',
+          fontWeight: "bold",
           mb: 3,
-          color: 'primary.main',
+          color: "primary.main",
         }}
       >
         Update Your Avatar
@@ -56,13 +56,13 @@ const AvatarUpdate: FC = () => {
 
       <Box
         sx={{
-          width: { xs: '100%', sm: '400px' },
-          bgcolor: 'background.default',
+          width: { xs: "100%", sm: "400px" },
+          bgcolor: "background.default",
           p: 4,
           borderRadius: 2,
           boxShadow: 3,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 3,
         }}
       >

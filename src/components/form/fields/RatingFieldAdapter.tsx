@@ -4,17 +4,17 @@ import {
   FieldValues,
   Path,
   FieldError,
-} from 'react-hook-form';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import FormHelperText from '@mui/material/FormHelperText';
+} from "react-hook-form";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface RatingFieldAdapterProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label?: string;
   precision?: number;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 }
 
 const RatingFieldAdapter = <T extends FieldValues>({
@@ -22,7 +22,7 @@ const RatingFieldAdapter = <T extends FieldValues>({
   name,
   label,
   precision = 1,
-  size = 'large',
+  size = "large",
 }: RatingFieldAdapterProps<T>): JSX.Element => {
   return (
     <Controller
@@ -35,8 +35,8 @@ const RatingFieldAdapter = <T extends FieldValues>({
           <>
             {label && (
               <Typography
-                component='legend'
-                variant='caption'
+                component="legend"
+                variant="caption"
                 sx={{ color: (theme) => theme.palette.text.secondary }}
               >
                 {label}

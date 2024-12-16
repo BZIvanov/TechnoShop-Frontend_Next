@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { SxProps, Theme } from '@mui/material';
-import Typewriter from 'typewriter-effect';
+import { type FC } from "react";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { SxProps, Theme } from "@mui/material";
+import Typewriter from "typewriter-effect";
 
 interface TypeWriterTextProps {
   texts: string[];
@@ -15,11 +15,11 @@ const TypeWriterText: FC<TypeWriterTextProps> = ({ texts, styles }) => (
     sx={{
       color: (theme) => theme.palette.primary.main,
       p: 2,
-      textAlign: 'center',
+      textAlign: "center",
       ...styles,
     }}
   >
-    <Typography variant='h4' component='div'>
+    <Typography variant="h4" component="div">
       <Typewriter options={{ strings: texts, autoStart: true, loop: true }} />
     </Typography>
   </Paper>

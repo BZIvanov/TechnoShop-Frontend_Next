@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 import {
   usernameSchema,
@@ -6,14 +6,14 @@ import {
   passwordSchema,
   getConfirmPasswordSchema,
   isSellerSchema,
-} from '../auth-fields.schema';
+} from "../auth-fields.schema";
 
 export const schema = yup
   .object({
     username: usernameSchema,
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: getConfirmPasswordSchema('password'),
+    confirmPassword: getConfirmPasswordSchema("password"),
     isSeller: isSellerSchema,
   })
   .required();

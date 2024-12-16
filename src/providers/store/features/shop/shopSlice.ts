@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../../store';
-import { shopsApi } from '../../services/shops';
-import { Shop } from '../../services/types/shops';
+import { RootState } from "../../store";
+import { shopsApi } from "../../services/shops";
+import { Shop } from "../../services/types/shops";
 
 interface ShopState {
   shop: Shop | null;
@@ -15,7 +15,7 @@ const initialState: ShopState = {
 };
 
 const shopSlice = createSlice({
-  name: 'shop',
+  name: "shop",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

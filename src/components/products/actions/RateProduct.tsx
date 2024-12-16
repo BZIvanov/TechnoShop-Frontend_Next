@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, type FC } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";

@@ -1,28 +1,28 @@
-import { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import EmailIcon from '@mui/icons-material/Email';
+import { type FC, useState } from "react";
+import { SubmitHandler } from "react-hook-form";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import EmailIcon from "@mui/icons-material/Email";
 
-import { useDispatch } from '@/providers/store/hooks';
-import { useForm } from '@/components/form/hooks/useForm';
-import { useForgotPasswordMutation } from '@/providers/store/services/users';
-import { showNotification } from '@/providers/store/features/notification/notificationSlice';
-import TextFieldAdapter from '@/components/form/fields/TextFieldAdapter';
-import { schema, ForgotPasswordFormData } from './forgotPassword.schema';
+import { useDispatch } from "@/providers/store/hooks";
+import { useForm } from "@/components/form/hooks/useForm";
+import { useForgotPasswordMutation } from "@/providers/store/services/users";
+import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import TextFieldAdapter from "@/components/form/fields/TextFieldAdapter";
+import { schema, ForgotPasswordFormData } from "./forgotPassword.schema";
 
-const ForgotPasswordDialogForm = () => {
+const ForgotPasswordDialogForm: FC = () => {
   const dispatch = useDispatch();
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const form = useForm<ForgotPasswordFormData>({
     schema,
-    defaultValues: { email: '' },
+    defaultValues: { email: "" },
   });
 
   const handleCloseDialog = () => {
@@ -35,13 +35,13 @@ const ForgotPasswordDialogForm = () => {
   const onSubmit: SubmitHandler<ForgotPasswordFormData> = async (values) => {
     const result = await forgotPassword(values);
 
-    if (!('error' in result)) {
+    if (!("error" in result)) {
       handleCloseDialog();
 
       dispatch(
         showNotification({
-          type: 'success',
-          message: 'Password reset link sent. Please check your email.',
+          type: "success",
+          message: "Password reset link sent. Please check your email.",
         })
       );
     }
@@ -50,8 +50,8 @@ const ForgotPasswordDialogForm = () => {
   return (
     <>
       <Button
-        color='secondary'
-        size='small'
+        color="secondary"
+        size="small"
         onClick={() => setIsDialogOpen(true)}
       >
         Forgot Password?
@@ -61,7 +61,7 @@ const ForgotPasswordDialogForm = () => {
         open={isDialogOpen}
         onClose={handleCloseDialog}
         PaperProps={{
-          component: 'form',
+          component: "form",
           onSubmit: form.handleSubmit(onSubmit),
         }}
       >
@@ -74,22 +74,22 @@ const ForgotPasswordDialogForm = () => {
 
           <TextFieldAdapter
             control={form.control}
-            name='email'
-            label='Email'
+            name="email"
+            label="Email"
             icon={<EmailIcon />}
           />
         </DialogContent>
 
         <DialogActions>
           <Button
-            color='secondary'
-            type='button'
+            color="secondary"
+            type="button"
             onClick={handleCloseDialog}
             disabled={isLoading}
           >
             Cancel
           </Button>
-          <Button color='secondary' type='submit' disabled={isLoading}>
+          <Button color="secondary" type="submit" disabled={isLoading}>
             Send
           </Button>
         </DialogActions>

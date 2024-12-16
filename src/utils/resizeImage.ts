@@ -1,12 +1,12 @@
-import Resizer from 'react-image-file-resizer';
+import Resizer from "react-image-file-resizer";
 
 interface ResizeImageConfig {
   maxWidth?: number;
   maxHeight?: number;
-  compressFormat?: 'jpeg' | 'png' | 'webp';
+  compressFormat?: "jpeg" | "png" | "webp";
   quality?: number;
   rotation?: number;
-  outputType?: 'base64' | 'blob' | 'file';
+  outputType?: "base64" | "blob" | "file";
 }
 
 export const resizeImage = (
@@ -16,10 +16,10 @@ export const resizeImage = (
   const {
     maxWidth = 590,
     maxHeight = 590,
-    compressFormat = 'jpeg',
+    compressFormat = "jpeg",
     quality = 100,
     rotation = 0,
-    outputType = 'base64',
+    outputType = "base64",
   } = config;
 
   return new Promise<string | Blob | File>((resolve, reject) => {
@@ -33,13 +33,13 @@ export const resizeImage = (
         rotation,
         (uri) => {
           if (
-            typeof uri === 'string' ||
+            typeof uri === "string" ||
             uri instanceof Blob ||
             uri instanceof File
           ) {
             resolve(uri);
           } else {
-            reject(new Error('Unexpected type returned from imageFileResizer'));
+            reject(new Error("Unexpected type returned from imageFileResizer"));
           }
         },
         outputType

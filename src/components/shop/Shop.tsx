@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useMemo, useState } from "react";
+import { type ChangeEvent, type FC, useEffect, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";

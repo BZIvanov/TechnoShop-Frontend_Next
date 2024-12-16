@@ -1,16 +1,16 @@
-import { FC, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Chip from '@mui/material/Chip';
+import { type FC, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
 
-import { GroupedSubcategoriesResponse } from '@/providers/store/services/types/subcategories';
-import { useConfirmDialog } from '@/providers/custom-providers/confirm-dialog/useConfirmDialog';
-import SubcategorySearch from './SubcategorySearch';
-import { SelectedSubcategory } from './ManageSubcategory';
+import { GroupedSubcategoriesResponse } from "@/providers/store/services/types/subcategories";
+import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/useConfirmDialog";
+import SubcategorySearch from "./SubcategorySearch";
+import { SelectedSubcategory } from "./ManageSubcategory";
 
 interface SubcategoriesListProps {
-  groupedSubcategories: GroupedSubcategoriesResponse['subcategories'];
+  groupedSubcategories: GroupedSubcategoriesResponse["subcategories"];
   handleSelectSubcategory: (selectedValue: SelectedSubcategory) => void;
   deleteSubcategory: (subcategoryId: string) => void;
 }
@@ -20,13 +20,13 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
   handleSelectSubcategory,
   deleteSubcategory,
 }) => {
-  const [filterCategoryText, setFilterCategoryText] = useState<string>('');
+  const [filterCategoryText, setFilterCategoryText] = useState<string>("");
   const handleFilterCategoryText = (filterValue: string) => {
     setFilterCategoryText(filterValue);
   };
 
   const [filterSubcategoryText, setFilterSubcategoryText] =
-    useState<string>('');
+    useState<string>("");
   const handleFilterSubcategoryText = (filterValue: string) => {
     setFilterSubcategoryText(filterValue);
   };
@@ -41,7 +41,7 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
 
   return (
     <Box>
-      <Typography variant='h5'>Subcategories List</Typography>
+      <Typography variant="h5">Subcategories List</Typography>
 
       <SubcategorySearch
         filterCategoryText={filterCategoryText}
@@ -66,9 +66,9 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
 
             return (
               <Paper key={groupCategoryId} sx={{ margin: 0.5, padding: 1 }}>
-                <Typography variant='body1'>{categoryName}</Typography>
+                <Typography variant="body1">{categoryName}</Typography>
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', padding: 1 }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", padding: 1 }}>
                   {subcategories
                     .filter(({ name }) =>
                       name
@@ -80,7 +80,7 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
                         <Chip
                           key={subcategoryId}
                           label={name}
-                          sx={{ margin: '4px' }}
+                          sx={{ margin: "4px" }}
                           onClick={() => {
                             handleSelectSubcategory({
                               _id: subcategoryId,
@@ -90,7 +90,7 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
                           }}
                           onDelete={() =>
                             openDialog({
-                              text: 'Are you sure you want to delete this subcategory?',
+                              text: "Are you sure you want to delete this subcategory?",
                               onConfirm: handleSubcategoryDelete(subcategoryId),
                             })
                           }
@@ -102,7 +102,7 @@ const SubcategoriesList: FC<SubcategoriesListProps> = ({
             );
           })
       ) : (
-        <Typography variant='subtitle2'>
+        <Typography variant="subtitle2">
           No subcategories. Use the form above to create some.
         </Typography>
       )}

@@ -32,11 +32,11 @@ export interface ReviewsSummaryResponse {
     averageRating: number;
     totalReviews: number;
     ratings: {
-      '5': { count: number };
-      '4': { count: number };
-      '3': { count: number };
-      '2': { count: number };
-      '1': { count: number };
+      "5": { count: number };
+      "4": { count: number };
+      "3": { count: number };
+      "2": { count: number };
+      "1": { count: number };
     };
   };
 }

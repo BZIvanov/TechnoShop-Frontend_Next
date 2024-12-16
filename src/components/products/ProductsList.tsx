@@ -1,10 +1,10 @@
-import { FC, ReactNode } from 'react';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid2';
-import Typography from '@mui/material/Typography';
+import { type FC, type ReactNode } from "react";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
 
-import { Product } from '@/providers/store/services/types/products';
-import ProductCard from './ProductCard';
+import { Product } from "@/providers/store/services/types/products";
+import ProductCard from "./ProductCard";
 
 interface ProductsListProps {
   products: Product[];
@@ -16,7 +16,7 @@ const ProductsList: FC<ProductsListProps> = ({
   paginationComponent,
 }) => {
   return (
-    <Paper elevation={2} sx={{ width: '100%', p: 2, mt: 2 }}>
+    <Paper elevation={2} sx={{ width: "100%", p: 2, mt: 2 }}>
       {products.length > 0 ? (
         <Grid container={true} spacing={3} columns={12}>
           {products.map((product) => (
@@ -26,7 +26,7 @@ const ProductsList: FC<ProductsListProps> = ({
           ))}
         </Grid>
       ) : (
-        <Typography textAlign='center' variant='subtitle2' sx={{ my: 1 }}>
+        <Typography textAlign="center" variant="subtitle2" sx={{ my: 1 }}>
           No products found.
         </Typography>
       )}

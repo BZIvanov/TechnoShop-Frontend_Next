@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";

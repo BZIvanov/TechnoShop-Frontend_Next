@@ -1,17 +1,17 @@
-import { useState, FC, MouseEvent } from 'react';
-import { NavLink } from 'react-router';
-import Box from '@mui/material/Box';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import StorefrontIcon from '@mui/icons-material/Storefront';
-import { useTheme } from '@mui/material/styles';
+import { useState, type FC, type MouseEvent } from "react";
+import { NavLink } from "react-router";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import { useTheme } from "@mui/material/styles";
 
-import MenuItemNavLink from './MenuItemNavLink';
+import MenuItemNavLink from "./MenuItemNavLink";
 
 const HeaderLeftNav: FC = () => {
   const theme = useTheme();
@@ -29,26 +29,26 @@ const HeaderLeftNav: FC = () => {
   return (
     <>
       {/* Mobile screen menu */}
-      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-        <IconButton size='large' onClick={handleOpenNavMenu} color='inherit'>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
           <MenuIcon />
         </IconButton>
         <Menu
-          id='shop-menu-appbar'
+          id="shop-menu-appbar"
           anchorEl={anchorElNav}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           keepMounted={true}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
           open={Boolean(anchorElNav)}
           onClose={handleCloseNavMenu}
-          sx={{ display: { xs: 'block', md: 'none' } }}
+          sx={{ display: { xs: "block", md: "none" } }}
         >
           <MenuItem
             onClick={handleCloseNavMenu}
             component={MenuItemNavLink}
-            to='/'
+            to="/"
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <HomeIcon />
             </ListItemIcon>
             Home
@@ -57,9 +57,9 @@ const HeaderLeftNav: FC = () => {
           <MenuItem
             onClick={handleCloseNavMenu}
             component={MenuItemNavLink}
-            to='/shop'
+            to="/shop"
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon sx={{ color: "inherit" }}>
               <StorefrontIcon />
             </ListItemIcon>
             Shop
@@ -70,39 +70,39 @@ const HeaderLeftNav: FC = () => {
       {/* Full screen icons */}
       <Box
         sx={{
-          display: { xs: 'none', md: 'flex', alignItems: 'center', gap: 5 },
+          display: { xs: "none", md: "flex", alignItems: "center", gap: 5 },
         }}
       >
-        <Tooltip title='Home'>
+        <Tooltip title="Home">
           <NavLink
-            to='/'
+            to="/"
             style={({ isActive }) => ({
-              textDecoration: 'none',
-              color: isActive ? theme.palette.common.black : 'inherit',
+              textDecoration: "none",
+              color: isActive ? theme.palette.common.black : "inherit",
             })}
           >
             <IconButton
               onClick={handleCloseNavMenu}
-              size='large'
-              sx={{ color: 'inherit' }}
+              size="large"
+              sx={{ color: "inherit" }}
             >
               <HomeIcon />
             </IconButton>
           </NavLink>
         </Tooltip>
 
-        <Tooltip title='Shop'>
+        <Tooltip title="Shop">
           <NavLink
-            to='/shop'
+            to="/shop"
             style={({ isActive }) => ({
-              textDecoration: 'none',
-              color: isActive ? theme.palette.common.black : 'inherit',
+              textDecoration: "none",
+              color: isActive ? theme.palette.common.black : "inherit",
             })}
           >
             <IconButton
               onClick={handleCloseNavMenu}
-              size='large'
-              sx={{ color: 'inherit' }}
+              size="large"
+              sx={{ color: "inherit" }}
             >
               <StorefrontIcon />
             </IconButton>

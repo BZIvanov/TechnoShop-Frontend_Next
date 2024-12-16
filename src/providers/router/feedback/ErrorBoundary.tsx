@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { useRouteError } from 'react-router';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { type FC } from "react";
+import { useRouteError } from "react-router";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 interface RouteError {
   status?: number;
@@ -19,27 +19,27 @@ const ErrorBoundary: FC = () => {
 
   return (
     <Box
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      justifyContent='center'
-      minHeight='100vh'
-      bgcolor='grey.100'
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      bgcolor="grey.100"
       px={4}
       py={8}
     >
-      <Typography variant='h5' component='h5' color='error' gutterBottom={true}>
+      <Typography variant="h5" component="h5" color="error" gutterBottom={true}>
         Oops! Something went wrong
       </Typography>
-      <Typography variant='body1' color='textSecondary' paragraph>
+      <Typography variant="body1" color="textSecondary" paragraph>
         {error?.data ||
           error?.error?.message ||
           error?.message ||
-          'An unexpected error occurred.'}
+          "An unexpected error occurred."}
       </Typography>
       <Button
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         onClick={() => window.location.reload()}
       >
         Reload Page

@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import { type FC } from "react";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCartOutlined";
 
-import { useSelector } from '@/providers/store/hooks';
-import { selectCartProductById } from '@/providers/store/features/cart/cartSlice';
+import { useSelector } from "@/providers/store/hooks";
+import { selectCartProductById } from "@/providers/store/features/cart/cartSlice";
 
 interface AddToCartProps {
   productId: string;
@@ -29,16 +29,16 @@ const AddToCart: FC<AddToCartProps> = ({
           onAddToCart();
         }
       }}
-      sx={{ display: 'flex', flexDirection: 'column' }}
+      sx={{ display: "flex", flexDirection: "column" }}
       disabled={isProductInCart || isOutOfStock}
     >
       <AddShoppingCartIcon />
-      <Typography variant='caption'>
+      <Typography variant="caption">
         {isOutOfStock
-          ? 'Out of stock'
+          ? "Out of stock"
           : isProductInCart
-          ? 'Already in the cart'
-          : 'Add to cart'}
+          ? "Already in the cart"
+          : "Add to cart"}
       </Typography>
     </Button>
   );

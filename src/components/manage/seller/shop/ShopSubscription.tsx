@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";

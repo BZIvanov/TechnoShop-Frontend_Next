@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { type FC } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-import { useResetPasswordMutation } from '@/providers/store/services/users';
-import PasswordResetForm from './PasswordResetForm';
-import { PasswordResetFormData } from './passwordResetForm.schema';
+import { useResetPasswordMutation } from "@/providers/store/services/users";
+import PasswordResetForm from "./PasswordResetForm";
+import { PasswordResetFormData } from "./passwordResetForm.schema";
 
 const PasswordReset: FC = () => {
   const navigate = useNavigate();
@@ -18,35 +18,35 @@ const PasswordReset: FC = () => {
   const resetPassword = async (values: PasswordResetFormData) => {
     reset({
       password: values.password,
-      token: token || '',
+      token: token || "",
     });
   };
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/auth/login');
+      navigate("/auth/login");
     }
   }, [isSuccess, navigate]);
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        bgcolor: 'background.paper',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "background.paper",
         py: 4,
         px: 2,
       }}
     >
       <Typography
-        variant='h4'
-        component='h1'
+        variant="h4"
+        component="h1"
         sx={{
-          fontWeight: 'bold',
+          fontWeight: "bold",
           mb: 3,
-          color: 'primary.main',
+          color: "primary.main",
         }}
       >
         Reset Your Password
@@ -54,13 +54,13 @@ const PasswordReset: FC = () => {
 
       <Box
         sx={{
-          width: { xs: '100%', sm: '400px' },
-          bgcolor: 'background.default',
+          width: { xs: "100%", sm: "400px" },
+          bgcolor: "background.default",
           p: 4,
           borderRadius: 2,
           boxShadow: 3,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 3,
         }}
       >

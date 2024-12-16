@@ -1,19 +1,19 @@
-import { FC } from 'react';
+import { type FC } from "react";
 
-import TypeWriterText from '@/components/common/texts/TypeWriterText';
-import ProductsSection from './ProductsSection';
-import CategoriesSection from './CategoriesSection';
-import SubcategoriesSection from './SubcategoriesSection';
-import { TYPEWRITER_TEXTS } from './constants';
+import TypeWriterText from "@/components/common/texts/TypeWriterText";
+import ProductsSection from "./ProductsSection";
+import CategoriesSection from "./CategoriesSection";
+import SubcategoriesSection from "./SubcategoriesSection";
+import { TYPEWRITER_TEXTS } from "./constants";
 
 const Home: FC = () => {
   return (
     <>
       <TypeWriterText texts={TYPEWRITER_TEXTS} />
 
-      <ProductsSection header={TYPEWRITER_TEXTS[0]} sortColumn='createdAt' />
+      <ProductsSection header={TYPEWRITER_TEXTS[0]} sortColumn="createdAt" />
 
-      <ProductsSection header={TYPEWRITER_TEXTS[1]} sortColumn='sold' />
+      <ProductsSection header={TYPEWRITER_TEXTS[1]} sortColumn="sold" />
 
       <CategoriesSection />
 

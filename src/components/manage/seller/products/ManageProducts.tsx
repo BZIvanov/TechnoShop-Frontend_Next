@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";

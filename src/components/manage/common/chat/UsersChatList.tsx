@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { Link, useParams } from "react-router";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";

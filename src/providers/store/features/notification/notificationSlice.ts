@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { AlertColor } from '@mui/material/Alert';
+import { createSlice } from "@reduxjs/toolkit";
+import { AlertColor } from "@mui/material/Alert";
 
-import { RootState } from '../../store';
+import { RootState } from "../../store";
 
 interface UserState {
   type: AlertColor;
@@ -9,12 +9,12 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  type: 'info',
-  message: '',
+  type: "info",
+  message: "",
 };
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: "notification",
   initialState,
   reducers: {
     showNotification: (state, action) => {

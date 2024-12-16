@@ -1,9 +1,9 @@
-import { useState, useEffect, FC } from 'react';
-import { useNavigate } from 'react-router';
-import Box from '@mui/material/Box';
-import Backdrop from '@mui/material/Backdrop';
-import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useState, useEffect, type FC } from "react";
+import { useNavigate } from "react-router";
+import Box from "@mui/material/Box";
+import Backdrop from "@mui/material/Backdrop";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface CountdownProgressProps {
   redirectTo: string;
@@ -42,11 +42,11 @@ const CountdownProgress: FC<CountdownProgressProps> = ({
       open={progress > 0}
     >
       <Box
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{ position: "relative" }}>
           <CircularProgress
-            variant='determinate'
+            variant="determinate"
             value={(100 / seconds) * progress}
           />
           <Box
@@ -55,22 +55,22 @@ const CountdownProgress: FC<CountdownProgressProps> = ({
               left: 0,
               bottom: 0,
               right: 0,
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              position: "absolute",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Typography
-              variant='caption'
-              component='div'
-              color='text.secondary'
+              variant="caption"
+              component="div"
+              color="text.secondary"
             >
               {progress}
             </Typography>
           </Box>
         </Box>
-        <Typography variant='caption' component='div' color='text.secondary'>
+        <Typography variant="caption" component="div" color="text.secondary">
           Redirecting you to {redirectTo} page in {progress} seconds!
         </Typography>
       </Box>

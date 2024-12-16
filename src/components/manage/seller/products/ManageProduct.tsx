@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { type FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
