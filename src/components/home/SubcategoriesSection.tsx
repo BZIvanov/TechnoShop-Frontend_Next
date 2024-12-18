@@ -1,9 +1,7 @@
-import { type FC } from "react";
-
 import { useGetSubcategoriesQuery } from "@/providers/store/services/subcategories";
 import ChipsList from "@/components/common/lists/ChipsList";
 
-const SubcategoriesSection: FC = () => {
+const SubcategoriesSection = () => {
   const { data } = useGetSubcategoriesQuery();
 
   return (

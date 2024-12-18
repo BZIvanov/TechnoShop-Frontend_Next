@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,7 +12,7 @@ import {
 } from "@/providers/store/features/productsFilters/productsFiltersSlice";
 import FilterListItem from "./FilterListItem";
 
-const SubcategoryFilter: FC = () => {
+const SubcategoryFilter = () => {
   const dispatch = useDispatch();
 
   const selectedSubcategoryIds = useSelector(

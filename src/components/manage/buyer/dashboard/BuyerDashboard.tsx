@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
@@ -6,7 +5,7 @@ import Grid from "@mui/material/Grid2";
 import { useGetBuyerOrdersStatsQuery } from "@/providers/store/services/orders";
 import DashboardCard from "@/components/manage/common/cards/DashboardCard";
 
-const BuyerDashboard: FC = () => {
+const BuyerDashboard = () => {
   const { data: ordersStatsData } = useGetBuyerOrdersStatsQuery();
 
   return (

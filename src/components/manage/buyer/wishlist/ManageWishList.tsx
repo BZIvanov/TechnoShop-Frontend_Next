@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -22,7 +21,7 @@ import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/us
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
 import { currencyFormatter } from "@/utils/formatting";
 
-const ManageWishList: FC = () => {
+const ManageWishList = () => {
   const dispatch = useDispatch();
 
   const { data } = useGetWishlistProductsQuery();

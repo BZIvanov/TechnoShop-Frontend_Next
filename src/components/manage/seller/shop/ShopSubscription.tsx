@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
@@ -10,7 +9,7 @@ import { useUpdateSellerShopPayemntStatusMutation } from "@/providers/store/serv
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
 import { ShopPaymentStatus } from "@/providers/store/services/types/shops";
 
-const ShopSubscription: FC = () => {
+const ShopSubscription = () => {
   const dispatch = useDispatch();
 
   const shop = useSelector(selectShop);

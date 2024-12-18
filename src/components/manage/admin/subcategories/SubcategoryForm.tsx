@@ -1,7 +1,6 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 
 import { Category } from "@/providers/store/services/types/categories";
 import TextFieldAdapter from "@/components/form/fields/TextFieldAdapter";
@@ -17,14 +16,14 @@ interface SubcategoryFormProps {
   buttonLabel: string;
 }
 
-const SubcategoryForm: FC<SubcategoryFormProps> = ({
+const SubcategoryForm = ({
   form,
   resetForm,
   categories = [],
   upsertSubcategory,
   isSubmitting,
   buttonLabel,
-}) => {
+}: SubcategoryFormProps) => {
   const onSubmit: SubmitHandler<SubcategoryFormData> = (values) => {
     upsertSubcategory(values);
   };

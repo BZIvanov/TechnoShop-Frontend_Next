@@ -1,4 +1,4 @@
-import { type FC, type ReactElement } from "react";
+import { type ReactElement } from "react";
 import { Carousel as ReactCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -7,7 +7,7 @@ interface CarouselProps {
 }
 
 // thin wrapper around the Carousel package to make it easier for future refactoring
-const Carousel: FC<CarouselProps> = ({ children, ...rest }) => {
+const Carousel = ({ children, ...rest }: CarouselProps) => {
   const childrenArray = Array.isArray(children) ? children : [children];
 
   return (

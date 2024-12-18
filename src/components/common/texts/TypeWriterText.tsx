@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { SxProps, Theme } from "@mui/material";
@@ -9,7 +8,7 @@ interface TypeWriterTextProps {
   styles?: SxProps<Theme>;
 }
 
-const TypeWriterText: FC<TypeWriterTextProps> = ({ texts, styles }) => (
+const TypeWriterText = ({ texts, styles }: TypeWriterTextProps) => (
   <Paper
     elevation={3}
     sx={{

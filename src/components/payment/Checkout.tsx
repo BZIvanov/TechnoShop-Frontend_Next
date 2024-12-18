@@ -1,6 +1,5 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -20,7 +19,7 @@ import { schema, CheckoutFormData } from "./checkoutForm.schema";
 
 const defaultValues = { address: "", coupon: "" };
 
-const Checkout: FC = () => {
+const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

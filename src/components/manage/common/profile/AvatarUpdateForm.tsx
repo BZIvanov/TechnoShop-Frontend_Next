@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -16,10 +15,10 @@ interface AvatarUpdateFormProps {
   isSubmitting: boolean;
 }
 
-const AvatarUpdateForm: FC<AvatarUpdateFormProps> = ({
+const AvatarUpdateForm = ({
   updateAvatar,
   isSubmitting,
-}) => {
+}: AvatarUpdateFormProps) => {
   const form = useForm<AvatarUpdateFormData>({
     schema,
     defaultValues: { avatarImage: [] },

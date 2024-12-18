@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,7 +15,7 @@ import ProductsTable from "./ProductsTable";
 
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50];
 
-const ManageProducts: FC = () => {
+const ManageProducts = () => {
   const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(0);

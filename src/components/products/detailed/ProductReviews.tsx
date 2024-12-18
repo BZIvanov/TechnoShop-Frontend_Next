@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
@@ -25,7 +25,7 @@ interface ProductReviewsProps {
   productId: string;
 }
 
-const ProductReviews: FC<ProductReviewsProps> = ({ productId }) => {
+const ProductReviews = ({ productId }: ProductReviewsProps) => {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);

@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -10,7 +10,7 @@ import {
 } from "@/providers/store/features/productsFilters/productsFiltersSlice";
 import FilterListItem from "./FilterListItem";
 
-const PriceFilter: FC = () => {
+const PriceFilter = () => {
   const dispatch = useDispatch();
 
   const price = useSelector(selectFilterByKey("price"));

@@ -1,8 +1,7 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import { Box, Button, Typography } from "@mui/material";
 
-const NotFound: FC = () => {
+const NotFound = () => {
   return (
     <Box
       display="flex"

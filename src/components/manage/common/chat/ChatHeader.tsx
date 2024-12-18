@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -14,11 +13,7 @@ interface ChatHeaderProps {
   userStatuses: UserStatuses;
 }
 
-const ChatHeader: FC<ChatHeaderProps> = ({
-  chat,
-  receiverId,
-  userStatuses,
-}) => {
+const ChatHeader = ({ chat, receiverId, userStatuses }: ChatHeaderProps) => {
   const receiver = chat?.participants?.find(
     (participant) => participant.user._id === receiverId
   );

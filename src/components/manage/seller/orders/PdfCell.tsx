@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 import { SellerOrder } from "@/providers/store/services/types/orders";
@@ -29,7 +28,7 @@ interface PdfCellProps {
   order: SellerOrder;
 }
 
-const PdfCell: FC<PdfCellProps> = ({ order }) => {
+const PdfCell = ({ order }: PdfCellProps) => {
   const {
     _id,
     createdAt,

@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
@@ -14,12 +13,12 @@ interface ShopInfoFormProps {
   isSubmitting?: boolean;
 }
 
-const ShopInfoForm: FC<ShopInfoFormProps> = ({
+const ShopInfoForm = ({
   form,
   resetForm,
   updateShopInfo,
   isSubmitting,
-}) => {
+}: ShopInfoFormProps) => {
   const onSubmit: SubmitHandler<ShopInfoFormData> = (values) => {
     updateShopInfo(values);
   };

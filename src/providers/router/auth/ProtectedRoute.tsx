@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type PropsWithChildren } from "react";
 
 import { useSelector } from "@/providers/store/hooks";
 import {
@@ -9,18 +9,17 @@ import CountdownProgress from "@/components/common/feedback/CountdownProgress";
 import LoadingFallback from "../feedback/LoadingFallback";
 
 interface ProtectedRouteProps {
-  children: ReactNode;
   authRedirectTo: string;
   roleRedirectTo: string;
   roles: string[];
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({
+const ProtectedRoute = ({
   children,
   authRedirectTo,
   roleRedirectTo,
   roles,
-}) => {
+}: PropsWithChildren<ProtectedRouteProps>) => {
   const user = useSelector(selectUser);
   const userInitialLoadingCompleted = useSelector(
     selectUserInitialLoadingCompleted

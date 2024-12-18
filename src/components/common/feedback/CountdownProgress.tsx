@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";
@@ -10,10 +10,10 @@ interface CountdownProgressProps {
   seconds?: number;
 }
 
-const CountdownProgress: FC<CountdownProgressProps> = ({
+const CountdownProgress = ({
   redirectTo,
   seconds = 2,
-}) => {
+}: CountdownProgressProps) => {
   const navigate = useNavigate();
 
   const [progress, setProgress] = useState<number>(seconds);

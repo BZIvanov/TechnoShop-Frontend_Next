@@ -1,4 +1,4 @@
-import { useState, type FC, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
@@ -21,7 +21,7 @@ interface CartProductRowProps {
   count: number;
 }
 
-const CartProductRow: FC<CartProductRowProps> = ({ product, count }) => {
+const CartProductRow = ({ product, count }: CartProductRowProps) => {
   const dispatch = useDispatch();
 
   const [tempCount, setTempCount] = useState<number>(count);

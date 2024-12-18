@@ -1,4 +1,4 @@
-import { useState, type FC, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -13,7 +13,7 @@ interface ProductsSectionProps {
   sortColumn?: string;
 }
 
-const ProductsSection: FC<ProductsSectionProps> = ({ header, sortColumn }) => {
+const ProductsSection = ({ header, sortColumn }: ProductsSectionProps) => {
   const [page, setPage] = useState(1);
 
   const { data } = useGetProductsQuery({

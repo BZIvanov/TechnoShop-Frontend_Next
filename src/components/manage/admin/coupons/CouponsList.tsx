@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -21,11 +21,11 @@ interface CouponsListProps {
   paginationComponent: ReactNode;
 }
 
-const CouponsList: FC<CouponsListProps> = ({
+const CouponsList = ({
   coupons = [],
   deleteCoupon,
   paginationComponent,
-}) => {
+}: CouponsListProps) => {
   const { openDialog, closeDialog } = useConfirmDialog();
 
   const handleDeleteCoupon = (couponId: string) => () => {

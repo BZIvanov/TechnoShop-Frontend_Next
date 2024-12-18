@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
@@ -9,7 +8,7 @@ import { useGetShopsQuery } from "@/providers/store/services/shops";
 import DashboardCard from "@/components/manage/common/cards/DashboardCard";
 import { currencyFormatter } from "@/utils/formatting";
 
-const AdminDashboard: FC = () => {
+const AdminDashboard = () => {
   const { data: ordersStatsData } = useGetBuyerOrdersStatsQuery();
   const { data: productsData } = useGetProductsQuery({ page: 1, perPage: 1 });
   const { data: shopsData } = useGetShopsQuery({ page: 1, perPage: 1 });

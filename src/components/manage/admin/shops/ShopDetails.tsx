@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate, useParams } from "react-router";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -12,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useGetShopQuery } from "@/providers/store/services/shops";
 import { dateFormatter } from "@/utils/formatting";
 
-const ShopDetails: FC = () => {
+const ShopDetails = () => {
   const navigate = useNavigate();
   const { shopId } = useParams();
 

@@ -1,10 +1,10 @@
-import { type FC, Suspense } from "react";
+import { Suspense } from "react";
 import { RouterProvider } from "react-router";
 
 import router from "./AppRoutes";
 import LoadingFallback from "./feedback/LoadingFallback";
 
-const BrowserRouterProvider: FC = () => {
+const BrowserRouterProvider = () => {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <RouterProvider router={router} />

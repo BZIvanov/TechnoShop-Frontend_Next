@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -25,7 +25,7 @@ export type SelectedSubcategory = {
 
 const defaultValues = { categoryId: "", subcategoryName: "" };
 
-const ManageSubcategory: FC = () => {
+const ManageSubcategory = () => {
   const dispatch = useDispatch();
 
   const [selectedSubcategory, setSelectedSubcategory] =

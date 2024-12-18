@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import Drawer from "@mui/material/Drawer";
 import Card from "@mui/material/Card";
@@ -20,7 +19,7 @@ import {
   setDrawerOpen,
 } from "@/providers/store/features/cart/cartSlice";
 
-const CartDrawer: FC = () => {
+const CartDrawer = () => {
   const dispatch = useDispatch();
 
   const cart = useSelector(selectCart);

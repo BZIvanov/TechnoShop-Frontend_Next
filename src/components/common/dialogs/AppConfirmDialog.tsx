@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 
 import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/useConfirmDialog";
 
-const AppConfirmDialog: FC = () => {
+const AppConfirmDialog = () => {
   const { dialogConfig, closeDialog } = useConfirmDialog();
 
   const { open, text, onConfirm } = dialogConfig;

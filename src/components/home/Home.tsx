@@ -1,12 +1,10 @@
-import { type FC } from "react";
-
 import TypeWriterText from "@/components/common/texts/TypeWriterText";
 import ProductsSection from "./ProductsSection";
 import CategoriesSection from "./CategoriesSection";
 import SubcategoriesSection from "./SubcategoriesSection";
 import { TYPEWRITER_TEXTS } from "./constants";
 
-const Home: FC = () => {
+const Home = () => {
   return (
     <>
       <TypeWriterText texts={TYPEWRITER_TEXTS} />

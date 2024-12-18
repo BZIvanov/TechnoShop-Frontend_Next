@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import FaceIcon from "@mui/icons-material/Face";
@@ -16,10 +15,10 @@ interface RegisterFormProps {
   isSubmitting?: boolean;
 }
 
-const RegisterForm: FC<RegisterFormProps> = ({
+const RegisterForm = ({
   registerUser,
   isSubmitting = false,
-}) => {
+}: RegisterFormProps) => {
   const form = useForm<RegisterFormData>({
     schema,
     defaultValues: {

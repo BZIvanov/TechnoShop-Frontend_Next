@@ -1,4 +1,4 @@
-import { type FC, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -33,7 +33,7 @@ const defaultValues = {
   images: [],
 };
 
-const ManageProduct: FC = () => {
+const ManageProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

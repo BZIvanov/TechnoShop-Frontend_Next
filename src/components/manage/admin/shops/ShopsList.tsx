@@ -1,4 +1,4 @@
-import { type FC, ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Link } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -17,7 +17,7 @@ interface ShopsListProps {
   paginationComponent: ReactNode;
 }
 
-const ShopsList: FC<ShopsListProps> = ({ shops = [], paginationComponent }) => {
+const ShopsList = ({ shops = [], paginationComponent }: ShopsListProps) => {
   return (
     <Box>
       <Typography variant="h5">Shops List</Typography>

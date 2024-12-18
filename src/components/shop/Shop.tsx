@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useEffect, useMemo, useState } from "react";
+import { type ChangeEvent, useEffect, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
@@ -18,7 +18,7 @@ import BrandsFilter from "./filters/BrandsFilter";
 
 const PRODUCTS_PER_PAGE = 12;
 
-const Shop: FC = () => {
+const Shop = () => {
   const [page, setPage] = useState<number>(1);
 
   const { text, price, categories, subcategories, rating, shipping, brands } =

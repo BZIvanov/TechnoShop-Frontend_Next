@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -15,10 +14,10 @@ interface PasswordUpdateFormProps {
   isSubmitting: boolean;
 }
 
-const PasswordUpdateForm: FC<PasswordUpdateFormProps> = ({
+const PasswordUpdateForm = ({
   updatePassword,
   isSubmitting,
-}) => {
+}: PasswordUpdateFormProps) => {
   const form = useForm<PasswordUpdateFormData>({
     schema,
     defaultValues: { oldPassword: "", newPassword: "", confirmPassword: "" },

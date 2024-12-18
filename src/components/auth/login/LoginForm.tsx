@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Button from "@mui/material/Button";
 import EmailIcon from "@mui/icons-material/Email";
 
@@ -13,7 +12,7 @@ interface LoginFormProps {
   isSubmitting?: boolean;
 }
 
-const LoginForm: FC<LoginFormProps> = ({ loginUser, isSubmitting = false }) => {
+const LoginForm = ({ loginUser, isSubmitting = false }: LoginFormProps) => {
   const form = useForm<LoginFormData>({
     schema,
     defaultValues: { email: "", password: "12qwAS!@" },

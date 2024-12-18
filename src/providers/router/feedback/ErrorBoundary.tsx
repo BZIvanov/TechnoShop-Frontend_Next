@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useRouteError } from "react-router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -14,7 +13,7 @@ interface RouteError {
   };
 }
 
-const ErrorBoundary: FC = () => {
+const ErrorBoundary = () => {
   const error = useRouteError() as RouteError;
 
   return (

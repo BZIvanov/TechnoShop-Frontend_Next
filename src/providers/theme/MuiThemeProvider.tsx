@@ -1,14 +1,10 @@
-import { type FC, type ReactNode } from "react";
+import { type PropsWithChildren } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import theme from "./theme";
 
-interface MuiThemeProviderProps {
-  children: ReactNode;
-}
-
-const MuiThemeProvider: FC<MuiThemeProviderProps> = ({ children }) => {
+const MuiThemeProvider = ({ children }: PropsWithChildren) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

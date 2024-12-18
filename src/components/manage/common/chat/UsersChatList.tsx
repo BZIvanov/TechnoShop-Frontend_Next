@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link, useParams } from "react-router";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -20,11 +19,11 @@ interface UsersChatListProps {
   userStatuses: UserStatuses;
 }
 
-const UsersChatList: FC<UsersChatListProps> = ({
+const UsersChatList = ({
   chats = [],
   userStatuses,
   title,
-}) => {
+}: UsersChatListProps) => {
   const { receiverId } = useParams();
 
   const user = useSelector(selectUser);

@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -15,12 +14,12 @@ interface DashboardCardProps {
   size: BreakpointValues;
 }
 
-const DashboardCard: FC<DashboardCardProps> = ({
+const DashboardCard = ({
   label,
   value,
   valueColor,
   size,
-}) => {
+}: DashboardCardProps) => {
   return (
     <Grid size={size}>
       <Card

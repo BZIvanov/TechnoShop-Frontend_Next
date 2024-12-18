@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Paper from "@mui/material/Paper";
 import Chip from "@mui/material/Chip";
@@ -13,11 +12,7 @@ interface ChipsListProps {
   chipsList: { _id: string; name: string; image?: AppImage }[];
 }
 
-const ChipsList: FC<ChipsListProps> = ({
-  title,
-  parameter,
-  chipsList = [],
-}) => {
+const ChipsList = ({ title, parameter, chipsList = [] }: ChipsListProps) => {
   const navigate = useNavigate();
 
   const handleClick = (id: string) => {

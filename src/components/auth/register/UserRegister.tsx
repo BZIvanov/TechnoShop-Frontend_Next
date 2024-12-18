@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,7 +6,7 @@ import { useRegisterMutation } from "@/providers/store/services/users";
 import RegisterForm from "./RegisterForm";
 import { RegisterFormData } from "./registerForm.schema";
 
-const UserRegister: FC = () => {
+const UserRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
 
   const registerUser = (values: RegisterFormData) => {

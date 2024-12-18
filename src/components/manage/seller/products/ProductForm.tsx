@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -24,14 +23,14 @@ interface ProductFormProps {
   upsertProduct: (formData: FormData) => void;
 }
 
-const ProductForm: FC<ProductFormProps> = ({
+const ProductForm = ({
   form,
   categories = [],
   categorySubcategories = [],
   buttonLabel,
   isSubmitting,
   upsertProduct,
-}) => {
+}: ProductFormProps) => {
   const selectedFormImages = form.watch("images") as Array<File | AppImage>;
 
   const removeImage = (imageToRemove: File | AppImage) => {

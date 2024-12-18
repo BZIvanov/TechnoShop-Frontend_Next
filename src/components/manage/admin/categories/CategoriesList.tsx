@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -16,11 +16,11 @@ interface CategoriesListProps {
   deleteCategory: (categoryId: string) => void;
 }
 
-const CategoriesList: FC<CategoriesListProps> = ({
+const CategoriesList = ({
   categories = [],
   selectCategory,
   deleteCategory,
-}) => {
+}: CategoriesListProps) => {
   const [filterCategoryText, setFilterCategoryText] = useState<string>("");
   const handleFilterCategoryText = (filterValue: string) => {
     setFilterCategoryText(filterValue);

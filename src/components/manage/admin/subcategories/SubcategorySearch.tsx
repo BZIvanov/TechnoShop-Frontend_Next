@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
@@ -10,12 +9,12 @@ interface SubcategorySearchProps {
   handleFilterSubcategoryText: (text: string) => void;
 }
 
-const SubcategorySearch: FC<SubcategorySearchProps> = ({
+const SubcategorySearch = ({
   filterCategoryText,
   handleFilterCategoryText,
   filterSubcategoryText,
   handleFilterSubcategoryText,
-}) => {
+}: SubcategorySearchProps) => {
   return (
     <Box
       sx={{

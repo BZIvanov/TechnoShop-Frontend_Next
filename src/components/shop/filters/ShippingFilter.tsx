@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -12,7 +11,7 @@ import {
 } from "@/providers/store/features/productsFilters/productsFiltersSlice";
 import FilterListItem from "./FilterListItem";
 
-const ShippingFilter: FC = () => {
+const ShippingFilter = () => {
   const dispatch = useDispatch();
 
   const shipping = useSelector(selectFilterByKey("shipping"));

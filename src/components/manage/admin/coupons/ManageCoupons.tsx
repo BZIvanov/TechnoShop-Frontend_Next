@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -18,7 +18,7 @@ const ROWS_PER_PAGE_OPTIONS = [10, 25, 50];
 
 const defaultValues = { name: "", discount: 0, expirationDate: new Date() };
 
-const ManageCoupons: FC = () => {
+const ManageCoupons = () => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(
     ROWS_PER_PAGE_OPTIONS[0]

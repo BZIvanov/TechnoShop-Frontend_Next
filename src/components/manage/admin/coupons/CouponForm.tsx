@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -14,11 +13,7 @@ interface CouponFormProps {
   isSubmitting?: boolean;
 }
 
-const CouponForm: FC<CouponFormProps> = ({
-  form,
-  createCoupon,
-  isSubmitting,
-}) => {
+const CouponForm = ({ form, createCoupon, isSubmitting }: CouponFormProps) => {
   const onSubmit: SubmitHandler<CouponFormData> = (values) => {
     createCoupon(values);
   };

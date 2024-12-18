@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate, useParams } from "react-router";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
@@ -36,7 +35,7 @@ import RateProduct from "../actions/RateProduct";
 import ChatWithSeller from "../actions/ChatWithSeller";
 import ProductsList from "../ProductsList";
 
-const ProductDetailed: FC = () => {
+const ProductDetailed = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

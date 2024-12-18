@@ -1,6 +1,6 @@
-import { type FC, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
-import io, { Socket } from "socket.io-client";
+import io, { type Socket } from "socket.io-client";
 import Box from "@mui/material/Box";
 
 import { useSelector } from "@/providers/store/hooks";
@@ -18,7 +18,7 @@ import ChatForm from "@/components/manage/common/chat/ChatForm";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const BuyerSellerChat: FC = () => {
+const BuyerSellerChat = () => {
   const user = useSelector(selectUser);
 
   const { receiverId } = useParams();

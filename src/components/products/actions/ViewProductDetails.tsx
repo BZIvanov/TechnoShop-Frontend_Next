@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -8,7 +7,7 @@ interface ViewProductDetailsProps {
   productId: string;
 }
 
-const ViewProductDetails: FC<ViewProductDetailsProps> = ({ productId }) => {
+const ViewProductDetails = ({ productId }: ViewProductDetailsProps) => {
   return (
     <Button
       component={Link}

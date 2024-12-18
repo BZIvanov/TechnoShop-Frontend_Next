@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -19,13 +18,13 @@ interface CategoryFormProps {
   buttonLabel: string;
 }
 
-const CategoryForm: FC<CategoryFormProps> = ({
+const CategoryForm = ({
   form,
   resetForm,
   upsertCategory,
   isSubmitting,
   buttonLabel,
-}) => {
+}: CategoryFormProps) => {
   const onSubmit: SubmitHandler<CategoryFormData> = async (values) => {
     if (!values.categoryImage || values.categoryImage.length === 0) {
       throw new Error("No image provided");

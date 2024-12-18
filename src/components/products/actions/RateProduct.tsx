@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -21,11 +21,11 @@ interface RateProductProps {
   review?: Review;
 }
 
-const RateProduct: FC<RateProductProps> = ({
+const RateProduct = ({
   productId,
   onRateProduct,
   review,
-}) => {
+}: RateProductProps) => {
   const navigate = useNavigate();
 
   const user = useSelector(selectUser);

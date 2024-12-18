@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -12,10 +11,7 @@ interface AddToWishlistProps {
   onAddToWishlist: () => void;
 }
 
-const AddToWishlist: FC<AddToWishlistProps> = ({
-  productId,
-  onAddToWishlist,
-}) => {
+const AddToWishlist = ({ productId, onAddToWishlist }: AddToWishlistProps) => {
   const navigate = useNavigate();
 
   const user = useSelector(selectUser);

@@ -1,4 +1,4 @@
-import { useState, type FC, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { NavLink, useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -33,7 +33,7 @@ interface HeaderRightNavProps {
   shouldRenderSidebar: boolean;
 }
 
-const HeaderRightNav: FC<HeaderRightNavProps> = ({ shouldRenderSidebar }) => {
+const HeaderRightNav = ({ shouldRenderSidebar }: HeaderRightNavProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();

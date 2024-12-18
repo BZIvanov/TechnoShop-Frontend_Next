@@ -1,11 +1,10 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
 import AvatarUpdate from "./AvatarUpdate";
 import PasswordUpdate from "./PasswordUpdate";
 
-const UserProfile: FC = () => {
+const UserProfile = () => {
   return (
     <Box>
       <AvatarUpdate />

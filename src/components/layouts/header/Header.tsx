@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -45,7 +45,7 @@ interface HeaderProps {
   shouldRenderSidebar?: boolean;
 }
 
-const Header: FC<HeaderProps> = ({ shouldRenderSidebar = false }) => {
+const Header = ({ shouldRenderSidebar = false }: HeaderProps) => {
   const theme = useTheme();
   const isBelowMd = useMediaQuery(theme.breakpoints.down("md"));
 

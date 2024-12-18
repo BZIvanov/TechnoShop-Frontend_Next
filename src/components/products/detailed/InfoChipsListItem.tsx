@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -10,11 +9,11 @@ interface InfoChipsListItemProps {
   itemValues: { _id: string; name: string }[] | { _id: string; name: string };
 }
 
-const InfoChipsListItem: FC<InfoChipsListItemProps> = ({
+const InfoChipsListItem = ({
   linkType,
   itemKey,
   itemValues,
-}) => {
+}: InfoChipsListItemProps) => {
   const navigate = useNavigate();
 
   const values = Array.isArray(itemValues) ? itemValues : [itemValues];

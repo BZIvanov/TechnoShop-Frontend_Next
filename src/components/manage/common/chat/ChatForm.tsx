@@ -1,6 +1,5 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
-import { Socket } from "socket.io-client";
+import { type SubmitHandler } from "react-hook-form";
+import { type Socket } from "socket.io-client";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -17,7 +16,7 @@ interface ChatFormProps {
 
 const defaultValues = { message: "" };
 
-const ChatForm: FC<ChatFormProps> = ({ socket, chatId }) => {
+const ChatForm = ({ socket, chatId }: ChatFormProps) => {
   const user = useSelector(selectUser);
 
   const form = useForm<ChatFormData>({

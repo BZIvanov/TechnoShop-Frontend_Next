@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCartOutlined";
@@ -12,11 +11,11 @@ interface AddToCartProps {
   productQuantity: number;
 }
 
-const AddToCart: FC<AddToCartProps> = ({
+const AddToCart = ({
   productId,
   onAddToCart,
   productQuantity,
-}) => {
+}: AddToCartProps) => {
   const cartProduct = useSelector(selectCartProductById(productId));
 
   const isProductInCart = cartProduct !== undefined;

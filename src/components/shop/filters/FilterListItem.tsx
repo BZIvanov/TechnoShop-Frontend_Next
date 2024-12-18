@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useState } from "react";
+import { type ReactNode, type PropsWithChildren, useState } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -10,10 +10,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 interface FilterListItemProps {
   title: string;
   icon: ReactNode;
-  children: ReactNode;
 }
 
-const FilterListItem: FC<FilterListItemProps> = ({ title, icon, children }) => {
+const FilterListItem = ({
+  title,
+  icon,
+  children,
+}: PropsWithChildren<FilterListItemProps>) => {
   const [open, setOpen] = useState<boolean>(true);
 
   return (

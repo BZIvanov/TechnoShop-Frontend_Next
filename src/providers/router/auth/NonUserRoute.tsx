@@ -1,14 +1,10 @@
-import { type FC, type ReactNode } from "react";
+import { type PropsWithChildren } from "react";
 import { useLocation, Navigate } from "react-router";
 
 import { useSelector } from "@/providers/store/hooks";
 import { selectUser } from "@/providers/store/features/user/userSlice";
 
-interface NonUserRouteProps {
-  children: ReactNode;
-}
-
-const NonUserRoute: FC<NonUserRouteProps> = ({ children }) => {
+const NonUserRoute = ({ children }: PropsWithChildren) => {
   const location = useLocation();
 
   const user = useSelector(selectUser);

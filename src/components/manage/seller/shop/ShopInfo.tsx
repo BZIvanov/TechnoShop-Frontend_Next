@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -15,7 +15,7 @@ import { schema, ShopInfoFormData } from "./shopInfoForm.schema";
 
 const defaultValues = { shopName: "", country: "", city: "" };
 
-const ShopInfo: FC = () => {
+const ShopInfo = () => {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState<boolean>(false);

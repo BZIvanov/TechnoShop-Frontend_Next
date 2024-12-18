@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -7,7 +6,7 @@ import { useUpdateAvatarMutation } from "@/providers/store/services/users";
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
 import AvatarUpdateForm from "./AvatarUpdateForm";
 
-const AvatarUpdate: FC = () => {
+const AvatarUpdate = () => {
   const dispatch = useDispatch();
 
   const [updateAvatar, { isLoading }] = useUpdateAvatarMutation();

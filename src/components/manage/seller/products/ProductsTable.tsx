@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link, useNavigate } from "react-router";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -20,7 +19,7 @@ interface ProductsTableProps {
   deleteProduct: (productId: string) => void;
 }
 
-const ProductsTable: FC<ProductsTableProps> = ({ products, deleteProduct }) => {
+const ProductsTable = ({ products, deleteProduct }: ProductsTableProps) => {
   const navigate = useNavigate();
 
   const { openDialog, closeDialog } = useConfirmDialog();

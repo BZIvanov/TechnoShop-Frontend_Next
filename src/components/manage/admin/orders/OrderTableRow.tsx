@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
@@ -22,7 +22,7 @@ interface OrderTableRowProps {
   order: AdminOrder;
 }
 
-const OrderTableRow: FC<OrderTableRowProps> = ({ order }) => {
+const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const [isRowExpanded, setIsRowExpanded] = useState(false);
 
   const {

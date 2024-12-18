@@ -1,6 +1,10 @@
-import { type FC } from "react";
 import { NavLink } from "react-router";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import {
+  styled,
+  useTheme,
+  type Theme,
+  type CSSObject,
+} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -78,10 +82,10 @@ interface ManagementSidebarDrawerProps {
   closeDrawer: () => void;
 }
 
-const ManagementSidebarDrawer: FC<ManagementSidebarDrawerProps> = ({
+const ManagementSidebarDrawer = ({
   isSidebarDrawerOpen,
   closeDrawer,
-}) => {
+}: ManagementSidebarDrawerProps) => {
   const theme = useTheme();
 
   const user = useSelector(selectUser);

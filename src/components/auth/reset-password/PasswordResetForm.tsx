@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -12,10 +11,10 @@ interface PasswordResetFormProps {
   isSubmitting?: boolean;
 }
 
-const PasswordResetForm: FC<PasswordResetFormProps> = ({
+const PasswordResetForm = ({
   resetPassword,
   isSubmitting,
-}) => {
+}: PasswordResetFormProps) => {
   const form = useForm<PasswordResetFormData>({
     schema,
     defaultValues: {

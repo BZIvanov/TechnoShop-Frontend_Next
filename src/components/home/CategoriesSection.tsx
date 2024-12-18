@@ -1,9 +1,7 @@
-import { type FC } from "react";
-
 import { useGetCategoriesQuery } from "@/providers/store/services/categories";
 import ChipsList from "@/components/common/lists/ChipsList";
 
-const CategoriesSection: FC = () => {
+const CategoriesSection = () => {
   const { data } = useGetCategoriesQuery();
 
   return (

@@ -1,5 +1,5 @@
-import { type FC, useEffect, useRef, useState } from "react";
-import { Socket } from "socket.io-client";
+import { useEffect, useRef, useState } from "react";
+import { type Socket } from "socket.io-client";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -16,7 +16,7 @@ interface ChatMessagesProps {
   chatId: string;
 }
 
-const ChatMessages: FC<ChatMessagesProps> = ({ socket, chatId }) => {
+const ChatMessages = ({ socket, chatId }: ChatMessagesProps) => {
   const dispatch = useDispatch();
 
   const [messages, setMessages] = useState<Message[]>([]);

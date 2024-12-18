@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { Link } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -8,7 +7,7 @@ import LoginForm from "./LoginForm";
 import { LoginFormData } from "./loginForm.schema";
 import ForgotPasswordDialogForm from "./ForgotPasswordDialogForm";
 
-const UserLogin: FC = () => {
+const UserLogin = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const loginUser = (values: LoginFormData) => {

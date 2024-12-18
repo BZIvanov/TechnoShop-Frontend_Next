@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
@@ -11,10 +11,7 @@ interface ProductsListProps {
   paginationComponent?: ReactNode;
 }
 
-const ProductsList: FC<ProductsListProps> = ({
-  products,
-  paginationComponent,
-}) => {
+const ProductsList = ({ products, paginationComponent }: ProductsListProps) => {
   return (
     <Paper elevation={2} sx={{ width: "100%", p: 2, mt: 2 }}>
       {products.length > 0 ? (

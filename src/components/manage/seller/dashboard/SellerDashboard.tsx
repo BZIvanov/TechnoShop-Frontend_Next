@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
@@ -10,7 +9,7 @@ import { useGetProductsQuery } from "@/providers/store/services/products";
 import DashboardCard from "@/components/manage/common/cards/DashboardCard";
 import { currencyFormatter } from "@/utils/formatting";
 
-const SellerDashboard: FC = () => {
+const SellerDashboard = () => {
   const shop = useSelector(selectShop);
 
   const { data: ordersStatsData } = useGetSellerOrdersStatsQuery();

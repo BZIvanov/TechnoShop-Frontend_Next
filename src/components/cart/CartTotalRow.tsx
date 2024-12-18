@@ -1,11 +1,10 @@
-import { type FC } from "react";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 import { useSelector } from "@/providers/store/hooks";
 import { selectCart } from "@/providers/store/features/cart/cartSlice";
 
-const CartTotalRow: FC = () => {
+const CartTotalRow = () => {
   const cart = useSelector(selectCart);
   const cartIds = Object.keys(cart);
 

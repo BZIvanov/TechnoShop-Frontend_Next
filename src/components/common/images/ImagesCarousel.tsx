@@ -1,5 +1,3 @@
-import { type FC } from "react";
-
 import { AppImage } from "@/providers/store/services/types/common";
 import Carousel from "./Carousel";
 
@@ -7,7 +5,7 @@ interface ImagesCarouselProps {
   images: AppImage[];
 }
 
-const ImagesCarousel: FC<ImagesCarouselProps> = ({ images = [] }) => {
+const ImagesCarousel = ({ images = [] }: ImagesCarouselProps) => {
   return (
     <Carousel>
       {images.length > 0 ? (

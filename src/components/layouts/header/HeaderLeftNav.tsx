@@ -1,4 +1,4 @@
-import { useState, type FC, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { NavLink } from "react-router";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
@@ -13,7 +13,7 @@ import { useTheme } from "@mui/material/styles";
 
 import MenuItemNavLink from "./MenuItemNavLink";
 
-const HeaderLeftNav: FC = () => {
+const HeaderLeftNav = () => {
   const theme = useTheme();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);

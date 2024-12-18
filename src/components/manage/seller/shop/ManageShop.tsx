@@ -1,11 +1,10 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
 import ShopSubscription from "./ShopSubscription";
 import ShopInfo from "./ShopInfo";
 
-const ManageShop: FC = () => {
+const ManageShop = () => {
   return (
     <Box>
       <ShopSubscription />

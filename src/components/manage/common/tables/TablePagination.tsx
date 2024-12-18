@@ -1,6 +1,5 @@
-import { type FC } from "react";
 import MuiTablePagination, {
-  TablePaginationProps as MuiTablePaginationProps,
+  type TablePaginationProps as MuiTablePaginationProps,
 } from "@mui/material/TablePagination";
 
 interface CustomTablePaginationProps {
@@ -14,11 +13,11 @@ type TablePaginationProps = Omit<
 > &
   CustomTablePaginationProps;
 
-const TablePagination: FC<TablePaginationProps> = ({
+const TablePagination = ({
   setPage,
   setRowsPerPage,
   ...muiTablePaginationProps
-}) => {
+}: TablePaginationProps) => {
   return (
     <MuiTablePagination
       component="div"

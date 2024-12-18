@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -12,7 +12,7 @@ interface InfoTabsProps {
   description: string;
 }
 
-const InfoTabs: FC<InfoTabsProps> = ({ productId, description }) => {
+const InfoTabs = ({ productId, description }: InfoTabsProps) => {
   const [tabValue, setTabValue] = useState("0");
 
   return (

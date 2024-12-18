@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
@@ -8,10 +7,10 @@ interface CategorySearchProps {
   handleFilterCategoryText: (value: string) => void;
 }
 
-const CategorySearch: FC<CategorySearchProps> = ({
+const CategorySearch = ({
   filterCategoryText,
   handleFilterCategoryText,
-}) => {
+}: CategorySearchProps) => {
   return (
     <Box sx={{ marginBottom: 2 }}>
       <FormControl sx={{ width: "100%" }}>

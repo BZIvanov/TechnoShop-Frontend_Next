@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
@@ -32,7 +32,7 @@ interface SellerOrderTableRowProps {
   order: SellerOrder;
 }
 
-const SellerOrderTableRow: FC<SellerOrderTableRowProps> = ({ order }) => {
+const SellerOrderTableRow = ({ order }: SellerOrderTableRowProps) => {
   const dispatch = useDispatch();
 
   const [isRowExpanded, setIsRowExpanded] = useState<boolean>(false);

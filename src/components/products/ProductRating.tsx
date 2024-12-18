@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
@@ -11,11 +10,11 @@ interface ProductRatingProps {
   size?: "small" | "medium" | "large";
 }
 
-const ProductRating: FC<ProductRatingProps> = ({
+const ProductRating = ({
   rating,
   reviews,
   size = "large",
-}) => {
+}: ProductRatingProps) => {
   return (
     <Box
       sx={{

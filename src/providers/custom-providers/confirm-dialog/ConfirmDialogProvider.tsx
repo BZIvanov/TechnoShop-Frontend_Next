@@ -1,13 +1,9 @@
-import { type FC, type ReactNode, useState } from "react";
-import ConfirmDialogContext, { DialogConfig } from "./ConfirmDialogContext";
+import { type PropsWithChildren, useState } from "react";
+import ConfirmDialogContext, {
+  type DialogConfig,
+} from "./ConfirmDialogContext";
 
-interface ConfirmDialogProviderProps {
-  children: ReactNode;
-}
-
-const ConfirmDialogProvider: FC<ConfirmDialogProviderProps> = ({
-  children,
-}) => {
+const ConfirmDialogProvider = ({ children }: PropsWithChildren) => {
   const [dialogConfig, setDialogConfig] = useState<DialogConfig>({
     open: false,
     text: "",

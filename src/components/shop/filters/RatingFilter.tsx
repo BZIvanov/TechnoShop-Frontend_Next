@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
@@ -11,7 +10,7 @@ import {
 import FilterListItem from "./FilterListItem";
 import { MAX_RATING_VALUE } from "@/components/products/constants";
 
-const RatingFilter: FC = () => {
+const RatingFilter = () => {
   const dispatch = useDispatch();
 
   const rating = useSelector(selectFilterByKey("rating"));

@@ -1,5 +1,5 @@
-import { type FC, useEffect, useMemo, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import { useEffect, useMemo, useState } from "react";
+import io, { type Socket } from "socket.io-client";
 import Box from "@mui/material/Box";
 
 import { useSelector } from "@/providers/store/hooks";
@@ -12,7 +12,7 @@ import ChatForm from "@/components/manage/common/chat/ChatForm";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const SellerAdminChat: FC = () => {
+const SellerAdminChat = () => {
   const user = useSelector(selectUser);
 
   const [socket, setSocket] = useState<Socket | null>(null);

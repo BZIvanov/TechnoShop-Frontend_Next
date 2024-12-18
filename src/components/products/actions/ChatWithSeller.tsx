@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -12,10 +11,7 @@ interface ChatWithSellerProps {
   shopSellerId: string;
 }
 
-const ChatWithSeller: FC<ChatWithSellerProps> = ({
-  productId,
-  shopSellerId,
-}) => {
+const ChatWithSeller = ({ productId, shopSellerId }: ChatWithSellerProps) => {
   const navigate = useNavigate();
 
   const user = useSelector(selectUser);

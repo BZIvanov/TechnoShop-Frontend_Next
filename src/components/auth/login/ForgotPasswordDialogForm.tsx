@@ -1,5 +1,5 @@
-import { type FC, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { type SubmitHandler } from "react-hook-form";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,7 +15,7 @@ import { showNotification } from "@/providers/store/features/notification/notifi
 import TextFieldAdapter from "@/components/form/fields/TextFieldAdapter";
 import { schema, ForgotPasswordFormData } from "./forgotPassword.schema";
 
-const ForgotPasswordDialogForm: FC = () => {
+const ForgotPasswordDialogForm = () => {
   const dispatch = useDispatch();
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

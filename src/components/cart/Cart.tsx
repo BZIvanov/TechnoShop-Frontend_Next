@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -21,7 +20,7 @@ import {
 import CartProductRow from "./CartProductRow";
 import CartTotalRow from "./CartTotalRow";
 
-const Cart: FC = () => {
+const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -23,7 +22,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: FC<ProductCardProps> = ({ product }) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

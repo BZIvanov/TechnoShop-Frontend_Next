@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -16,7 +16,7 @@ import SellerOrderTableRow from "./SellerOrderTableRow";
 
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50];
 
-const SellerOrders: FC = () => {
+const SellerOrders = () => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(
     ROWS_PER_PAGE_OPTIONS[1]

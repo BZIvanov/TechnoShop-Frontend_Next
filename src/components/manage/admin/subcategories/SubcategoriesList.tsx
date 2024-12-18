@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -15,11 +15,11 @@ interface SubcategoriesListProps {
   deleteSubcategory: (subcategoryId: string) => void;
 }
 
-const SubcategoriesList: FC<SubcategoriesListProps> = ({
+const SubcategoriesList = ({
   groupedSubcategories = [],
   handleSelectSubcategory,
   deleteSubcategory,
-}) => {
+}: SubcategoriesListProps) => {
   const [filterCategoryText, setFilterCategoryText] = useState<string>("");
   const handleFilterCategoryText = (filterValue: string) => {
     setFilterCategoryText(filterValue);

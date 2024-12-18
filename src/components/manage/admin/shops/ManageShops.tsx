@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -19,7 +19,7 @@ const shopActivityStatuses: Record<ShopActivityStatus, ShopActivityStatus> = {
   deactive: "deactive",
 };
 
-const ManageShops: FC = () => {
+const ManageShops = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(
     ROWS_PER_PAGE_OPTIONS[0]

@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -12,9 +11,7 @@ interface AppNotificationProps {
   autoHideDuration?: number;
 }
 
-const AppNotification: FC<AppNotificationProps> = ({
-  autoHideDuration = 3000,
-}) => {
+const AppNotification = ({ autoHideDuration = 3000 }: AppNotificationProps) => {
   const dispatch = useDispatch();
 
   const { type, message } = useSelector(selectNotification);

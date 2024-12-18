@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Box from "@mui/material/Box";
@@ -8,7 +7,7 @@ import { useResetPasswordMutation } from "@/providers/store/services/users";
 import PasswordResetForm from "./PasswordResetForm";
 import { PasswordResetFormData } from "./passwordResetForm.schema";
 
-const PasswordReset: FC = () => {
+const PasswordReset = () => {
   const navigate = useNavigate();
 
   const { token } = useParams();

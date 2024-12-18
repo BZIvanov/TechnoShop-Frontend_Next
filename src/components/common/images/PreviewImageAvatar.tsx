@@ -1,4 +1,4 @@
-import { useState, useEffect, type FC } from "react";
+import { useState, useEffect } from "react";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -12,10 +12,10 @@ interface PreviewImageAvatarProps {
   removeImage?: (image: ImageProp) => void;
 }
 
-const PreviewImageAvatar: FC<PreviewImageAvatarProps> = ({
+const PreviewImageAvatar = ({
   image,
   removeImage,
-}) => {
+}: PreviewImageAvatarProps) => {
   const [preview, setPreview] = useState<string | undefined>();
 
   useEffect(() => {

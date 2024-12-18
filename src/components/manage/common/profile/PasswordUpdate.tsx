@@ -1,4 +1,3 @@
-import { type FC } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -8,7 +7,7 @@ import { showNotification } from "@/providers/store/features/notification/notifi
 import PasswordUpdateForm from "./PasswordUpdateForm";
 import { PasswordUpdateFormData } from "./passwordUpdateForm.schema";
 
-const PasswordUpdate: FC = () => {
+const PasswordUpdate = () => {
   const dispatch = useDispatch();
 
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();

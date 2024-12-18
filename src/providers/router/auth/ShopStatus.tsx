@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type PropsWithChildren } from "react";
 import { Navigate } from "react-router";
 
 import { useSelector } from "@/providers/store/hooks";
@@ -9,18 +9,17 @@ import {
 import LoadingFallback from "../feedback/LoadingFallback";
 
 interface ShopStatusProps {
-  children: ReactNode;
   statusRedirectTo: string;
   activityStatuses: string[];
   paymentStatuses: string[];
 }
 
-const ShopStatus: FC<ShopStatusProps> = ({
+const ShopStatus = ({
   children,
   statusRedirectTo,
   activityStatuses,
   paymentStatuses,
-}) => {
+}: PropsWithChildren<ShopStatusProps>) => {
   const shop = useSelector(selectShop);
   const shopInitialLoadingCompleted = useSelector(
     selectShopInitialLoadingCompleted
