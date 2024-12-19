@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 import { Shop } from "@/providers/store/services/types/shops";
+import { UserRoles } from "@/providers/store/services/types/users";
 
 interface ShopsListProps {
   shops: Shop[];
@@ -38,7 +39,7 @@ const ShopsList = ({ shops = [], paginationComponent }: ShopsListProps) => {
                 return (
                   <TableRow key={shop._id}>
                     <TableCell align="center">
-                      <Link to={`/admin/shops/${shop._id}`}>
+                      <Link to={`/${UserRoles.ADMIN}/shops/${shop._id}`}>
                         {shop?.shopInfo?.name}
                       </Link>
                     </TableCell>

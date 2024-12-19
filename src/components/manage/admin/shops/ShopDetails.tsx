@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useGetShopQuery } from "@/providers/store/services/shops";
+import { UserRoles } from "@/providers/store/services/types/users";
 import { dateFormatter } from "@/utils/formatting";
 
 const ShopDetails = () => {
@@ -19,7 +20,7 @@ const ShopDetails = () => {
   const shop = data?.shop;
 
   const handleBackClick = () => {
-    navigate("/admin/shops");
+    navigate(`/${UserRoles.ADMIN}/shops`);
   };
 
   return (

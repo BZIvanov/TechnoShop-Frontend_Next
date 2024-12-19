@@ -12,6 +12,7 @@ import ModalImage from "react-modal-image";
 
 import { Product } from "@/providers/store/services/types/products";
 import { useConfirmDialog } from "@/providers/custom-providers/confirm-dialog/useConfirmDialog";
+import { UserRoles } from "@/providers/store/services/types/users";
 import { currencyFormatter } from "@/utils/formatting";
 
 interface ProductsTableProps {
@@ -74,7 +75,9 @@ const ProductsTable = ({ products, deleteProduct }: ProductsTableProps) => {
                 <TableCell align="center">{product.shipping}</TableCell>
                 <TableCell align="center">
                   <IconButton
-                    onClick={() => navigate(`/seller/product/${product._id}`)}
+                    onClick={() =>
+                      navigate(`/${UserRoles.SELLER}/product/${product._id}`)
+                    }
                   >
                     <EditIcon />
                   </IconButton>

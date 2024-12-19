@@ -1,4 +1,5 @@
 import { AppImage } from "./common";
+import { UserRoles } from "./users";
 
 export interface Chat {
   _id: string;
@@ -8,7 +9,7 @@ export interface Chat {
       username: string;
       avatar: AppImage;
     };
-    role: "admin" | "seller" | "buyer";
+    role: UserRoles;
   }[];
   chatType: "buyer-seller" | "seller-admin";
   mostRecentMessage: string;

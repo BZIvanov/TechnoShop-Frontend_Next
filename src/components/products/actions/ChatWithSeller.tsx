@@ -5,6 +5,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 import { useSelector } from "@/providers/store/hooks";
 import { selectUser } from "@/providers/store/features/user/userSlice";
+import { UserRoles } from "@/providers/store/services/types/users";
 
 interface ChatWithSellerProps {
   productId: string;
@@ -26,7 +27,7 @@ const ChatWithSeller = ({ productId, shopSellerId }: ChatWithSellerProps) => {
             },
           });
         } else {
-          navigate(`/buyer/chat/${shopSellerId}`);
+          navigate(`/${UserRoles.BUYER}/chat/${shopSellerId}`);
         }
       }}
       sx={{ display: "flex", flexDirection: "column" }}

@@ -12,6 +12,7 @@ import {
 } from "@/providers/store/features/cart/cartSlice";
 import { useCreateOrderMutation } from "@/providers/store/services/orders";
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
+import { UserRoles } from "@/providers/store/services/types/users";
 import { useForm } from "@/components/form/hooks/useForm";
 import TextFieldAdapter from "@/components/form/fields/TextFieldAdapter";
 import { currencyFormatter } from "@/utils/formatting";
@@ -67,7 +68,7 @@ const Checkout = () => {
         })
       );
 
-      navigate("/buyer/orders");
+      navigate(`/${UserRoles.BUYER}/orders`);
     }
   };
 

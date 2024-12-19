@@ -10,6 +10,7 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "@/providers/store/services/products";
+import { UserRoles } from "@/providers/store/services/types/users";
 import TablePagination from "@/components/manage/common/tables/TablePagination";
 import ProductsTable from "./ProductsTable";
 
@@ -36,7 +37,10 @@ const ManageProducts = () => {
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5">Your products</Typography>
-        <Button onClick={() => navigate("/seller/product")} variant="contained">
+        <Button
+          onClick={() => navigate(`/${UserRoles.SELLER}/product`)}
+          variant="contained"
+        >
           Create
         </Button>
       </Box>

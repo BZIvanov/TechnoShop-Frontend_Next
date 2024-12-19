@@ -40,6 +40,7 @@ import {
   BuyerSellerChat,
   UserProfile,
 } from "./lazy-routes";
+import { UserRoles } from "@/providers/store/services/types/users";
 
 const routes: RouteObject[] = [
   {
@@ -87,7 +88,7 @@ const routes: RouteObject[] = [
               <ProtectedRoute
                 authRedirectTo="/auth/login"
                 roleRedirectTo="/"
-                roles={["buyer"]}
+                roles={[UserRoles.BUYER]}
               >
                 <Checkout />
               </ProtectedRoute>
@@ -127,7 +128,7 @@ const routes: RouteObject[] = [
           <ProtectedRoute
             authRedirectTo="/auth/login"
             roleRedirectTo="/"
-            roles={["admin"]}
+            roles={[UserRoles.ADMIN]}
           >
             <ManagementLayout />
           </ProtectedRoute>
@@ -185,7 +186,7 @@ const routes: RouteObject[] = [
           <ProtectedRoute
             authRedirectTo="/auth/login"
             roleRedirectTo="/"
-            roles={["seller"]}
+            roles={[UserRoles.SELLER]}
           >
             <ManagementLayout />
           </ProtectedRoute>
@@ -261,7 +262,7 @@ const routes: RouteObject[] = [
           <ProtectedRoute
             authRedirectTo="/auth/login"
             roleRedirectTo="/"
-            roles={["buyer"]}
+            roles={[UserRoles.BUYER]}
           >
             <ManagementLayout />
           </ProtectedRoute>

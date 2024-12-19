@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import { useRegisterMutation } from "@/providers/store/services/users";
+import { UserRoles } from "@/providers/store/services/types/users";
 import RegisterForm from "./RegisterForm";
 import { RegisterFormData } from "./registerForm.schema";
 
@@ -16,7 +17,7 @@ const UserRegister = () => {
       username,
       email,
       password,
-      role: isSeller ? "seller" : "buyer",
+      role: isSeller ? UserRoles.SELLER : UserRoles.BUYER,
     });
   };
 

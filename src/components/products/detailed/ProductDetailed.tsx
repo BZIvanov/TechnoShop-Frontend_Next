@@ -23,6 +23,7 @@ import {
   addToCart,
   setDrawerOpen,
 } from "@/providers/store/features/cart/cartSlice";
+import { UserRoles } from "@/providers/store/services/types/users";
 import ImagesCarousel from "@/components/common/images/ImagesCarousel";
 import { currencyFormatter, percentFormatter } from "@/utils/formatting";
 import ProductRating from "../ProductRating";
@@ -52,7 +53,7 @@ const ProductDetailed = () => {
     { skip: !productId }
   );
   const { data: myReviewData } = useGetMyProductReviewQuery(productId || "", {
-    skip: !user || user.role !== "buyer",
+    skip: !user || user.role !== UserRoles.BUYER,
   });
 
   const [addToWishlist] = useAddToWishlistMutation();
@@ -71,7 +72,7 @@ const ProductDetailed = () => {
     const result = await addToWishlist(product._id);
 
     if ("error" in result) {
-      navigate("/buyer/wishlist");
+      navigate(`/${UserRoles.BUYER}/wishlist`);
     } else {
       dispatch(
         showNotification({ type: "success", message: "Added to the wishlist" })
@@ -179,7 +180,7 @@ const ProductDetailed = () => {
             </InfoTextListItem>
           </CardContent>
 
-          {(!user || user.role === "buyer") && (
+          {(!user || user.role === UserRoles.BUYER) && (
             <CardActions>
               <AddToCart
                 productId={product._id}

@@ -1,10 +1,16 @@
 import { AppImage } from "./common";
 
+export enum UserRoles {
+  ADMIN = "admin",
+  BUYER = "buyer",
+  SELLER = "seller",
+}
+
 export interface RegisterInput {
   username: string;
   email: string;
   password: string;
-  role: "buyer" | "seller";
+  role: UserRoles.BUYER | UserRoles.SELLER;
 }
 
 export interface LoginInput {
@@ -15,7 +21,7 @@ export interface LoginInput {
 export interface User {
   _id: string;
   username: string;
-  role: "admin" | "buyer" | "seller";
+  role: UserRoles;
   avatar?: AppImage;
 }
 

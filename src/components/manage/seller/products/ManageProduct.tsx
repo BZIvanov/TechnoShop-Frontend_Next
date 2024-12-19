@@ -14,6 +14,7 @@ import {
   useGetProductQuery,
   useUpdateProductMutation,
 } from "@/providers/store/services/products";
+import { UserRoles } from "@/providers/store/services/types/users";
 import { showNotification } from "@/providers/store/features/notification/notificationSlice";
 import { useForm } from "@/components/form/hooks/useForm";
 import ProductForm from "./ProductForm";
@@ -101,7 +102,7 @@ const ManageProduct = () => {
       );
 
       form.reset();
-      navigate("/seller/products");
+      navigate(`/${UserRoles.SELLER}/products`);
     }
   };
 
@@ -116,7 +117,7 @@ const ManageProduct = () => {
       >
         <Typography variant="h5">Manage Product</Typography>
         <Button
-          onClick={() => navigate("/seller/products")}
+          onClick={() => navigate(`/${UserRoles.SELLER}/products`)}
           variant="contained"
         >
           All Products

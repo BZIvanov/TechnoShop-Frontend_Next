@@ -10,8 +10,6 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
-import { useSelector } from "@/providers/store/hooks";
-import { selectUser } from "@/providers/store/features/user/userSlice";
 import { useGetBuyerOrdersQuery } from "@/providers/store/services/orders";
 import TablePagination from "@/components/manage/common/tables/TablePagination";
 import BuyerOrderTableRow from "./BuyerOrderTableRow";
@@ -24,15 +22,11 @@ const BuyerOrders = () => {
     ROWS_PER_PAGE_OPTIONS[1]
   );
 
-  const user = useSelector(selectUser);
-
   const { data } = useGetBuyerOrdersQuery({
     page,
     perPage: rowsPerPage,
   });
   const { orders = [] } = data || {};
-
-  const isUserAdmin = user && user.role === "admin";
 
   return (
     <Box sx={{ padding: (theme) => theme.spacing(1) }}>
@@ -48,9 +42,6 @@ const BuyerOrders = () => {
                 <TableCell />
                 <TableCell align="center">Order ID</TableCell>
                 <TableCell align="center">Created At</TableCell>
-                {isUserAdmin && (
-                  <TableCell align="center">Ordered By</TableCell>
-                )}
                 <TableCell align="center">Total Price</TableCell>
                 <TableCell align="center">Delivery Address</TableCell>
                 <TableCell align="center">Coupon</TableCell>
@@ -70,7 +61,7 @@ const BuyerOrders = () => {
             >
               {orders.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={isUserAdmin ? 9 : 8} align="center">
+                  <TableCell colSpan={8} align="center">
                     <Typography variant="body2">
                       <strong>No orders found</strong>
                     </Typography>
